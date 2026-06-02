@@ -10,7 +10,7 @@ import Brand from './brand'
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader className='flex flex-row items-center justify-between'>
+      <SidebarHeader className="flex flex-row items-center justify-between">
         <SidebarTrigger />
         <Brand />
       </SidebarHeader>
