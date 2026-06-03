@@ -125,7 +125,7 @@ const Page = () => {
   const [file, setFile] = useState<File | null>(null)
 
   return (
-    <Main className="pb-4">
+    <Main>
       {!file ? (
         <FileInput setFile={setFile} description="Upload audio or video to see metadata" />
       ) : (

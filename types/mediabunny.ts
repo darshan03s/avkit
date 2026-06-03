@@ -1,4 +1,9 @@
-import { getTrackData } from '@/utils/mediabunny'
+import {
+  getTrackData,
+  supportedAudioOutputFormats,
+  supportedOutputFormats,
+  supportedVideoOutputFormats
+} from '@/utils/mediabunny'
 
 export type InputMediaData = {
   audioTracks: number
@@ -30,3 +35,9 @@ type MetadataImage = {
 }
 
 export type TrackData = Awaited<ReturnType<typeof getTrackData>>
+
+export type SupportedVideoOutputFormat = keyof typeof supportedVideoOutputFormats
+
+export type SupportedAudioOutputFormat = keyof typeof supportedAudioOutputFormats
+
+export type SupportedOutputFormat = keyof typeof supportedOutputFormats

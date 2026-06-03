@@ -1,7 +1,144 @@
 'use client'
 
-import { InputMediaData } from '@/types/mediabunny'
-import { Input, InputTrack } from 'mediabunny'
+import { ConversionError } from '@/errors'
+import {
+  InputMediaData,
+  SupportedAudioOutputFormat,
+  SupportedOutputFormat,
+  SupportedVideoOutputFormat
+} from '@/types/mediabunny'
+import {
+  ADTS,
+  AdtsOutputFormat,
+  BufferTarget,
+  Conversion,
+  FLAC,
+  FlacOutputFormat,
+  HLS,
+  Input,
+  InputFormat,
+  InputTrack,
+  MATROSKA,
+  MkvOutputFormat,
+  MovOutputFormat,
+  MP3,
+  Mp3OutputFormat,
+  MP4,
+  Mp4OutputFormat,
+  MPEG_TS,
+  MpegTsOutputFormat,
+  OGG,
+  OggOutputFormat,
+  Output,
+  OutputFormat,
+  QTFF,
+  Target,
+  WAVE,
+  WavOutputFormat,
+  WEBM,
+  WebMOutputFormat
+} from 'mediabunny'
+
+export const supportedAudioOutputFormats = {
+  adts: () => new AdtsOutputFormat(),
+  flac: () => new FlacOutputFormat(),
+  mp3: () => new Mp3OutputFormat(),
+  ogg: () => new OggOutputFormat(),
+  wav: () => new WavOutputFormat()
+} as const
+
+export const supportedVideoOutputFormats = {
+  mp4: () => new Mp4OutputFormat(),
+  mov: () => new MovOutputFormat(),
+  mkv: () => new MkvOutputFormat(),
+  webm: () => new WebMOutputFormat(),
+  ts: () => new MpegTsOutputFormat()
+} as const
+
+export const supportedOutputFormats = {
+  ...supportedVideoOutputFormats,
+  ...supportedAudioOutputFormats
+}
+
+export const outputFormatForInputFormat = {
+  mp4: {
+    input: MP4,
+    output: () => new Mp4OutputFormat()
+  },
+  mov: {
+    input: QTFF,
+    output: () => new MovOutputFormat()
+  },
+  mkv: {
+    input: MATROSKA,
+    output: () => new MkvOutputFormat()
+  },
+  webm: {
+    input: WEBM,
+    output: () => new WebMOutputFormat()
+  },
+  mp3: {
+    input: MP3,
+    output: () => new Mp3OutputFormat()
+  },
+  wav: {
+    input: WAVE,
+    output: () => new WavOutputFormat()
+  },
+  ogg: {
+    input: OGG,
+    output: () => new OggOutputFormat()
+  },
+  adts: {
+    input: ADTS,
+    output: () => new AdtsOutputFormat()
+  },
+  flac: {
+    input: FLAC,
+    output: () => new FlacOutputFormat()
+  },
+  ts: {
+    input: MPEG_TS,
+    output: () => new MpegTsOutputFormat()
+  },
+  hls: {
+    input: HLS,
+    output: () => new MpegTsOutputFormat()
+  }
+} as const
+
+export const SUPPORTED_AUDIO_OUTPUT_FORMATS: SupportedAudioOutputFormat[] = [
+  'adts',
+  'flac',
+  'mp3',
+  'ogg',
+  'wav'
+]
+
+export const SUPPORTED_VIDEO_OUTPUT_FORMATS: SupportedVideoOutputFormat[] = [
+  'mkv',
+  'mov',
+  'mp4',
+  'ts',
+  'webm'
+]
+
+export const SUPPORTED_OUTPUT_FORMATS: SupportedOutputFormat[] = [
+  ...SUPPORTED_VIDEO_OUTPUT_FORMATS,
+  ...SUPPORTED_AUDIO_OUTPUT_FORMATS
+]
+
+export function getOutputFormatForInputFormat(inputFormat: InputFormat): OutputFormat {
+  const mappedFormat = Object.values(outputFormatForInputFormat).find(
+    ({ input }) => inputFormat === input
+  )
+
+  if (!mappedFormat) {
+    throw new Error(`Unsupported output format: ${inputFormat.name}`)
+  }
+
+  return mappedFormat.output()
+}
 
 export async function getInputData(input: Input): Promise<InputMediaData> {
   let data = {}
@@ -98,4 +235,30 @@ export async function getTracksData(input: Input) {
   }
 
   return tracksData
+}
+
+export async function convertFormat(
+  input: Input,
+  format: SupportedOutputFormat,
+  onProgress: (progress: number) => unknown,
+  target?: Target
+) {
+  const output = new Output({
+    format: supportedOutputFormats[format](),
+    target: target ?? new BufferTarget()
+  })
+
+  const conversion = await Conversion.init({
+    input,
+    output
+  })
+
+  if (!conversion.isValid) {
+    throw new ConversionError(conversion.discardedTracks)
+  }
+
+  conversion.onProgress = onProgress
+  await conversion.execute()
+
+  return conversion
 }
