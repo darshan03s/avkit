@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
 
-export const APP_NAME = 'App'
+export const APP_NAME = 'avkit'
 
-const APP_DESCRIPTION = 'Next.js app'
+const APP_DESCRIPTION = 'Browser-based audio and video utilities'
 
 const APP_KEYWORDS: string[] = []
 
