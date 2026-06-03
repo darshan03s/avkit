@@ -1,17 +1,22 @@
+import { InputMediaData } from '@/types/mediabunny'
 import Image from 'next/image'
 
-const Player = ({
-  mimeType,
-  fileUrl,
-  posterUrl
-}: {
-  mimeType: string
-  fileUrl: string
-  posterUrl: string | undefined
-}) => {
+const Player = ({ data, file }: { data: InputMediaData; file: File }) => {
+  const fileUrl = URL.createObjectURL(file)
+
+  const image = data.metadata.images?.[0]
+
+  const posterUrl = image
+    ? URL.createObjectURL(
+        new Blob([new Uint8Array(image.data)], {
+          type: image.mimeType
+        })
+      )
+    : undefined
+
   return (
     <div className="player flex items-center justify-center">
-      {mimeType.startsWith('video') ? (
+      {data.format.mimeType.startsWith('video') ? (
         <video
           src={fileUrl}
           controls={true}

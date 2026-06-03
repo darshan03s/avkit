@@ -3,7 +3,13 @@ import { Dispatch, SetStateAction, useRef } from 'react'
 import { buttonVariants } from './ui/button'
 import { Upload } from 'lucide-react'
 
-const FileInput = ({ setFile }: { setFile: Dispatch<SetStateAction<File | null>> }) => {
+const FileInput = ({
+  setFile,
+  description
+}: {
+  setFile: Dispatch<SetStateAction<File | null>>
+  description: string
+}) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   function handleFileInput() {
@@ -30,7 +36,7 @@ const FileInput = ({ setFile }: { setFile: Dispatch<SetStateAction<File | null>>
         <div className="w-full h-full border-2 border-dashed rounded-md">
           <div className="flex flex-col gap-4 items-center justify-center h-full">
             <Upload className="bg-primary text-primary-foreground size-12 p-3 rounded-full" />
-            <span className="text-accent-foreground">Upload audio or video to see metadata</span>
+            <span className="text-accent-foreground">{description}</span>
           </div>
         </div>
       </div>

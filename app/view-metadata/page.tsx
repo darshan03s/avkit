@@ -30,7 +30,6 @@ const Info = ({
 
 const ShowMetadata = ({ file }: { file: File }) => {
   const [data, setData] = useState<InputMediaData | null>(null)
-  const fileUrl = URL.createObjectURL(file)
 
   useEffect(() => {
     const input = new Input({
@@ -50,20 +49,10 @@ const ShowMetadata = ({ file }: { file: File }) => {
     return null
   }
 
-  const image = data.metadata.images?.[0]
-
-  const posterUrl = image
-    ? URL.createObjectURL(
-        new Blob([new Uint8Array(image.data)], {
-          type: image.mimeType
-        })
-      )
-    : undefined
-
   return (
     <div className="max-w-6xl mx-auto">
       <div className="space-y-3">
-        <Player mimeType={data.format.mimeType} fileUrl={fileUrl} posterUrl={posterUrl} />
+        <Player data={data} file={file} />
         <span className="text-md font-semibold text-center line-clamp-2">{file.name}</span>
         <div className="info grid grid-cols-3 gap-2">
           <Info title="Size" description={formatBytes(data.size)} />
@@ -138,7 +127,7 @@ const Page = () => {
   return (
     <Main className="pb-4">
       {!file ? (
-        <FileInput setFile={setFile} />
+        <FileInput setFile={setFile} description="Upload audio or video to see metadata" />
       ) : (
         <>
           <div className="flex items-center justify-end p-2">
