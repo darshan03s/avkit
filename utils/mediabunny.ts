@@ -12,6 +12,7 @@ import {
   AdtsOutputFormat,
   BufferTarget,
   Conversion,
+  ConversionOptions,
   FLAC,
   FlacOutputFormat,
   HLS,
@@ -252,6 +253,43 @@ export async function convertFormat(
     input,
     output
   })
+
+  if (!conversion.isValid) {
+    throw new ConversionError(conversion.discardedTracks)
+  }
+
+  conversion.onProgress = onProgress
+  await conversion.execute()
+
+  return conversion
+}
+
+export async function trim(
+  input: Input,
+  onProgress: (progress: number, processedTime: number) => unknown,
+  trim: {
+    start: number
+    end: number
+  },
+  target?: Target
+) {
+  const inputFormat = await input.getFormat()
+
+  const output = new Output({
+    format: getOutputFormatForInputFormat(inputFormat),
+    target: target ?? new BufferTarget()
+  })
+
+  const conversionOptions: ConversionOptions = {
+    input,
+    output
+  }
+
+  if (trim) {
+    conversionOptions.trim = trim
+  }
+
+  const conversion = await Conversion.init(conversionOptions)
 
   if (!conversion.isValid) {
     throw new ConversionError(conversion.discardedTracks)

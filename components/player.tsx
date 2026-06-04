@@ -1,5 +1,6 @@
 import { InputMediaData } from '@/types/mediabunny'
 import Image from 'next/image'
+import { memo } from 'react'
 
 const Player = ({ data, file }: { data: InputMediaData; file: File }) => {
   const fileUrl = URL.createObjectURL(file)
@@ -45,4 +46,4 @@ const Player = ({ data, file }: { data: InputMediaData; file: File }) => {
   )
 }
 
-export default Player
+export default memo(Player)

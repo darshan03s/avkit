@@ -22,7 +22,7 @@ import {
 import { Repeat2 } from 'lucide-react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import { Progress } from '@/components/ui/progress'
-import { saveOutput } from '@/utils'
+import { getExtension, getFilename, saveOutput } from '@/utils'
 import { useInput } from '@/hooks/use-input'
 
 const Convert = ({ file }: { file: File }) => {
@@ -49,7 +49,8 @@ const Convert = ({ file }: { file: File }) => {
   }
 
   async function handleSave() {
-    saveOutput(conversion, file, format)
+    saveOutput(conversion, getFilename(file.name), getExtension(file.name))
+    setProgress(0)
   }
 
   return (
