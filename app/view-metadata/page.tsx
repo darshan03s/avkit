@@ -1,15 +1,11 @@
 'use client'
 
-import FileInput from '@/components/file-input'
-import Main from '@/components/main'
 import Player from '@/components/player'
-import { Button } from '@/components/ui/button'
+import { ToolPage } from '@/components/tool-page'
 import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
 import { useInput } from '@/hooks/use-input'
-import { InputMediaData } from '@/types/mediabunny'
+import { useMediaData } from '@/hooks/use-media-data'
 import { formatBytes } from '@/utils'
-import { getInputData } from '@/utils/mediabunny'
-import { useEffect, useState } from 'react'
 
 const Info = ({
   title,
@@ -29,18 +25,8 @@ const Info = ({
 }
 
 const ShowMetadata = ({ file }: { file: File }) => {
-  const [data, setData] = useState<InputMediaData | null>(null)
-
   const input = useInput(file)
-
-  useEffect(() => {
-    async function getData() {
-      const d = await getInputData(input)
-      setData(d)
-    }
-
-    getData()
-  }, [input])
+  const data = useMediaData(input)
 
   if (!data) {
     return null
@@ -119,21 +105,10 @@ const ShowMetadata = ({ file }: { file: File }) => {
 }
 
 const Page = () => {
-  const [file, setFile] = useState<File | null>(null)
-
   return (
-    <Main>
-      {!file ? (
-        <FileInput setFile={setFile} description="Upload audio or video to see metadata" />
-      ) : (
-        <>
-          <div className="flex items-center justify-end p-2">
-            <Button onClick={() => setFile(null)}>Clear</Button>
-          </div>
-          <ShowMetadata file={file} />
-        </>
-      )}
-    </Main>
+    <ToolPage description="Upload audio or video file to view metadata">
+      {(file) => <ShowMetadata file={file} />}
+    </ToolPage>
   )
 }
 

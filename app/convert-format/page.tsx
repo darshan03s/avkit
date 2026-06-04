@@ -1,14 +1,11 @@
 'use client'
 
-import FileInput from '@/components/file-input'
-import Main from '@/components/main'
 import { Button } from '@/components/ui/button'
 import {
   convertFormat,
   SUPPORTED_AUDIO_OUTPUT_FORMATS,
   SUPPORTED_VIDEO_OUTPUT_FORMATS
 } from '@/utils/mediabunny'
-import { Conversion } from 'mediabunny'
 import { useState } from 'react'
 import {
   Select,
@@ -24,11 +21,11 @@ import { SupportedOutputFormat } from '@/types/mediabunny'
 import { Progress } from '@/components/ui/progress'
 import { getFilename, saveOutput } from '@/utils'
 import { useInput } from '@/hooks/use-input'
+import { useConversion } from '@/hooks/use-conversion'
+import { ToolPage } from '@/components/tool-page'
 
 const Convert = ({ file }: { file: File }) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()
-  const [progress, setProgress] = useState<number>(0)
-  const [conversion, setConversion] = useState<Conversion | null>(null)
   const type = file.type
 
   const outputFormatOptions = type.startsWith('video')
@@ -37,20 +34,18 @@ const Convert = ({ file }: { file: File }) => {
 
   const input = useInput(file)
 
-  const onProgress = (progress: number) => {
-    setProgress(Number((progress * 100).toFixed(0)))
-  }
+  const { progress, conversion, execute, reset } = useConversion()
 
-  function handleConvert() {
+  async function handleConvert() {
     if (!format) return
-    convertFormat(input, format, onProgress).then((conversion) => {
-      setConversion(conversion)
+    await execute((onProgress) => {
+      return convertFormat(input, format, onProgress)
     })
   }
 
   async function handleSave() {
     saveOutput(conversion, getFilename(file.name), format!)
-    setProgress(0)
+    reset()
   }
 
   return (
@@ -93,21 +88,10 @@ const Convert = ({ file }: { file: File }) => {
 }
 
 const Page = () => {
-  const [file, setFile] = useState<File | null>(null)
-
   return (
-    <Main>
-      {!file ? (
-        <FileInput setFile={setFile} description="Upload audio or video file to convert" />
-      ) : (
-        <>
-          <div className="flex items-center justify-end p-2">
-            <Button onClick={() => setFile(null)}>Clear</Button>
-          </div>
-          <Convert file={file} />
-        </>
-      )}
-    </Main>
+    <ToolPage description="Upload audio or video file to convert">
+      {(file) => <Convert file={file} />}
+    </ToolPage>
   )
 }
 
