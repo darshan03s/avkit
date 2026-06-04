@@ -8,7 +8,7 @@ import {
   SidebarTrigger
 } from '@/components/ui/sidebar'
 import Brand from './brand'
-import { Info, LucideIcon, Repeat2 } from 'lucide-react'
+import { Info, LucideIcon, Repeat2, Scissors } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from './ui/button'
@@ -41,6 +41,10 @@ const options = {
   'Convert format': {
     icon: Repeat2,
     path: '/convert-format'
+  },
+  Trim: {
+    icon: Scissors,
+    path: '/trim'
   }
 }
 
