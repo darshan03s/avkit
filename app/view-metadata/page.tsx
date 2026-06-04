@@ -5,10 +5,10 @@ import Main from '@/components/main'
 import Player from '@/components/player'
 import { Button } from '@/components/ui/button'
 import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
+import { useInput } from '@/hooks/use-input'
 import { InputMediaData } from '@/types/mediabunny'
 import { formatBytes } from '@/utils'
 import { getInputData } from '@/utils/mediabunny'
-import { ALL_FORMATS, BlobSource, Input } from 'mediabunny'
 import { useEffect, useState } from 'react'
 
 const Info = ({
@@ -31,19 +31,16 @@ const Info = ({
 const ShowMetadata = ({ file }: { file: File }) => {
   const [data, setData] = useState<InputMediaData | null>(null)
 
-  useEffect(() => {
-    const input = new Input({
-      formats: ALL_FORMATS,
-      source: new BlobSource(file)
-    })
+  const input = useInput(file)
 
+  useEffect(() => {
     async function getData() {
       const d = await getInputData(input)
       setData(d)
     }
 
     getData()
-  }, [file])
+  }, [input])
 
   if (!data) {
     return null

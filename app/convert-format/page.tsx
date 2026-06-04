@@ -8,8 +8,8 @@ import {
   SUPPORTED_AUDIO_OUTPUT_FORMATS,
   SUPPORTED_VIDEO_OUTPUT_FORMATS
 } from '@/utils/mediabunny'
-import { ALL_FORMATS, BlobSource, BufferTarget, Conversion, Input } from 'mediabunny'
-import { useMemo, useState } from 'react'
+import { Conversion } from 'mediabunny'
+import { useState } from 'react'
 import {
   Select,
   SelectContent,
@@ -22,6 +22,8 @@ import {
 import { Repeat2 } from 'lucide-react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import { Progress } from '@/components/ui/progress'
+import { saveOutput } from '@/utils'
+import { useInput } from '@/hooks/use-input'
 
 const Convert = ({ file }: { file: File }) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()
@@ -33,14 +35,7 @@ const Convert = ({ file }: { file: File }) => {
     ? SUPPORTED_VIDEO_OUTPUT_FORMATS
     : SUPPORTED_AUDIO_OUTPUT_FORMATS
 
-  const input = useMemo(
-    () =>
-      new Input({
-        formats: ALL_FORMATS,
-        source: new BlobSource(file)
-      }),
-    [file]
-  )
+  const input = useInput(file)
 
   const onProgress = (progress: number) => {
     setProgress(Number((progress * 100).toFixed(0)))
@@ -53,33 +48,8 @@ const Convert = ({ file }: { file: File }) => {
     })
   }
 
-  function saveBlob(blob: Blob, filename: string) {
-    const url = URL.createObjectURL(blob)
-
-    const a = document.createElement('a')
-    a.href = url
-    a.download = filename
-    a.click()
-
-    URL.revokeObjectURL(url)
-  }
-
   async function handleSave() {
-    if (!conversion) return
-
-    const target = conversion.output.target
-
-    if (!(target instanceof BufferTarget)) return
-
-    const buffer = target.buffer
-
-    if (!buffer) return
-
-    const blob = new Blob([buffer], {
-      type: file.type
-    })
-
-    saveBlob(blob, `${file.name.split('.').slice(0, -1).join('.')}.${format}`)
+    saveOutput(conversion, file, format)
   }
 
   return (
