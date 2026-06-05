@@ -12,6 +12,7 @@ import { convertToSeconds, getExtension, getFilename, isValidDuration, saveOutpu
 import { getInputData, trim } from '@/utils/mediabunny'
 import { Scissors } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 const Trim = ({ file }: { file: File }) => {
   const [startTime, setStartTime] = useState('')
@@ -36,6 +37,21 @@ const Trim = ({ file }: { file: File }) => {
 
     const start = convertToSeconds(startTime)
     const end = convertToSeconds(endTime)
+
+    if (start === end) {
+      toast.error('Start and end cannot be the same')
+      return
+    }
+
+    if (start > end) {
+      toast.error('Start cannot be more than end')
+      return
+    }
+
+    if (start > data!.duration || end > data!.duration) {
+      toast.error('Start or end cannot be more than media duration')
+      return
+    }
 
     await execute((onProgress) =>
       trim(input, onProgress, {
