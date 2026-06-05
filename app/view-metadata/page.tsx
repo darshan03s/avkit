@@ -107,7 +107,11 @@ const ShowMetadata = ({ file }: { file: File }) => {
 const Page = () => {
   return (
     <ToolPage description="Upload audio or video">
-      {(file) => <ShowMetadata file={file} />}
+      {(file) => (
+        <div className="flex-1">
+          <ShowMetadata file={file} />
+        </div>
+      )}
     </ToolPage>
   )
 }
