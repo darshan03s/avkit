@@ -1,12 +1,6 @@
 'use client'
 
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarTrigger
-} from '@/components/ui/sidebar'
+import { Sidebar, SidebarContent, SidebarHeader, SidebarTrigger } from '@/components/ui/sidebar'
 import Brand from './brand'
 import { LucideIcon } from 'lucide-react'
 import Link from 'next/link'
@@ -26,7 +20,11 @@ const Option = ({ Icon, name, path, isActive }: OptionProps) => {
   return (
     <Link
       href={path}
-      className={cn(buttonVariants({ variant: isActive ? 'outline' : 'secondary' }), 'gap-3 py-5')}
+      className={cn(
+        buttonVariants({ variant: 'ghost' }),
+        'gap-3 py-5',
+        `${isActive && 'bg-accent text-accent-foreground'}`
+      )}
     >
       <Icon />
       {name}
@@ -39,11 +37,11 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="flex flex-row items-center justify-between">
+      <SidebarHeader className="flex flex-row items-center justify-between bg-background">
         <SidebarTrigger />
         <Brand />
       </SidebarHeader>
-      <SidebarContent className="p-2 space-y-2">
+      <SidebarContent className="p-2 space-y-2 bg-background">
         {tools.map((tool) => (
           <Option
             key={tool.name}
@@ -54,7 +52,6 @@ export function AppSidebar() {
           />
         ))}
       </SidebarContent>
-      <SidebarFooter />
     </Sidebar>
   )
 }
