@@ -34,7 +34,7 @@ const ShowMetadata = ({ file }: { file: File }) => {
 
   return (
     <div className="max-w-6xl mx-auto pb-4">
-      <div className="space-y-3">
+      <div className="space-y-4">
         <Player data={data} file={file} />
         <span className="text-md font-semibold text-center line-clamp-2">{file.name}</span>
         <div className="info grid grid-cols-3 gap-2">
