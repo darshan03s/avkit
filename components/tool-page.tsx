@@ -27,14 +27,14 @@ export function ToolPage({ description, children }: ToolPageProps) {
           </div>
         </div>
       ) : (
-        <>
-          <div className="flex justify-between p-2 px-4">
+        <div className="flex flex-col min-h-[calc(100vh-var(--header-height))] h-full">
+          <div className="flex justify-between items-center px-4 h-10">
             <div className="font-semibold">{heading}</div>
             <Button onClick={() => setFile(null)}>Clear</Button>
           </div>
 
           {children(file)}
-        </>
+        </div>
       )}
     </Main>
   )

@@ -49,7 +49,7 @@ const Convert = ({ file }: { file: File }) => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-4">
+    <div className="max-w-6xl mx-auto space-y-4 flex-1">
       <div className="text-center font-semibold">{file.name}</div>
       <div className="flex justify-center">
         <Select onValueChange={(v) => setFormat(v as SupportedOutputFormat)} value={format}>
@@ -95,7 +95,13 @@ const Convert = ({ file }: { file: File }) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Upload audio or video">{(file) => <Convert file={file} />}</ToolPage>
+    <ToolPage description="Upload audio or video">
+      {(file) => (
+        <div className="flex-1 flex items-center justify-center">
+          <Convert file={file} />
+        </div>
+      )}
+    </ToolPage>
   )
 }
 

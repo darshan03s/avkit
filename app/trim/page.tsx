@@ -82,7 +82,15 @@ const Trim = ({ file }: { file: File }) => {
 }
 
 const Page = () => {
-  return <ToolPage description="Upload audio or video">{(file) => <Trim file={file} />}</ToolPage>
+  return (
+    <ToolPage description="Upload audio or video">
+      {(file) => (
+        <div className="flex-1 flex items-center justify-center">
+          <Trim file={file} />
+        </div>
+      )}
+    </ToolPage>
+  )
 }
 
 export default Page
