@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/select'
 import { Repeat2 } from 'lucide-react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
-import { getFilename, saveOutput } from '@/utils'
+import { convertWithErrorHandler, getFilename, saveOutput } from '@/utils'
 import { useInput } from '@/hooks/use-input'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool-page'
@@ -38,9 +38,12 @@ const Convert = ({ file }: { file: File }) => {
 
   async function handleConvert() {
     if (!format) return
-    await execute((onProgress) => {
-      return convertFormat(input, format, onProgress)
-    })
+
+    await convertWithErrorHandler(() =>
+      execute((onProgress) => {
+        return convertFormat(input, format, onProgress)
+      })
+    )
   }
 
   async function handleSave() {

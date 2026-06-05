@@ -1,7 +1,9 @@
 'use client'
 
+import { ConversionError } from '@/errors'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import { BufferTarget, Conversion } from 'mediabunny'
+import { toast } from 'sonner'
 
 export function formatBytes(bytes: number | null): string {
   if (!bytes) return '0B'
@@ -136,4 +138,20 @@ export function getFilename(filename: string): string {
   }
 
   return filename.slice(0, lastDot)
+}
+
+export async function convertWithErrorHandler<T>(fn: () => Promise<T>): Promise<T | undefined> {
+  try {
+    return await fn()
+  } catch (error) {
+    if (error instanceof ConversionError) {
+      error.discardedTracks.forEach((track) => {
+        toast.error(String(track.reason))
+      })
+
+      return
+    }
+
+    toast.error('Conversion failed')
+  }
 }

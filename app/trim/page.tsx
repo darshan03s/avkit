@@ -8,7 +8,14 @@ import { Input } from '@/components/ui/input'
 import { useConversion } from '@/hooks/use-conversion'
 import { useInput } from '@/hooks/use-input'
 import { InputMediaData } from '@/types/mediabunny'
-import { convertToSeconds, getExtension, getFilename, isValidDuration, saveOutput } from '@/utils'
+import {
+  convertToSeconds,
+  convertWithErrorHandler,
+  getExtension,
+  getFilename,
+  isValidDuration,
+  saveOutput
+} from '@/utils'
 import { getInputData, trim } from '@/utils/mediabunny'
 import { Scissors } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -53,11 +60,13 @@ const Trim = ({ file }: { file: File }) => {
       return
     }
 
-    await execute((onProgress) =>
-      trim(input, onProgress, {
-        start,
-        end
-      })
+    await convertWithErrorHandler(() =>
+      execute((onProgress) =>
+        trim(input, onProgress, {
+          start,
+          end
+        })
+      )
     )
   }
 
@@ -69,29 +78,27 @@ const Trim = ({ file }: { file: File }) => {
   if (!data) return null
 
   return (
-    <div>
-      <div className="max-w-6xl mx-auto">
-        <div className="space-y-4 flex flex-col items-center">
-          <Player data={data} file={file} />
-          <span className="text-md font-semibold text-center line-clamp-2">{file.name}</span>
-          <div className="trim flex items-center gap-4">
-            <Input placeholder="HH:MM:SS" onChange={(e) => setStartTime(e.target.value)} />
-            <Input placeholder="HH:MM:SS" onChange={(e) => setEndTime(e.target.value)} />
-          </div>
-          {progress < 1 && (
-            <Button onClick={handleTrim}>
-              <Scissors /> Trim
-            </Button>
-          )}
-          {progress > 1 && (
-            <>
-              <ProgressBar progress={progress} description="Trimming..." />
-              <Button disabled={progress < 100} onClick={handleSave}>
-                Save
-              </Button>
-            </>
-          )}
+    <div className="max-w-6xl mx-auto">
+      <div className="space-y-4 flex flex-col items-center">
+        <Player data={data} file={file} />
+        <span className="text-md font-semibold text-center line-clamp-2">{file.name}</span>
+        <div className="trim flex items-center gap-4">
+          <Input placeholder="HH:MM:SS" onChange={(e) => setStartTime(e.target.value)} />
+          <Input placeholder="HH:MM:SS" onChange={(e) => setEndTime(e.target.value)} />
         </div>
+        {progress < 1 && (
+          <Button onClick={handleTrim}>
+            <Scissors /> Trim
+          </Button>
+        )}
+        {progress > 1 && (
+          <>
+            <ProgressBar progress={progress} description="Trimming..." />
+            <Button disabled={progress < 100} onClick={handleSave}>
+              Save
+            </Button>
+          </>
+        )}
       </div>
     </div>
   )
