@@ -33,7 +33,7 @@ const ShowMetadata = ({ file }: { file: File }) => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto pb-4">
       <div className="space-y-3">
         <Player data={data} file={file} />
         <span className="text-md font-semibold text-center line-clamp-2">{file.name}</span>
@@ -106,7 +106,7 @@ const ShowMetadata = ({ file }: { file: File }) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Upload audio or video file to view metadata">
+    <ToolPage description="Upload audio or video">
       {(file) => <ShowMetadata file={file} />}
     </ToolPage>
   )

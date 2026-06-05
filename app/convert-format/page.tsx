@@ -89,9 +89,7 @@ const Convert = ({ file }: { file: File }) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Upload audio or video file to convert">
-      {(file) => <Convert file={file} />}
-    </ToolPage>
+    <ToolPage description="Upload audio or video">{(file) => <Convert file={file} />}</ToolPage>
   )
 }
 

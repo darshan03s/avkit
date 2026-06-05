@@ -4,6 +4,8 @@ import { useState } from 'react'
 import Main from './main'
 import FileInput from './file-input'
 import { Button } from './ui/button'
+import { tools } from '@/tools'
+import { usePathname } from 'next/navigation'
 
 type ToolPageProps = {
   description: string
@@ -12,14 +14,22 @@ type ToolPageProps = {
 
 export function ToolPage({ description, children }: ToolPageProps) {
   const [file, setFile] = useState<File | null>(null)
+  const pathname = usePathname()
+  const heading = tools.find((t) => t.path === pathname)?.description
 
   return (
     <Main>
       {!file ? (
-        <FileInput setFile={setFile} description={description} />
+        <div className="h-[calc(100vh-var(--header-height))] flex items-center justify-center">
+          <div className="space-y-4">
+            <h1 className="text-center font-sans font-bold text-xl">{heading}</h1>
+            <FileInput setFile={setFile} description={description} />
+          </div>
+        </div>
       ) : (
         <>
-          <div className="flex justify-end p-2">
+          <div className="flex justify-between p-2 px-4">
+            <div className="font-semibold">{heading}</div>
             <Button onClick={() => setFile(null)}>Clear</Button>
           </div>
 

@@ -25,7 +25,7 @@ const FileInput = ({
   }
 
   return (
-    <div className="h-[calc(100vh-var(--header-height))] flex items-center justify-center">
+    <div>
       <div
         onClick={handleFileInput}
         className={cn(

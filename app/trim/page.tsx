@@ -76,11 +76,7 @@ const Trim = ({ file }: { file: File }) => {
 }
 
 const Page = () => {
-  return (
-    <ToolPage description="Upload audio or video file to trim">
-      {(file) => <Trim file={file} />}
-    </ToolPage>
-  )
+  return <ToolPage description="Upload audio or video">{(file) => <Trim file={file} />}</ToolPage>
 }
 
 export default Page
