@@ -1,10 +1,10 @@
 'use client'
 
 import Player from '@/components/player'
+import ProgressBar from '@/components/progress-bar'
 import { ToolPage } from '@/components/tool-page'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Progress } from '@/components/ui/progress'
 import { useConversion } from '@/hooks/use-conversion'
 import { useInput } from '@/hooks/use-input'
 import { InputMediaData } from '@/types/mediabunny'
@@ -62,13 +62,19 @@ const Trim = ({ file }: { file: File }) => {
             <Input placeholder="HH:MM:SS" onChange={(e) => setStartTime(e.target.value)} />
             <Input placeholder="HH:MM:SS" onChange={(e) => setEndTime(e.target.value)} />
           </div>
-          <Button onClick={handleTrim}>
-            <Scissors /> Trim
-          </Button>
-          <Progress value={progress} className="w-3xl h-4" />
-          <Button disabled={progress < 100} onClick={handleSave}>
-            Save
-          </Button>
+          {progress < 1 && (
+            <Button onClick={handleTrim}>
+              <Scissors /> Trim
+            </Button>
+          )}
+          {progress > 1 && (
+            <>
+              <ProgressBar progress={progress} description="Trimming..." />
+              <Button disabled={progress < 100} onClick={handleSave}>
+                Save
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -7,7 +7,8 @@ export function useConversion() {
 
   async function execute(fn: (onProgress: (progress: number) => void) => Promise<Conversion>) {
     const conversion = await fn((progress) => {
-      setProgress(Math.round(progress * 100))
+      const prog = Math.round(progress * 100)
+      setProgress(prog)
     })
 
     setConversion(conversion)

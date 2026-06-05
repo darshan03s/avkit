@@ -18,11 +18,11 @@ import {
 } from '@/components/ui/select'
 import { Repeat2 } from 'lucide-react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
-import { Progress } from '@/components/ui/progress'
 import { getFilename, saveOutput } from '@/utils'
 import { useInput } from '@/hooks/use-input'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool-page'
+import ProgressBar from '@/components/progress-bar'
 
 const Convert = ({ file }: { file: File }) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()
@@ -70,19 +70,25 @@ const Convert = ({ file }: { file: File }) => {
           </SelectContent>
         </Select>
       </div>
-      <div className="flex justify-center">
-        <Button onClick={handleConvert}>
-          <Repeat2 /> Convert
-        </Button>
-      </div>
-      <div className="flex justify-center">
-        <Progress value={progress} className="w-3xl h-4" />
-      </div>
-      <div className="flex justify-center">
-        <Button disabled={progress < 100} onClick={handleSave}>
-          Save
-        </Button>
-      </div>
+      {progress < 1 && (
+        <div className="flex justify-center">
+          <Button onClick={handleConvert}>
+            <Repeat2 /> Convert
+          </Button>
+        </div>
+      )}
+      {progress > 1 && (
+        <>
+          <div className="flex justify-center">
+            <ProgressBar progress={progress} description="Converting..." />
+          </div>
+          <div className="flex justify-center">
+            <Button disabled={progress < 100} onClick={handleSave}>
+              Save
+            </Button>
+          </div>
+        </>
+      )}
     </div>
   )
 }
