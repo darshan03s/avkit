@@ -23,6 +23,7 @@ import { useInput } from '@/hooks/use-input'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool-page'
 import ProgressBar from '@/components/progress-bar'
+import ToolCentered from '@/components/tool-centered'
 
 const Convert = ({ file }: { file: File }) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()
@@ -100,9 +101,9 @@ const Page = () => {
   return (
     <ToolPage description="Upload audio or video">
       {(file) => (
-        <div className="flex-1 flex items-center justify-center">
+        <ToolCentered>
           <Convert file={file} />
-        </div>
+        </ToolCentered>
       )}
     </ToolPage>
   )

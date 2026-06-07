@@ -2,6 +2,7 @@
 
 import Player from '@/components/player'
 import ProgressBar from '@/components/progress-bar'
+import ToolCentered from '@/components/tool-centered'
 import { ToolPage } from '@/components/tool-page'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -108,9 +109,9 @@ const Page = () => {
   return (
     <ToolPage description="Upload audio or video">
       {(file) => (
-        <div className="flex-1 flex items-center justify-center">
+        <ToolCentered>
           <Trim file={file} />
-        </div>
+        </ToolCentered>
       )}
     </ToolPage>
   )
