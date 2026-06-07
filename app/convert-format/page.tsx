@@ -24,6 +24,8 @@ import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool-page'
 import ProgressBar from '@/components/progress-bar'
 import ToolCentered from '@/components/tool-centered'
+import ToolContainer from '@/components/tool-container'
+import FileName from '@/components/file-name'
 
 const Convert = ({ file }: { file: File }) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()
@@ -53,47 +55,47 @@ const Convert = ({ file }: { file: File }) => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-4 flex-1">
-      <div className="text-center font-semibold">{file.name}</div>
-      <div className="flex justify-center">
-        <Select onValueChange={(v) => setFormat(v as SupportedOutputFormat)} value={format}>
-          <SelectTrigger className="w-full max-w-48">
-            <SelectValue placeholder="Select a format" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Formats</SelectLabel>
-              {outputFormatOptions.map((format) => {
-                return (
-                  <SelectItem key={format} value={format}>
-                    {format}
-                  </SelectItem>
-                )
-              })}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      {progress < 1 && (
-        <div className="flex justify-center">
-          <Button onClick={handleConvert}>
-            <Repeat2 /> Convert
-          </Button>
-        </div>
-      )}
-      {progress > 1 && (
-        <>
-          <div className="flex justify-center">
-            <ProgressBar progress={progress} description="Converting..." />
-          </div>
-          <div className="flex justify-center">
-            <Button disabled={progress < 100} onClick={handleSave}>
-              Save
+    <ToolContainer>
+      <div className="space-y-4">
+        <FileName name={file.name} />
+        <div className="flex flex-col gap-4 max-w-xl mx-auto">
+          <Select onValueChange={(v) => setFormat(v as SupportedOutputFormat)} value={format}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a format" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Formats</SelectLabel>
+                {outputFormatOptions.map((format) => {
+                  return (
+                    <SelectItem key={format} value={format}>
+                      {format}
+                    </SelectItem>
+                  )
+                })}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          {progress < 1 && (
+            <Button onClick={handleConvert}>
+              <Repeat2 /> Convert
             </Button>
-          </div>
-        </>
-      )}
-    </div>
+          )}
+          {progress > 1 && (
+            <>
+              <div className="flex justify-center">
+                <ProgressBar progress={progress} description="Converting..." />
+              </div>
+              <div className="flex justify-center">
+                <Button disabled={progress < 100} onClick={handleSave}>
+                  Save
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </ToolContainer>
   )
 }
 
