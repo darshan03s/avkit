@@ -120,7 +120,6 @@ export const SUPPORTED_VIDEO_OUTPUT_FORMATS: SupportedVideoOutputFormat[] = [
   'mkv',
   'mov',
   'mp4',
-  'ts',
   'webm'
 ]
 

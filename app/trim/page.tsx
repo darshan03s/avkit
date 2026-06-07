@@ -1,16 +1,15 @@
 'use client'
 
-import FileName from '@/components/file-name'
-import Player from '@/components/player'
 import ProgressBar from '@/components/progress-bar'
 import ToolCentered from '@/components/tool-centered'
 import ToolContainer from '@/components/tool-container'
+import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useConversion } from '@/hooks/use-conversion'
 import { useInput } from '@/hooks/use-input'
-import { InputMediaData } from '@/types/mediabunny'
+import { useMediaData } from '@/hooks/use-media-data'
 import {
   convertToSeconds,
   convertWithErrorHandler,
@@ -19,26 +18,17 @@ import {
   isValidDuration,
   saveOutput
 } from '@/utils'
-import { getInputData, trim } from '@/utils/mediabunny'
+import { trim } from '@/utils/mediabunny'
 import { Scissors } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 const Trim = ({ file }: { file: File }) => {
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
-  const [data, setData] = useState<InputMediaData | null>(null)
 
   const input = useInput(file)
-
-  useEffect(() => {
-    async function getData() {
-      const d = await getInputData(input)
-      setData(d)
-    }
-
-    getData()
-  }, [input])
+  const data = useMediaData(input)
 
   const { progress, conversion, execute, reset } = useConversion()
 
@@ -78,33 +68,31 @@ const Trim = ({ file }: { file: File }) => {
     reset()
   }
 
-  if (!data) return null
-
   return (
     <ToolContainer>
-      <div className="space-y-4">
-        <Player data={data} file={file} />
-        <FileName name={file.name} />
-        <div className="flex flex-col gap-4 max-w-xl mx-auto">
-          <div className="trim flex items-center gap-4">
-            <Input placeholder="HH:MM:SS" onChange={(e) => setStartTime(e.target.value)} />
-            <Input placeholder="HH:MM:SS" onChange={(e) => setEndTime(e.target.value)} />
-          </div>
-          {progress < 1 && (
-            <Button onClick={handleTrim}>
-              <Scissors /> Trim
-            </Button>
-          )}
-          {progress > 1 && (
-            <>
-              <ProgressBar progress={progress} description="Trimming..." />
-              <Button disabled={progress < 100} onClick={handleSave}>
-                Save
+      <ToolMain file={file} input={input}>
+        {() => (
+          <div className="flex flex-col gap-4 max-w-xl mx-auto">
+            <div className="trim flex items-center gap-4">
+              <Input placeholder="HH:MM:SS" onChange={(e) => setStartTime(e.target.value)} />
+              <Input placeholder="HH:MM:SS" onChange={(e) => setEndTime(e.target.value)} />
+            </div>
+            {progress < 1 && (
+              <Button onClick={handleTrim}>
+                <Scissors /> Trim
               </Button>
-            </>
-          )}
-        </div>
-      </div>
+            )}
+            {progress > 1 && (
+              <>
+                <ProgressBar progress={progress} description="Trimming..." />
+                <Button disabled={progress < 100} onClick={handleSave}>
+                  Save
+                </Button>
+              </>
+            )}
+          </div>
+        )}
+      </ToolMain>
     </ToolContainer>
   )
 }
