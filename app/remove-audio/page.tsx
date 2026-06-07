@@ -68,7 +68,7 @@ const RemoveAudio = ({ file }: { file: File }) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Upload audio or video">
+    <ToolPage description="Import video">
       {(file) => (
         <ToolCentered>
           <RemoveAudio file={file} />

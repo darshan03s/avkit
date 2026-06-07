@@ -111,7 +111,7 @@ const Trim = ({ file }: { file: File }) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Upload audio or video">
+    <ToolPage description="Import audio or video">
       {(file) => (
         <ToolCentered>
           <Trim file={file} />
