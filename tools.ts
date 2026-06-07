@@ -1,4 +1,4 @@
-import { Info, Repeat2, Scissors } from 'lucide-react'
+import { Info, Repeat2, Scissors, VolumeOff } from 'lucide-react'
 
 export const tools = [
   {
@@ -18,5 +18,11 @@ export const tools = [
     path: '/trim',
     icon: Scissors,
     description: 'Trim audio/video'
+  },
+  {
+    name: 'Remove audio',
+    path: '/remove-audio',
+    icon: VolumeOff,
+    description: 'Remove all audio tracks from video'
   }
 ] as const

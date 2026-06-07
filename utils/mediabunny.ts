@@ -300,3 +300,35 @@ export async function trim(
 
   return conversion
 }
+
+export async function removeAudio(
+  input: Input,
+  onProgress: (progress: number, processedTime: number) => unknown,
+  target?: Target
+) {
+  const inputFormat = await input.getFormat()
+
+  const output = new Output({
+    format: getOutputFormatForInputFormat(inputFormat),
+    target: target ?? new BufferTarget()
+  })
+
+  const conversionOptions: ConversionOptions = {
+    input,
+    output,
+    audio: {
+      discard: true
+    }
+  }
+
+  const conversion = await Conversion.init(conversionOptions)
+
+  if (!conversion.isValid) {
+    throw new ConversionError(conversion.discardedTracks)
+  }
+
+  conversion.onProgress = onProgress
+  await conversion.execute()
+
+  return conversion
+}
