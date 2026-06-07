@@ -3,7 +3,7 @@ import { Progress } from './ui/progress'
 
 const ProgressBar = ({ progress, description }: { progress: number; description: string }) => {
   return (
-    <Field className="w-full max-w-xl">
+    <Field className="w-full">
       <FieldLabel htmlFor="progress-upload">
         <span>{progress < 100 ? description : 'Completed'}</span>
         <span className="ml-auto">{progress}%</span>

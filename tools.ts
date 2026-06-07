@@ -23,6 +23,6 @@ export const tools = [
     name: 'Remove audio',
     path: '/remove-audio',
     icon: VolumeOff,
-    description: 'Remove all audio tracks from video'
+    description: 'Remove audio tracks from video'
   }
 ] as const

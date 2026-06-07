@@ -19,7 +19,7 @@ const ToolMain = ({ children, className, file, showPlayer = true, input }: ToolM
   if (!data) return null
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn('space-y-4 pb-4', className)}>
       {showPlayer && <Player data={data} file={file} />}
       <FileName name={file.name} />
       {children(data)}

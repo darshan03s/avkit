@@ -155,7 +155,7 @@ export async function getInputData(input: Input): Promise<InputMediaData> {
   const computedDuration = await input.computeDuration()
 
   data = {
-    audioTracks: audioTracks.length,
+    audioTracks,
     duration,
     computedDuration,
     format: { name: format.name, mimeType: format.mimeType },
@@ -170,6 +170,7 @@ export async function getInputData(input: Input): Promise<InputMediaData> {
 
   return data as InputMediaData
 }
+
 export async function getTrackData(track: InputTrack) {
   const codec = await track.getCodec()
   const codecParamString = await track.getCodecParameterString()
@@ -303,6 +304,7 @@ export async function trim(
 export async function removeAudio(
   input: Input,
   onProgress: (progress: number, processedTime: number) => unknown,
+  selectedIds: Set<number>,
   target?: Target
 ) {
   const inputFormat = await input.getFormat()
@@ -315,9 +317,9 @@ export async function removeAudio(
   const conversionOptions: ConversionOptions = {
     input,
     output,
-    audio: {
-      discard: true
-    }
+    audio: (audioTrack) => ({
+      discard: selectedIds.has(audioTrack.id)
+    })
   }
 
   const conversion = await Conversion.init(conversionOptions)

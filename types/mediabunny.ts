@@ -4,9 +4,10 @@ import {
   supportedOutputFormats,
   supportedVideoOutputFormats
 } from '@/utils/mediabunny'
+import { InputAudioTrack } from 'mediabunny'
 
 export type InputMediaData = {
-  audioTracks: number
+  audioTracks: InputAudioTrack[]
   duration: number
   format: {
     name: string
