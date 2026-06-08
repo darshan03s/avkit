@@ -1,4 +1,4 @@
-import { Info, Repeat2, Scissors, VolumeOff } from 'lucide-react'
+import { Disc, Info, Repeat2, Scissors, VolumeOff } from 'lucide-react'
 
 export const tools = [
   {
@@ -24,5 +24,11 @@ export const tools = [
     path: '/remove-audio',
     icon: VolumeOff,
     description: 'Remove audio tracks from video'
+  },
+  {
+    name: 'Extract track',
+    path: '/extract-track',
+    icon: Disc,
+    description: 'Extract specific track from video'
   }
 ] as const

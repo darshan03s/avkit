@@ -5,7 +5,8 @@ import {
   InputMediaData,
   SupportedAudioOutputFormat,
   SupportedOutputFormat,
-  SupportedVideoOutputFormat
+  SupportedVideoOutputFormat,
+  TrackData
 } from '@/types/mediabunny'
 import {
   ADTS,
@@ -39,6 +40,17 @@ import {
   WEBM,
   WebMOutputFormat
 } from 'mediabunny'
+
+import { registerMp3Encoder } from '@mediabunny/mp3-encoder'
+import { registerAacEncoder } from '@mediabunny/aac-encoder'
+import { registerAc3Decoder, registerAc3Encoder } from '@mediabunny/ac3'
+import { registerFlacEncoder } from '@mediabunny/flac-encoder'
+
+registerFlacEncoder()
+registerAc3Decoder()
+registerAc3Encoder()
+registerAacEncoder()
+registerMp3Encoder()
 
 export const supportedAudioOutputFormats = {
   adts: () => new AdtsOutputFormat(),
@@ -319,6 +331,59 @@ export async function removeAudio(
     output,
     audio: (audioTrack) => ({
       discard: selectedIds.has(audioTrack.id)
+    })
+  }
+
+  const conversion = await Conversion.init(conversionOptions)
+
+  if (!conversion.isValid) {
+    throw new ConversionError(conversion.discardedTracks)
+  }
+
+  conversion.onProgress = onProgress
+  await conversion.execute()
+
+  return conversion
+}
+
+export async function extractTrack(
+  input: Input,
+  selectedTrack: TrackData,
+  onProgress: (progress: number, processedTime: number) => unknown,
+  format: SupportedOutputFormat,
+  target?: Target
+) {
+  const inputFormat = await input.getFormat()
+
+  const outputFormat = format
+    ? supportedOutputFormats[format]()
+    : getOutputFormatForInputFormat(inputFormat)
+
+  const output = new Output({
+    format: outputFormat,
+    target: target ?? new BufferTarget()
+  })
+
+  const conversionOptions: ConversionOptions = {
+    input,
+    output
+  }
+
+  if (selectedTrack.type === 'video') {
+    conversionOptions.audio = {
+      discard: true
+    }
+
+    conversionOptions.video = (videoTrack) => ({
+      discard: videoTrack.id !== selectedTrack.id
+    })
+  } else if (selectedTrack.type === 'audio') {
+    conversionOptions.video = {
+      discard: true
+    }
+
+    conversionOptions.audio = (audioTrack) => ({
+      discard: audioTrack.id !== selectedTrack.id
     })
   }
 
