@@ -139,7 +139,7 @@ const ExtractTrack = ({ file }: { file: File }) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import video">
+    <ToolPage description="Import video" acceptAudio={false}>
       {(file) => (
         <ToolCentered>
           <ExtractTrack file={file} />

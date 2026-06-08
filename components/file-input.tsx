@@ -5,10 +5,14 @@ import { Upload } from 'lucide-react'
 
 const FileInput = ({
   setFile,
-  description
+  description,
+  acceptAudio = true,
+  acceptVideo = true
 }: {
   setFile: Dispatch<SetStateAction<File | null>>
   description: string
+  acceptAudio: boolean
+  acceptVideo: boolean
 }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -41,13 +45,51 @@ const FileInput = ({
         </div>
       </div>
 
-      <input
-        type="file"
-        hidden
-        ref={fileInputRef}
-        onChange={(e) => handleFileChange(e.target.files)}
-        accept="
-    .mp4,
+      {!acceptAudio && (
+        <input
+          type="file"
+          hidden
+          ref={fileInputRef}
+          onChange={(e) => handleFileChange(e.target.files)}
+          accept="
+  .mp4,
+  .mov,
+  .mkv,
+  .webm,
+  video/mp4,
+  video/quicktime,
+  video/x-matroska,
+  video/webm,
+"
+        />
+      )}
+      {!acceptVideo && (
+        <input
+          type="file"
+          hidden
+          ref={fileInputRef}
+          onChange={(e) => handleFileChange(e.target.files)}
+          accept="
+    .wav,
+    .ogg,
+    .flac,
+    .mp3,
+    audio/wav,
+    audio/ogg,
+    audio/flac,
+    audio/mpeg
+  "
+        />
+      )}
+
+      {acceptAudio && acceptVideo && (
+        <input
+          type="file"
+          hidden
+          ref={fileInputRef}
+          onChange={(e) => handleFileChange(e.target.files)}
+          accept="
+        .mp4,
     .mov,
     .mkv,
     .webm,
@@ -63,8 +105,9 @@ const FileInput = ({
     audio/ogg,
     audio/flac,
     audio/mpeg
-  "
-      />
+    "
+        />
+      )}
     </div>
   )
 }

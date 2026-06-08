@@ -111,7 +111,7 @@ const RemoveAudio = ({ file }: { file: File }) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import video">
+    <ToolPage description="Import video" acceptAudio={false}>
       {(file) => (
         <ToolCentered>
           <RemoveAudio file={file} />

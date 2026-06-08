@@ -10,9 +10,16 @@ import { usePathname } from 'next/navigation'
 type ToolPageProps = {
   description: string
   children: (file: File) => React.ReactNode
+  acceptAudio?: boolean
+  acceptVideo?: boolean
 }
 
-export function ToolPage({ description, children }: ToolPageProps) {
+export function ToolPage({
+  description,
+  children,
+  acceptAudio = true,
+  acceptVideo = true
+}: ToolPageProps) {
   const [file, setFile] = useState<File | null>(null)
   const pathname = usePathname()
   const heading = tools.find((t) => t.path === pathname)?.description
@@ -23,7 +30,12 @@ export function ToolPage({ description, children }: ToolPageProps) {
         <div className="h-[calc(100vh-var(--header-height))] flex items-center justify-center">
           <div className="space-y-4">
             <h1 className="text-center font-sans font-bold text-xl">{heading}</h1>
-            <FileInput setFile={setFile} description={description} />
+            <FileInput
+              setFile={setFile}
+              description={description}
+              acceptAudio={acceptAudio}
+              acceptVideo={acceptVideo}
+            />
           </div>
         </div>
       ) : (
