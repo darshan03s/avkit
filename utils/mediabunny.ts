@@ -11,6 +11,7 @@ import {
 import {
   ADTS,
   AdtsOutputFormat,
+  AudioCodec,
   BufferTarget,
   Conversion,
   ConversionOptions,
@@ -35,6 +36,7 @@ import {
   OutputFormat,
   QTFF,
   Target,
+  VideoCodec,
   WAVE,
   WavOutputFormat,
   WEBM,
@@ -138,6 +140,32 @@ export const SUPPORTED_VIDEO_OUTPUT_FORMATS: SupportedVideoOutputFormat[] = [
 export const SUPPORTED_OUTPUT_FORMATS: SupportedOutputFormat[] = [
   ...SUPPORTED_VIDEO_OUTPUT_FORMATS,
   ...SUPPORTED_AUDIO_OUTPUT_FORMATS
+]
+
+export const SUPPORTED_VIDEO_CODECS: VideoCodec[] = ['av1', 'avc', 'hevc', 'vp8', 'vp9']
+
+export const SUPPORTED_AUDIO_CODECS: AudioCodec[] = [
+  'aac',
+  'ac3',
+  'alaw',
+  'eac3',
+  'flac',
+  'mp3',
+  'opus',
+  'pcm-f32',
+  'pcm-f32be',
+  'pcm-f64',
+  'pcm-f64be',
+  'pcm-s16',
+  'pcm-s16be',
+  'pcm-s24',
+  'pcm-s24be',
+  'pcm-s32',
+  'pcm-s32be',
+  'pcm-s8',
+  'pcm-u8',
+  'ulaw',
+  'vorbis'
 ]
 
 export function getOutputFormatForInputFormat(inputFormat: InputFormat): OutputFormat {
