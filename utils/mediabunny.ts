@@ -57,6 +57,7 @@ registerMp3Encoder()
 export const supportedAudioOutputFormats = {
   adts: () => new AdtsOutputFormat(),
   flac: () => new FlacOutputFormat(),
+  m4a: () => new Mp4OutputFormat(),
   mp3: () => new Mp3OutputFormat(),
   ogg: () => new OggOutputFormat(),
   wav: () => new WavOutputFormat()
@@ -125,6 +126,7 @@ export const outputFormatForInputFormat = {
 export const SUPPORTED_AUDIO_OUTPUT_FORMATS: SupportedAudioOutputFormat[] = [
   'adts',
   'flac',
+  'm4a',
   'mp3',
   'ogg',
   'wav'
@@ -413,6 +415,48 @@ export async function extractTrack(
     conversionOptions.audio = (audioTrack) => ({
       discard: audioTrack.id !== selectedTrack.id
     })
+  }
+
+  const conversion = await Conversion.init(conversionOptions)
+
+  if (!conversion.isValid) {
+    throw new ConversionError(conversion.discardedTracks)
+  }
+
+  conversion.onProgress = onProgress
+  await conversion.execute()
+
+  return conversion
+}
+
+export async function changeCodec(
+  input: Input,
+  type: 'audio' | 'video',
+  format: SupportedOutputFormat,
+  codec: AudioCodec | VideoCodec,
+  onProgress: (progress: number) => unknown,
+  target?: Target
+) {
+  const outputFormat = supportedOutputFormats[format]()
+
+  const output = new Output({
+    format: outputFormat,
+    target: target ?? new BufferTarget()
+  })
+
+  const conversionOptions: ConversionOptions = {
+    input,
+    output
+  }
+
+  if (type === 'audio') {
+    conversionOptions.audio = {
+      codec: codec as AudioCodec
+    }
+  } else if (type === 'video') {
+    conversionOptions.video = {
+      codec: codec as VideoCodec
+    }
   }
 
   const conversion = await Conversion.init(conversionOptions)

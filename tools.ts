@@ -1,4 +1,4 @@
-import { Disc, Info, Repeat2, Scissors, VolumeOff } from 'lucide-react'
+import { Code, Disc, Info, Repeat2, Scissors, VolumeOff } from 'lucide-react'
 
 export const tools = [
   {
@@ -30,5 +30,11 @@ export const tools = [
     path: '/extract-track',
     icon: Disc,
     description: 'Extract specific track from video'
+  },
+  {
+    name: 'Change codec',
+    path: '/change-codec',
+    icon: Code,
+    description: 'Change codec of audio/video'
   }
 ] as const
