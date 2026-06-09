@@ -22,25 +22,27 @@ import { useConversion } from '@/hooks/use-conversion'
 import { useInput } from '@/hooks/use-input'
 import { useMediaData } from '@/hooks/use-media-data'
 import { SupportedOutputFormat } from '@/types/mediabunny'
-import { convertWithErrorHandler, formatBitrate, getFilename, saveOutput } from '@/utils'
 import {
-  extractTrack,
-  SUPPORTED_AUDIO_OUTPUT_FORMATS,
-  SUPPORTED_VIDEO_OUTPUT_FORMATS
-} from '@/utils/mediabunny'
+  convertWithErrorHandler,
+  formatBitrate,
+  getFilename,
+  getFileType,
+  getOutputFormatOptions,
+  saveOutput
+} from '@/utils'
+import { extractTrack } from '@/utils/mediabunny'
 import { Disc } from 'lucide-react'
 import { useState } from 'react'
 
 const ExtractTrack = ({ file }: { file: File }) => {
+  const fileType = getFileType(file)
   const input = useInput(file)
   const data = useMediaData(input)
   const [selectedTrackId, setSelectedTrackId] = useState('')
   const selectedTrack = data?.tracksData.find((track) => track.id.toString() === selectedTrackId)
   const [format, setFormat] = useState<SupportedOutputFormat | ''>('')
 
-  const outputFormatOptions = selectedTrack?.type.startsWith('video')
-    ? SUPPORTED_VIDEO_OUTPUT_FORMATS
-    : SUPPORTED_AUDIO_OUTPUT_FORMATS
+  const outputFormatOptions = getOutputFormatOptions(fileType)
 
   const { progress, conversion, execute, reset } = useConversion()
 

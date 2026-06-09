@@ -1,13 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import {
-  changeCodec,
-  SUPPORTED_AUDIO_CODECS,
-  SUPPORTED_AUDIO_OUTPUT_FORMATS,
-  SUPPORTED_VIDEO_CODECS,
-  SUPPORTED_VIDEO_OUTPUT_FORMATS
-} from '@/utils/mediabunny'
+import { changeCodec } from '@/utils/mediabunny'
 import { useState } from 'react'
 import {
   Select,
@@ -20,7 +14,14 @@ import {
 } from '@/components/ui/select'
 import { Code } from 'lucide-react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
-import { convertWithErrorHandler, getFilename, saveOutput } from '@/utils'
+import {
+  convertWithErrorHandler,
+  getCodecOptions,
+  getFilename,
+  getFileType,
+  getOutputFormatOptions,
+  saveOutput
+} from '@/utils'
 import { useInput } from '@/hooks/use-input'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool-page'
@@ -35,13 +36,10 @@ import { Label } from '@/components/ui/label'
 const ChangeCodec = ({ file }: { file: File }) => {
   const [codec, setCodec] = useState<AudioCodec | VideoCodec | ''>('')
   const [format, setFormat] = useState<SupportedOutputFormat | ''>('')
-  const type = file.type
+  const fileType = getFileType(file)
 
-  const outputFormatOptions = type.startsWith('video')
-    ? SUPPORTED_VIDEO_OUTPUT_FORMATS
-    : SUPPORTED_AUDIO_OUTPUT_FORMATS
-
-  const codecOptions = type.startsWith('video') ? SUPPORTED_VIDEO_CODECS : SUPPORTED_AUDIO_CODECS
+  const outputFormatOptions = getOutputFormatOptions(fileType)
+  const codecOptions = getCodecOptions(fileType)
 
   const input = useInput(file)
 
@@ -52,13 +50,7 @@ const ChangeCodec = ({ file }: { file: File }) => {
 
     await convertWithErrorHandler(() =>
       execute((onProgress) => {
-        return changeCodec(
-          input,
-          type.startsWith('audio') ? 'audio' : 'video',
-          format as SupportedOutputFormat,
-          codec,
-          onProgress
-        )
+        return changeCodec(input, fileType, format as SupportedOutputFormat, codec, onProgress)
       })
     )
   }
@@ -77,8 +69,8 @@ const ChangeCodec = ({ file }: { file: File }) => {
               <div className="space-y-2">
                 <ShowTracks
                   data={data}
-                  onlyAudio={type.startsWith('audio')}
-                  onlyVideo={type.startsWith('video')}
+                  onlyAudio={fileType === 'audio'}
+                  onlyVideo={fileType === 'video'}
                 />
               </div>
             ) : (

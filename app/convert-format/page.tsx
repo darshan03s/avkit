@@ -1,11 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import {
-  convertFormat,
-  SUPPORTED_AUDIO_OUTPUT_FORMATS,
-  SUPPORTED_VIDEO_OUTPUT_FORMATS
-} from '@/utils/mediabunny'
+import { convertFormat } from '@/utils/mediabunny'
 import { useState } from 'react'
 import {
   Select,
@@ -18,7 +14,13 @@ import {
 } from '@/components/ui/select'
 import { Repeat2 } from 'lucide-react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
-import { convertWithErrorHandler, getFilename, saveOutput } from '@/utils'
+import {
+  convertWithErrorHandler,
+  getFilename,
+  getFileType,
+  getOutputFormatOptions,
+  saveOutput
+} from '@/utils'
 import { useInput } from '@/hooks/use-input'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool-page'
@@ -29,11 +31,9 @@ import ToolMain from '@/components/tool-main'
 
 const Convert = ({ file }: { file: File }) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()
-  const type = file.type
+  const fileType = getFileType(file)
 
-  const outputFormatOptions = type.startsWith('video')
-    ? SUPPORTED_VIDEO_OUTPUT_FORMATS
-    : SUPPORTED_AUDIO_OUTPUT_FORMATS
+  const outputFormatOptions = getOutputFormatOptions(fileType)
 
   const input = useInput(file)
 

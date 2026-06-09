@@ -4,6 +4,12 @@ import { ConversionError } from '@/errors'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import { BufferTarget, Conversion } from 'mediabunny'
 import { toast } from 'sonner'
+import {
+  SUPPORTED_AUDIO_CODECS,
+  SUPPORTED_AUDIO_OUTPUT_FORMATS,
+  SUPPORTED_VIDEO_CODECS,
+  SUPPORTED_VIDEO_OUTPUT_FORMATS
+} from './mediabunny'
 
 export function formatBytes(bytes: number | null): string {
   if (!bytes) return '0B'
@@ -166,4 +172,16 @@ export function formatBitrate(bps: number): string {
   }
 
   return `${bps.toFixed(0)} bps`
+}
+
+export function getFileType(file: File) {
+  return file.type.startsWith('video') ? 'video' : 'audio'
+}
+
+export function getOutputFormatOptions(fileType: 'video' | 'audio') {
+  return fileType === 'video' ? SUPPORTED_VIDEO_OUTPUT_FORMATS : SUPPORTED_AUDIO_OUTPUT_FORMATS
+}
+
+export function getCodecOptions(fileType: 'video' | 'audio') {
+  return fileType === 'video' ? SUPPORTED_VIDEO_CODECS : SUPPORTED_AUDIO_CODECS
 }
