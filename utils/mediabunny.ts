@@ -1,6 +1,6 @@
 'use client'
 
-import { ConversionError } from '@/errors'
+import { ConversionError, DecodabilityError, EncodabilityError } from '@/errors'
 import {
   InputMediaData,
   SupportedAudioOutputFormat,
@@ -13,6 +13,8 @@ import {
   AdtsOutputFormat,
   AudioCodec,
   BufferTarget,
+  canEncodeAudio,
+  canEncodeVideo,
   Conversion,
   ConversionOptions,
   FLAC,
@@ -144,31 +146,41 @@ export const SUPPORTED_OUTPUT_FORMATS: SupportedOutputFormat[] = [
   ...SUPPORTED_AUDIO_OUTPUT_FORMATS
 ]
 
-export const SUPPORTED_VIDEO_CODECS: VideoCodec[] = ['av1', 'avc', 'hevc', 'vp8', 'vp9']
+async function verifyDecodability(input: Input) {
+  const videoTracks = await input.getVideoTracks()
 
-export const SUPPORTED_AUDIO_CODECS: AudioCodec[] = [
-  'aac',
-  'ac3',
-  'alaw',
-  'eac3',
-  'flac',
-  'mp3',
-  'opus',
-  'pcm-f32',
-  'pcm-f32be',
-  'pcm-f64',
-  'pcm-f64be',
-  'pcm-s16',
-  'pcm-s16be',
-  'pcm-s24',
-  'pcm-s24be',
-  'pcm-s32',
-  'pcm-s32be',
-  'pcm-s8',
-  'pcm-u8',
-  'ulaw',
-  'vorbis'
-]
+  for (const track of videoTracks) {
+    const codec = await track.getCodec()
+    const decodable = await track.canDecode()
+    if (!decodable) {
+      throw new DecodabilityError(`Video codec "${codec ?? track.id}" could not be decoded.`)
+    }
+  }
+
+  const audioTracks = await input.getAudioTracks()
+
+  for (const track of audioTracks) {
+    const codec = await track.getCodec()
+    const decodable = await track.canDecode()
+    if (!decodable) {
+      throw new DecodabilityError(`Audio codec "${codec ?? track.id}" could not be decoded.`)
+    }
+  }
+}
+
+async function verifyEncodability(type: 'audio' | 'video', codec: AudioCodec | VideoCodec) {
+  if (type === 'video') {
+    const res = await canEncodeVideo(codec as VideoCodec)
+    if (!res) {
+      throw new EncodabilityError(`Video codec "${codec}" could not be encoded.`)
+    }
+  } else if (type === 'audio') {
+    const res = await canEncodeAudio(codec as AudioCodec)
+    if (!res) {
+      throw new EncodabilityError(`Audio codec "${codec}" could not be encoded.`)
+    }
+  }
+}
 
 export function getOutputFormatForInputFormat(inputFormat: InputFormat): OutputFormat {
   const mappedFormat = Object.values(outputFormatForInputFormat).find(
@@ -286,6 +298,8 @@ export async function convertFormat(
   onProgress: (progress: number) => unknown,
   target?: Target
 ) {
+  await verifyDecodability(input)
+
   const output = new Output({
     format: supportedOutputFormats[format](),
     target: target ?? new BufferTarget()
@@ -315,6 +329,8 @@ export async function trim(
   },
   target?: Target
 ) {
+  await verifyDecodability(input)
+
   const inputFormat = await input.getFormat()
 
   const output = new Output({
@@ -349,6 +365,8 @@ export async function removeAudio(
   selectedIds: Set<number>,
   target?: Target
 ) {
+  await verifyDecodability(input)
+
   const inputFormat = await input.getFormat()
 
   const output = new Output({
@@ -383,6 +401,8 @@ export async function extractTrack(
   format: SupportedOutputFormat,
   target?: Target
 ) {
+  await verifyDecodability(input)
+
   const inputFormat = await input.getFormat()
 
   const outputFormat = format
@@ -437,6 +457,8 @@ export async function changeCodec(
   onProgress: (progress: number) => unknown,
   target?: Target
 ) {
+  await Promise.all([verifyDecodability(input), verifyEncodability(type, codec)])
+
   const outputFormat = supportedOutputFormats[format]()
 
   const output = new Output({

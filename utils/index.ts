@@ -1,15 +1,10 @@
 'use client'
 
-import { ConversionError } from '@/errors'
+import { ConversionError, DecodabilityError, EncodabilityError } from '@/errors'
 import { SupportedOutputFormat } from '@/types/mediabunny'
-import { BufferTarget, Conversion } from 'mediabunny'
+import { AUDIO_CODECS, BufferTarget, Conversion, VIDEO_CODECS } from 'mediabunny'
 import { toast } from 'sonner'
-import {
-  SUPPORTED_AUDIO_CODECS,
-  SUPPORTED_AUDIO_OUTPUT_FORMATS,
-  SUPPORTED_VIDEO_CODECS,
-  SUPPORTED_VIDEO_OUTPUT_FORMATS
-} from './mediabunny'
+import { SUPPORTED_AUDIO_OUTPUT_FORMATS, SUPPORTED_VIDEO_OUTPUT_FORMATS } from './mediabunny'
 
 export function formatBytes(bytes: number | null): string {
   if (!bytes) return '0B'
@@ -158,7 +153,13 @@ export async function convertWithErrorHandler<T>(fn: () => Promise<T>): Promise<
       return
     }
 
-    toast.error('Conversion failed')
+    if (error instanceof DecodabilityError || error instanceof EncodabilityError) {
+      toast.error(String(error.message))
+      return
+    }
+
+    toast.error('Unknown conversion error')
+    console.error(error)
   }
 }
 
@@ -183,5 +184,5 @@ export function getOutputFormatOptions(fileType: 'video' | 'audio') {
 }
 
 export function getCodecOptions(fileType: 'video' | 'audio') {
-  return fileType === 'video' ? SUPPORTED_VIDEO_CODECS : SUPPORTED_AUDIO_CODECS
+  return fileType === 'video' ? VIDEO_CODECS : AUDIO_CODECS
 }
