@@ -19,6 +19,8 @@ import {
   ConversionOptions,
   FLAC,
   FlacOutputFormat,
+  getFirstEncodableAudioCodec,
+  getFirstEncodableVideoCodec,
   HLS,
   Input,
   InputFormat,
@@ -174,10 +176,18 @@ async function verifyEncodability(type: 'audio' | 'video', codec: AudioCodec | V
     if (!res) {
       throw new EncodabilityError(`Video codec "${codec}" could not be encoded.`)
     }
+    const firstEncodableVideoCodec = await getFirstEncodableVideoCodec([codec as VideoCodec])
+    if (!firstEncodableVideoCodec) {
+      throw new EncodabilityError(`No encodable video codec found for "${codec}".`)
+    }
   } else if (type === 'audio') {
     const res = await canEncodeAudio(codec as AudioCodec)
     if (!res) {
       throw new EncodabilityError(`Audio codec "${codec}" could not be encoded.`)
+    }
+    const firstEncodableAudioCodec = await getFirstEncodableAudioCodec([codec as AudioCodec])
+    if (!firstEncodableAudioCodec) {
+      throw new EncodabilityError(`No encodable audio codec found for "${codec}".`)
     }
   }
 }
