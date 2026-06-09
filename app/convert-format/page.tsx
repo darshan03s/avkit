@@ -13,7 +13,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Repeat2 } from 'lucide-react'
-import { SupportedOutputFormat } from '@/types/mediabunny'
+import { InputMediaData, MediaBunnyInput, SupportedOutputFormat } from '@/types/mediabunny'
 import {
   convertWithErrorHandler,
   getFilename,
@@ -21,7 +21,6 @@ import {
   getOutputFormatOptions,
   saveOutput
 } from '@/utils'
-import { useInput } from '@/hooks/use-input'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool-page'
 import ProgressBar from '@/components/progress-bar'
@@ -29,13 +28,19 @@ import ToolCentered from '@/components/tool-centered'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 
-const Convert = ({ file }: { file: File }) => {
+const Convert = ({
+  file,
+  fileInput,
+  fileData
+}: {
+  file: File
+  fileInput: MediaBunnyInput
+  fileData: InputMediaData
+}) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()
   const fileType = getFileType(file)
 
   const outputFormatOptions = getOutputFormatOptions(fileType)
-
-  const input = useInput(file)
 
   const { progress, conversion, execute, reset } = useConversion()
 
@@ -44,7 +49,7 @@ const Convert = ({ file }: { file: File }) => {
 
     await convertWithErrorHandler(() =>
       execute((onProgress) => {
-        return convertFormat(input, format, onProgress)
+        return convertFormat(fileInput, format, onProgress)
       })
     )
   }
@@ -56,45 +61,43 @@ const Convert = ({ file }: { file: File }) => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} input={input} showPlayer={false}>
-        {() => (
-          <div className="flex flex-col gap-4 max-w-xl mx-auto">
-            <Select onValueChange={(v) => setFormat(v as SupportedOutputFormat)} value={format}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a format" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Formats</SelectLabel>
-                  {outputFormatOptions.map((format) => {
-                    return (
-                      <SelectItem key={format} value={format}>
-                        {format}
-                      </SelectItem>
-                    )
-                  })}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {progress < 1 && (
-              <Button onClick={handleConvert}>
-                <Repeat2 /> Convert
-              </Button>
-            )}
-            {progress > 1 && (
-              <>
-                <div className="flex justify-center">
-                  <ProgressBar progress={progress} description="Converting..." />
-                </div>
-                <div className="flex justify-center">
-                  <Button disabled={progress < 100} onClick={handleSave}>
-                    Save
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
-        )}
+      <ToolMain file={file} fileData={fileData} showPlayer={false}>
+        <div className="flex flex-col gap-4 max-w-xl mx-auto">
+          <Select onValueChange={(v) => setFormat(v as SupportedOutputFormat)} value={format}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a format" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Formats</SelectLabel>
+                {outputFormatOptions.map((format) => {
+                  return (
+                    <SelectItem key={format} value={format}>
+                      {format}
+                    </SelectItem>
+                  )
+                })}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          {progress < 1 && (
+            <Button onClick={handleConvert}>
+              <Repeat2 /> Convert
+            </Button>
+          )}
+          {progress > 1 && (
+            <>
+              <div className="flex justify-center">
+                <ProgressBar progress={progress} description="Converting..." />
+              </div>
+              <div className="flex justify-center">
+                <Button disabled={progress < 100} onClick={handleSave}>
+                  Save
+                </Button>
+              </div>
+            </>
+          )}
+        </div>
       </ToolMain>
     </ToolContainer>
   )
@@ -103,9 +106,9 @@ const Convert = ({ file }: { file: File }) => {
 const Page = () => {
   return (
     <ToolPage description="Import audio or video">
-      {(file) => (
+      {(file, fileInput, fileData) => (
         <ToolCentered>
-          <Convert file={file} />
+          <Convert file={file} fileInput={fileInput} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

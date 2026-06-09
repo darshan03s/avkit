@@ -1,15 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Main from './main'
 import FileInput from './file-input'
 import { Button } from './ui/button'
 import { tools } from '@/tools'
 import { usePathname } from 'next/navigation'
+import { ALL_FORMATS, BlobSource, Input } from 'mediabunny'
+import { getInputData } from '@/utils/mediabunny'
+import { InputMediaData } from '@/types/mediabunny'
 
 type ToolPageProps = {
   description: string
-  children: (file: File) => React.ReactNode
+  children: (file: File, fileInput: Input, fileData: InputMediaData) => React.ReactNode
   acceptAudio?: boolean
   acceptVideo?: boolean
 }
@@ -21,8 +24,24 @@ export function ToolPage({
   acceptVideo = true
 }: ToolPageProps) {
   const [file, setFile] = useState<File | null>(null)
+  const [fileData, setFileData] = useState<InputMediaData | null>(null)
+
   const pathname = usePathname()
   const heading = tools.find((t) => t.path === pathname)?.description
+
+  const fileInput = useMemo(() => {
+    if (!file) return null
+
+    return new Input({
+      formats: ALL_FORMATS,
+      source: new BlobSource(file)
+    })
+  }, [file])
+
+  useEffect(() => {
+    if (!fileInput) return
+    getInputData(fileInput).then(setFileData)
+  }, [fileInput])
 
   return (
     <Main>
@@ -45,7 +64,7 @@ export function ToolPage({
             <Button onClick={() => setFile(null)}>Clear</Button>
           </div>
 
-          {children(file)}
+          {fileInput && fileData ? children(file, fileInput, fileData) : null}
         </div>
       )}
     </Main>

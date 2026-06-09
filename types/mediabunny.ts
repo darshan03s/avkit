@@ -4,7 +4,7 @@ import {
   supportedOutputFormats,
   supportedVideoOutputFormats
 } from '@/utils/mediabunny'
-import { InputAudioTrack } from 'mediabunny'
+import { Input, InputAudioTrack } from 'mediabunny'
 
 export type InputMediaData = {
   audioTracks: InputAudioTrack[]
@@ -42,3 +42,5 @@ export type SupportedVideoOutputFormat = keyof typeof supportedVideoOutputFormat
 export type SupportedAudioOutputFormat = keyof typeof supportedAudioOutputFormats
 
 export type SupportedOutputFormat = keyof typeof supportedOutputFormats
+
+export type MediaBunnyInput = Input

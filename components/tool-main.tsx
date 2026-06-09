@@ -1,28 +1,22 @@
 import { cn } from '@/lib/utils'
 import FileName from './file-name'
 import { InputMediaData } from '@/types/mediabunny'
-import { Input } from 'mediabunny'
 import Player from './player'
-import { useMediaData } from '@/hooks/use-media-data'
 
 interface ToolMainProps {
-  children: (data: InputMediaData) => React.ReactNode
+  children: React.ReactNode
   className?: string
   file: File
   showPlayer?: boolean
-  input: Input
+  fileData: InputMediaData
 }
 
-const ToolMain = ({ children, className, file, showPlayer = true, input }: ToolMainProps) => {
-  const data = useMediaData(input)
-
-  if (!data) return null
-
+const ToolMain = ({ children, className, file, showPlayer = true, fileData }: ToolMainProps) => {
   return (
     <div className={cn('space-y-4 pb-4', className)}>
-      {showPlayer && <Player data={data} file={file} />}
+      {showPlayer && <Player data={fileData} file={file} />}
       <FileName name={file.name} />
-      {children(data)}
+      {children}
     </div>
   )
 }

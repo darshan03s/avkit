@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Item, ItemActions, ItemContent, ItemTitle } from '@/components/ui/item'
 import { useConversion } from '@/hooks/use-conversion'
-import { useInput } from '@/hooks/use-input'
 import {
   convertWithErrorHandler,
   formatBitrate,
@@ -21,17 +20,24 @@ import {
 import { removeAudio } from '@/utils/mediabunny'
 import { VolumeOff } from 'lucide-react'
 import { useState } from 'react'
+import { InputMediaData, MediaBunnyInput } from '@/types/mediabunny'
 
-const RemoveAudio = ({ file }: { file: File }) => {
+const RemoveAudio = ({
+  file,
+  fileInput,
+  fileData
+}: {
+  file: File
+  fileInput: MediaBunnyInput
+  fileData: InputMediaData
+}) => {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
-
-  const input = useInput(file)
 
   const { progress, conversion, execute, reset } = useConversion()
 
   async function handleRemoveAudio() {
     await convertWithErrorHandler(() =>
-      execute((onProgress) => removeAudio(input, onProgress, selectedIds))
+      execute((onProgress) => removeAudio(fileInput, onProgress, selectedIds))
     )
   }
 
@@ -56,54 +62,52 @@ const RemoveAudio = ({ file }: { file: File }) => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} input={input}>
-        {(data) => (
-          <div className="flex flex-col gap-4 max-w-2xl mx-auto">
-            {data.audioTracks.length > 0 ? (
-              <div className="space-y-2">
-                {data.tracksData.map(
-                  (track, i) =>
-                    track.isAudio && (
-                      <Item key={track.id} variant={'outline'}>
-                        <ItemContent>
-                          <ItemTitle>Audio {i}</ItemTitle>
-                          <div className="flex items-center gap-2">
-                            <Badge>Lang: {track.lang}</Badge>
-                            <Badge>Codec: {track.codec}</Badge>
-                            <Badge>Codec string: {track.codecParamString}</Badge>
-                            <Badge>Average bitrate: {formatBitrate(track.averageBitrate)}</Badge>
-                          </div>
-                        </ItemContent>
-                        <ItemActions>
-                          <Checkbox
-                            checked={selectedIds.has(track.id)}
-                            onCheckedChange={() => {
-                              toggle(track.id)
-                            }}
-                          />
-                        </ItemActions>
-                      </Item>
-                    )
-                )}
-              </div>
-            ) : (
-              <div className="text-center">No audio tracks to remove</div>
-            )}
-            {data.audioTracks.length > 0 && progress < 1 && (
-              <Button onClick={handleRemoveAudio} disabled={selectedIds.size === 0}>
-                <VolumeOff /> Remove Audio
+      <ToolMain file={file} fileData={fileData}>
+        <div className="flex flex-col gap-4 max-w-2xl mx-auto">
+          {fileData.audioTracks.length > 0 ? (
+            <div className="space-y-2">
+              {fileData.tracksData.map(
+                (track, i) =>
+                  track.isAudio && (
+                    <Item key={track.id} variant={'outline'}>
+                      <ItemContent>
+                        <ItemTitle>Audio {i}</ItemTitle>
+                        <div className="flex items-center gap-2">
+                          <Badge>Lang: {track.lang}</Badge>
+                          <Badge>Codec: {track.codec}</Badge>
+                          <Badge>Codec string: {track.codecParamString}</Badge>
+                          <Badge>Average bitrate: {formatBitrate(track.averageBitrate)}</Badge>
+                        </div>
+                      </ItemContent>
+                      <ItemActions>
+                        <Checkbox
+                          checked={selectedIds.has(track.id)}
+                          onCheckedChange={() => {
+                            toggle(track.id)
+                          }}
+                        />
+                      </ItemActions>
+                    </Item>
+                  )
+              )}
+            </div>
+          ) : (
+            <div className="text-center">No audio tracks to remove</div>
+          )}
+          {fileData.audioTracks.length > 0 && progress < 1 && (
+            <Button onClick={handleRemoveAudio} disabled={selectedIds.size === 0}>
+              <VolumeOff /> Remove Audio
+            </Button>
+          )}
+          {progress > 1 && (
+            <>
+              <ProgressBar progress={progress} description="Removing audio..." />
+              <Button disabled={progress < 100} onClick={handleSave}>
+                Save
               </Button>
-            )}
-            {progress > 1 && (
-              <>
-                <ProgressBar progress={progress} description="Removing audio..." />
-                <Button disabled={progress < 100} onClick={handleSave}>
-                  Save
-                </Button>
-              </>
-            )}
-          </div>
-        )}
+            </>
+          )}
+        </div>
       </ToolMain>
     </ToolContainer>
   )
@@ -112,9 +116,9 @@ const RemoveAudio = ({ file }: { file: File }) => {
 const Page = () => {
   return (
     <ToolPage description="Import video" acceptAudio={false}>
-      {(file) => (
+      {(file, fileInput, fileData) => (
         <ToolCentered>
-          <RemoveAudio file={file} />
+          <RemoveAudio file={file} fileInput={fileInput} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

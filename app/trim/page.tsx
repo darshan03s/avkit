@@ -8,8 +8,7 @@ import { ToolPage } from '@/components/tool-page'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useConversion } from '@/hooks/use-conversion'
-import { useInput } from '@/hooks/use-input'
-import { useMediaData } from '@/hooks/use-media-data'
+import { InputMediaData, MediaBunnyInput } from '@/types/mediabunny'
 import {
   convertToSeconds,
   convertWithErrorHandler,
@@ -23,12 +22,17 @@ import { Scissors } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-const Trim = ({ file }: { file: File }) => {
+const Trim = ({
+  file,
+  fileInput,
+  fileData
+}: {
+  file: File
+  fileInput: MediaBunnyInput
+  fileData: InputMediaData
+}) => {
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
-
-  const input = useInput(file)
-  const data = useMediaData(input)
 
   const { progress, conversion, execute, reset } = useConversion()
 
@@ -48,14 +52,14 @@ const Trim = ({ file }: { file: File }) => {
       return
     }
 
-    if (start > data!.duration || end > data!.duration) {
+    if (start > fileData.duration || end > fileData.duration) {
       toast.error('Start or end cannot be more than media duration')
       return
     }
 
     await convertWithErrorHandler(() =>
       execute((onProgress) =>
-        trim(input, onProgress, {
+        trim(fileInput, onProgress, {
           start,
           end
         })
@@ -70,28 +74,26 @@ const Trim = ({ file }: { file: File }) => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} input={input}>
-        {() => (
-          <div className="flex flex-col gap-4 max-w-xl mx-auto">
-            <div className="trim flex items-center gap-4">
-              <Input placeholder="HH:MM:SS" onChange={(e) => setStartTime(e.target.value)} />
-              <Input placeholder="HH:MM:SS" onChange={(e) => setEndTime(e.target.value)} />
-            </div>
-            {progress < 1 && (
-              <Button onClick={handleTrim}>
-                <Scissors /> Trim
-              </Button>
-            )}
-            {progress > 1 && (
-              <>
-                <ProgressBar progress={progress} description="Trimming..." />
-                <Button disabled={progress < 100} onClick={handleSave}>
-                  Save
-                </Button>
-              </>
-            )}
+      <ToolMain file={file} fileData={fileData}>
+        <div className="flex flex-col gap-4 max-w-xl mx-auto">
+          <div className="trim flex items-center gap-4">
+            <Input placeholder="HH:MM:SS" onChange={(e) => setStartTime(e.target.value)} />
+            <Input placeholder="HH:MM:SS" onChange={(e) => setEndTime(e.target.value)} />
           </div>
-        )}
+          {progress < 1 && (
+            <Button onClick={handleTrim}>
+              <Scissors /> Trim
+            </Button>
+          )}
+          {progress > 1 && (
+            <>
+              <ProgressBar progress={progress} description="Trimming..." />
+              <Button disabled={progress < 100} onClick={handleSave}>
+                Save
+              </Button>
+            </>
+          )}
+        </div>
       </ToolMain>
     </ToolContainer>
   )
@@ -100,9 +102,9 @@ const Trim = ({ file }: { file: File }) => {
 const Page = () => {
   return (
     <ToolPage description="Import audio or video">
-      {(file) => (
+      {(file, fileInput, fileData) => (
         <ToolCentered>
-          <Trim file={file} />
+          <Trim file={file} fileInput={fileInput} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>
