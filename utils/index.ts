@@ -160,7 +160,7 @@ export async function convertWithErrorHandler<T>(fn: () => Promise<T>): Promise<
 
     if (error instanceof Error && error.name === 'EncodingError') {
       toast.error(
-        'Failed to decode this file. The codec may not be fully supported for transcoding.'
+        'Failed to decode this file. The codec may not be fully supported for transcoding on this browser.'
       )
       return
     }
