@@ -67,7 +67,7 @@ const ChangeCodec = ({
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData} showPlayer={false}>
+      <ToolMain file={file} fileData={fileData}>
         <div className="flex flex-col gap-4 max-w-xl mx-auto">
           {fileData.tracksData.length > 0 ? (
             <div className="space-y-2">

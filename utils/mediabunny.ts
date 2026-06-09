@@ -493,7 +493,9 @@ export async function changeCodec(
 
   const conversion = await Conversion.init(conversionOptions)
 
-  if (!conversion.isValid) {
+  const unintentionallyDiscarded = conversion.discardedTracks
+
+  if (unintentionallyDiscarded.length > 0 || !conversion.isValid) {
     throw new ConversionError(conversion.discardedTracks)
   }
 

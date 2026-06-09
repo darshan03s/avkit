@@ -158,7 +158,14 @@ export async function convertWithErrorHandler<T>(fn: () => Promise<T>): Promise<
       return
     }
 
-    toast.error('Unknown conversion error')
+    if (error instanceof Error && error.name === 'EncodingError') {
+      toast.error(
+        'Failed to decode this file. The codec may not be fully supported for transcoding.'
+      )
+      return
+    }
+
+    toast.error(error instanceof Error ? error.message : 'Unknown conversion error')
     console.error(error)
   }
 }
