@@ -37,7 +37,7 @@ const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
   return (
     <ToolContainer>
       <ToolMain file={file} fileData={fileData}>
-        <div className="flex flex-col gap-4 max-w-3xl mx-auto">
+        <div className="flex flex-col gap-4 max-w-xl mx-auto">
           <ShowTracks data={fileData} onlyVideo={true} />
           <div className="space-y-2">
             <Label className="text-xs text-accent-foreground">Frame rate (fps)</Label>

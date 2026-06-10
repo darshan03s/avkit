@@ -21,14 +21,12 @@ const ShowTracks = ({
           <Item key={track.id} variant={'outline'}>
             <ItemContent>
               <ItemTitle>{track.type}</ItemTitle>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 *:text-[10px]">
                 <Badge>Lang: {track.lang}</Badge>
                 <Badge>Codec: {track.codec}</Badge>
                 <Badge>Codec string: {track.codecParamString}</Badge>
                 <Badge>Average bitrate: {formatBitrate(track.averageBitrate)}</Badge>
-                {track.frameRate && (
-                  <Badge>Frame rate: {truncateTo2Decimals(track.frameRate)}</Badge>
-                )}
+                {track.frameRate && <Badge>FPS: {truncateTo2Decimals(track.frameRate)}</Badge>}
               </div>
             </ItemContent>
           </Item>
