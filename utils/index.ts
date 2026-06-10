@@ -193,3 +193,7 @@ export function getOutputFormatOptions(fileType: 'video' | 'audio') {
 export function getCodecOptions(fileType: 'video' | 'audio') {
   return fileType === 'video' ? VIDEO_CODECS : AUDIO_CODECS
 }
+
+export function truncateTo2Decimals(num: number): number {
+  return Math.trunc(num * 100) / 100
+}

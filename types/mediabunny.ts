@@ -35,7 +35,9 @@ type MetadataImage = {
   mimeType: string
 }
 
-export type TrackData = Awaited<ReturnType<typeof getTrackData>>
+export type TrackData = Awaited<ReturnType<typeof getTrackData>> & {
+  frameRate?: number
+}
 
 export type SupportedVideoOutputFormat = keyof typeof supportedVideoOutputFormats
 

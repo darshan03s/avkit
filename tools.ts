@@ -1,3 +1,4 @@
+import { IconKeyframes } from '@tabler/icons-react'
 import { Code, Disc, Info, Repeat2, Scissors, VolumeOff } from 'lucide-react'
 
 export const tools = [
@@ -36,5 +37,11 @@ export const tools = [
     path: '/change-codec',
     icon: Code,
     description: 'Change codec of audio/video'
+  },
+  {
+    name: 'Change frame rate',
+    path: '/change-frame-rate',
+    icon: IconKeyframes,
+    description: 'Change frame rate of video'
   }
 ] as const

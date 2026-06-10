@@ -1,9 +1,13 @@
 import { InputMediaData } from '@/types/mediabunny'
+import { getFileType } from '@/utils'
 import Image from 'next/image'
 import { memo } from 'react'
 
 const Player = ({ data, file }: { data: InputMediaData; file: File }) => {
   const fileUrl = URL.createObjectURL(file)
+  const fileType = getFileType(file)
+
+  console.log(fileType)
 
   const image = data.metadata.images?.[0]
 
@@ -17,7 +21,7 @@ const Player = ({ data, file }: { data: InputMediaData; file: File }) => {
 
   return (
     <div className="player flex items-center justify-center">
-      {data.format.mimeType.startsWith('video') ? (
+      {fileType === 'video' ? (
         <video
           src={fileUrl}
           controls={true}

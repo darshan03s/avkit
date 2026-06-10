@@ -1,7 +1,7 @@
 import { InputMediaData } from '@/types/mediabunny'
 import { Item, ItemContent, ItemTitle } from './ui/item'
 import { Badge } from './ui/badge'
-import { formatBitrate } from '@/utils'
+import { formatBitrate, truncateTo2Decimals } from '@/utils'
 
 const ShowTracks = ({
   data,
@@ -26,6 +26,9 @@ const ShowTracks = ({
                 <Badge>Codec: {track.codec}</Badge>
                 <Badge>Codec string: {track.codecParamString}</Badge>
                 <Badge>Average bitrate: {formatBitrate(track.averageBitrate)}</Badge>
+                {track.frameRate && (
+                  <Badge>Frame rate: {truncateTo2Decimals(track.frameRate)}</Badge>
+                )}
               </div>
             </ItemContent>
           </Item>
