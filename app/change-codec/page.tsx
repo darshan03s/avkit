@@ -13,7 +13,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Code } from 'lucide-react'
-import { InputMediaData, MediaBunnyInput, SupportedOutputFormat } from '@/types/mediabunny'
+import { SupportedOutputFormat } from '@/types/mediabunny'
 import {
   convertWithErrorHandler,
   getCodecOptions,
@@ -31,16 +31,9 @@ import ToolMain from '@/components/tool-main'
 import { AudioCodec, VideoCodec } from 'mediabunny'
 import ShowTracks from '@/components/show-tracks'
 import { Label } from '@/components/ui/label'
+import { ToolPageProps } from '@/types'
 
-const ChangeCodec = ({
-  file,
-  fileInput,
-  fileData
-}: {
-  file: File
-  fileInput: MediaBunnyInput
-  fileData: InputMediaData
-}) => {
+const ChangeCodec = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [codec, setCodec] = useState<AudioCodec | VideoCodec | ''>('')
   const [format, setFormat] = useState<SupportedOutputFormat | ''>('')
   const fileType = getFileType(file)

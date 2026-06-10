@@ -20,17 +20,9 @@ import {
 import { removeAudio } from '@/utils/mediabunny'
 import { VolumeOff } from 'lucide-react'
 import { useState } from 'react'
-import { InputMediaData, MediaBunnyInput } from '@/types/mediabunny'
+import { ToolPageProps } from '@/types'
 
-const RemoveAudio = ({
-  file,
-  fileInput,
-  fileData
-}: {
-  file: File
-  fileInput: MediaBunnyInput
-  fileData: InputMediaData
-}) => {
+const RemoveAudio = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
 
   const { progress, conversion, execute, reset } = useConversion()

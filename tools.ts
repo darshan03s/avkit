@@ -1,4 +1,4 @@
-import { Code, Disc, Info, Repeat2, Scissors, VolumeOff } from 'lucide-react'
+import { Code, Crop, Disc, Info, Repeat2, Scissors, VolumeOff } from 'lucide-react'
 
 export const tools = [
   {
@@ -36,5 +36,11 @@ export const tools = [
     path: '/change-codec',
     icon: Code,
     description: 'Change codec of audio/video'
+  },
+  {
+    name: 'Crop video',
+    path: '/crop-video',
+    icon: Crop,
+    description: 'Crop video'
   }
 ] as const

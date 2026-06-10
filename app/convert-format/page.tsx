@@ -13,7 +13,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Repeat2 } from 'lucide-react'
-import { InputMediaData, MediaBunnyInput, SupportedOutputFormat } from '@/types/mediabunny'
+import { SupportedOutputFormat } from '@/types/mediabunny'
 import {
   convertWithErrorHandler,
   getFilename,
@@ -27,16 +27,9 @@ import ProgressBar from '@/components/progress-bar'
 import ToolCentered from '@/components/tool-centered'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
+import { ToolPageProps } from '@/types'
 
-const Convert = ({
-  file,
-  fileInput,
-  fileData
-}: {
-  file: File
-  fileInput: MediaBunnyInput
-  fileData: InputMediaData
-}) => {
+const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()
   const fileType = getFileType(file)
 

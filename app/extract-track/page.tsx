@@ -19,7 +19,8 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { useConversion } from '@/hooks/use-conversion'
-import { InputMediaData, MediaBunnyInput, SupportedOutputFormat } from '@/types/mediabunny'
+import { ToolPageProps } from '@/types'
+import { SupportedOutputFormat } from '@/types/mediabunny'
 import {
   convertWithErrorHandler,
   formatBitrate,
@@ -31,15 +32,7 @@ import { extractTrack } from '@/utils/mediabunny'
 import { Disc } from 'lucide-react'
 import { useState } from 'react'
 
-const ExtractTrack = ({
-  file,
-  fileInput,
-  fileData
-}: {
-  file: File
-  fileInput: MediaBunnyInput
-  fileData: InputMediaData
-}) => {
+const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [selectedTrackId, setSelectedTrackId] = useState('')
   const [format, setFormat] = useState<SupportedOutputFormat | ''>('')
   const selectedTrack = fileData.tracksData.find((track) => track.id.toString() === selectedTrackId)

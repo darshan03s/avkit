@@ -8,7 +8,7 @@ import { ToolPage } from '@/components/tool-page'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useConversion } from '@/hooks/use-conversion'
-import { InputMediaData, MediaBunnyInput } from '@/types/mediabunny'
+import { ToolPageProps } from '@/types'
 import {
   convertToSeconds,
   convertWithErrorHandler,
@@ -22,15 +22,7 @@ import { Scissors } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-const Trim = ({
-  file,
-  fileInput,
-  fileData
-}: {
-  file: File
-  fileInput: MediaBunnyInput
-  fileData: InputMediaData
-}) => {
+const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
 

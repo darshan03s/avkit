@@ -4,7 +4,7 @@ import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
 import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
-import { InputMediaData } from '@/types/mediabunny'
+import { ToolPageProps } from '@/types'
 import { formatBitrate, formatBytes } from '@/utils'
 
 const Info = ({
@@ -24,7 +24,7 @@ const Info = ({
   )
 }
 
-const ShowMetadata = ({ file, fileData }: { file: File; fileData: InputMediaData }) => {
+const ShowMetadata = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
   return (
     <ToolContainer className="pb-4">
       <ToolMain file={file} fileData={fileData}>
