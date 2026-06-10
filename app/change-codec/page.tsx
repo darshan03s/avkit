@@ -121,9 +121,14 @@ const ChangeCodec = ({
             </Select>
           </div>
           {progress < 1 && (
-            <Button onClick={handleChangeCodec} disabled={!format || !codec}>
-              <Code /> Change codec
-            </Button>
+            <>
+              <span className="text-xs text-accent-foreground text-center">
+                This process is dependent on your browser support for the codec.
+              </span>
+              <Button onClick={handleChangeCodec} disabled={!format || !codec}>
+                <Code /> Change codec
+              </Button>
+            </>
           )}
           {progress > 1 && (
             <>
