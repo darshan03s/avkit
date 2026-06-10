@@ -5,7 +5,7 @@ import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
 import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
 import { ToolPageProps } from '@/types'
-import { formatBitrate, formatBytes } from '@/utils'
+import { formatBitrate, formatBytes, truncateTo2Decimals } from '@/utils'
 
 const Info = ({
   title,
@@ -85,6 +85,56 @@ const ShowMetadata = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
                                 {track.lang ?? 'N/A'}
                               </ItemContent>
                             </Item>
+                            {track.isVideo && (
+                              <>
+                                <Item variant={'outline'}>
+                                  <ItemContent>
+                                    <ItemTitle>Frame rate</ItemTitle>
+                                    {track.frameRate ? truncateTo2Decimals(track.frameRate) : 'N/A'}
+                                  </ItemContent>
+                                </Item>
+                                <Item variant={'outline'}>
+                                  <ItemContent>
+                                    <ItemTitle>Coded height</ItemTitle>
+                                    {track.codedHeight ?? 'N/A'}
+                                  </ItemContent>
+                                </Item>
+                                <Item variant={'outline'}>
+                                  <ItemContent>
+                                    <ItemTitle>Coded width</ItemTitle>
+                                    {track.codedWidth ?? 'N/A'}
+                                  </ItemContent>
+                                </Item>
+                                <Item variant={'outline'}>
+                                  <ItemContent>
+                                    <ItemTitle>Display height</ItemTitle>
+                                    {track.displayHeight ?? 'N/A'}
+                                  </ItemContent>
+                                </Item>
+                                <Item variant={'outline'}>
+                                  <ItemContent>
+                                    <ItemTitle>Display width</ItemTitle>
+                                    {track.displayWidth ?? 'N/A'}
+                                  </ItemContent>
+                                </Item>
+                              </>
+                            )}
+                            {track.isAudio && (
+                              <>
+                                <Item variant={'outline'}>
+                                  <ItemContent>
+                                    <ItemTitle>Sample rate</ItemTitle>
+                                    {track.sampleRate ?? 'N/A'}
+                                  </ItemContent>
+                                </Item>
+                                <Item variant={'outline'}>
+                                  <ItemContent>
+                                    <ItemTitle>Channels</ItemTitle>
+                                    {track.channels ?? 'N/A'}
+                                  </ItemContent>
+                                </Item>
+                              </>
+                            )}
                           </div>
                         </ItemContent>
                       </Item>

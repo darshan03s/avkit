@@ -4,7 +4,7 @@ import {
   supportedOutputFormats,
   supportedVideoOutputFormats
 } from '@/utils/mediabunny'
-import { Input, InputAudioTrack } from 'mediabunny'
+import { Input, InputAudioTrack, Rotation } from 'mediabunny'
 
 export type InputMediaData = {
   audioTracks: InputAudioTrack[]
@@ -36,7 +36,15 @@ type MetadataImage = {
 }
 
 export type TrackData = Awaited<ReturnType<typeof getTrackData>> & {
+  codedHeight?: number
+  codedWidth?: number
+  colorSpace?: VideoColorSpaceInit
+  displayHeight?: number
+  displayWidth?: number
+  rotation?: Rotation
   frameRate?: number
+  sampleRate?: number
+  channels?: number
 }
 
 export type SupportedVideoOutputFormat = keyof typeof supportedVideoOutputFormats
