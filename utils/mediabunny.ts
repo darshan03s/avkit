@@ -47,19 +47,6 @@ import {
   WebMOutputFormat
 } from 'mediabunny'
 
-import { registerMp3Encoder } from '@mediabunny/mp3-encoder'
-import { registerAacEncoder } from '@mediabunny/aac-encoder'
-import { registerAc3Decoder, registerAc3Encoder } from '@mediabunny/ac3'
-import { registerFlacEncoder } from '@mediabunny/flac-encoder'
-
-if (typeof window !== 'undefined') {
-  registerFlacEncoder()
-  registerAc3Decoder()
-  registerAc3Encoder()
-  registerAacEncoder()
-  registerMp3Encoder()
-}
-
 export const supportedAudioOutputFormats = {
   adts: () => new AdtsOutputFormat(),
   flac: () => new FlacOutputFormat(),
