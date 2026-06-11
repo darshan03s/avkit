@@ -52,11 +52,13 @@ import { registerAacEncoder } from '@mediabunny/aac-encoder'
 import { registerAc3Decoder, registerAc3Encoder } from '@mediabunny/ac3'
 import { registerFlacEncoder } from '@mediabunny/flac-encoder'
 
-registerFlacEncoder()
-registerAc3Decoder()
-registerAc3Encoder()
-registerAacEncoder()
-registerMp3Encoder()
+if (typeof window !== 'undefined') {
+  registerFlacEncoder()
+  registerAc3Decoder()
+  registerAc3Encoder()
+  registerAacEncoder()
+  registerMp3Encoder()
+}
 
 export const supportedAudioOutputFormats = {
   adts: () => new AdtsOutputFormat(),
@@ -80,52 +82,54 @@ export const supportedOutputFormats = {
   ...supportedAudioOutputFormats
 }
 
-export const outputFormatForInputFormat = {
-  mp4: {
-    input: MP4,
-    output: () => new Mp4OutputFormat()
-  },
-  mov: {
-    input: QTFF,
-    output: () => new MovOutputFormat()
-  },
-  mkv: {
-    input: MATROSKA,
-    output: () => new MkvOutputFormat()
-  },
-  webm: {
-    input: WEBM,
-    output: () => new WebMOutputFormat()
-  },
-  mp3: {
-    input: MP3,
-    output: () => new Mp3OutputFormat()
-  },
-  wav: {
-    input: WAVE,
-    output: () => new WavOutputFormat()
-  },
-  ogg: {
-    input: OGG,
-    output: () => new OggOutputFormat()
-  },
-  adts: {
-    input: ADTS,
-    output: () => new AdtsOutputFormat()
-  },
-  flac: {
-    input: FLAC,
-    output: () => new FlacOutputFormat()
-  },
-  ts: {
-    input: MPEG_TS,
-    output: () => new MpegTsOutputFormat()
-  },
-  hls: {
-    input: HLS,
-    output: () => new MpegTsOutputFormat()
-  }
-} as const
+function getOutputFormatForInputFormatMap() {
+  return {
+    mp4: {
+      input: MP4,
+      output: () => new Mp4OutputFormat()
+    },
+    mov: {
+      input: QTFF,
+      output: () => new MovOutputFormat()
+    },
+    mkv: {
+      input: MATROSKA,
+      output: () => new MkvOutputFormat()
+    },
+    webm: {
+      input: WEBM,
+      output: () => new WebMOutputFormat()
+    },
+    mp3: {
+      input: MP3,
+      output: () => new Mp3OutputFormat()
+    },
+    wav: {
+      input: WAVE,
+      output: () => new WavOutputFormat()
+    },
+    ogg: {
+      input: OGG,
+      output: () => new OggOutputFormat()
+    },
+    adts: {
+      input: ADTS,
+      output: () => new AdtsOutputFormat()
+    },
+    flac: {
+      input: FLAC,
+      output: () => new FlacOutputFormat()
+    },
+    ts: {
+      input: MPEG_TS,
+      output: () => new MpegTsOutputFormat()
+    },
+    hls: {
+      input: HLS,
+      output: () => new MpegTsOutputFormat()
+    }
+  } as const
+}
 
 export const SUPPORTED_AUDIO_OUTPUT_FORMATS: SupportedAudioOutputFormat[] = [
   'adts',
@@ -193,7 +197,7 @@ async function verifyEncodability(type: 'audio' | 'video', codec: AudioCodec | V
 }
 
 export function getOutputFormatForInputFormat(inputFormat: InputFormat): OutputFormat {
-  const mappedFormat = Object.values(outputFormatForInputFormat).find(
+  const mappedFormat = Object.values(getOutputFormatForInputFormatMap()).find(
     ({ input }) => inputFormat === input
   )
 
