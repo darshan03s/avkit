@@ -1,4 +1,4 @@
-import { IconKeyframes } from '@tabler/icons-react'
+import { IconCrop, IconKeyframes } from '@tabler/icons-react'
 import { Code, Disc, Info, Repeat2, Scissors, VolumeOff } from 'lucide-react'
 
 export const tools = [
@@ -43,5 +43,11 @@ export const tools = [
     path: '/change-frame-rate',
     icon: IconKeyframes,
     description: 'Change frame rate of video'
+  },
+  {
+    name: 'Crop video',
+    path: '/crop-video',
+    icon: IconCrop,
+    description: 'Crop video'
   }
 ] as const

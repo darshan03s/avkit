@@ -9,12 +9,20 @@ interface ToolMainProps {
   file: File
   showPlayer?: boolean
   fileData: InputMediaData
+  showCropper?: boolean
 }
 
-const ToolMain = ({ children, className, file, showPlayer = true, fileData }: ToolMainProps) => {
+const ToolMain = ({
+  children,
+  className,
+  file,
+  showPlayer = true,
+  fileData,
+  showCropper
+}: ToolMainProps) => {
   return (
     <div className={cn('space-y-4 pb-4', className)}>
-      {showPlayer && <Player data={fileData} file={file} />}
+      {showPlayer && <Player data={fileData} file={file} showCropper={showCropper} />}
       <FileName name={file.name} />
       {children}
     </div>

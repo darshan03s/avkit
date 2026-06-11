@@ -5,3 +5,5 @@ export type ToolPageProps = {
   fileInput: MediaBunnyInput
   fileData: InputMediaData
 }
+
+export type VideoCropRect = { left: number; top: number; width: number; height: number }
