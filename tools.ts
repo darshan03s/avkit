@@ -1,5 +1,5 @@
-import { IconCrop, IconKeyframes } from '@tabler/icons-react'
-import { Code, Disc, Info, Repeat2, Scissors, VolumeOff } from 'lucide-react'
+import { IconCrop, IconDisc, IconDiscOff, IconKeyframes } from '@tabler/icons-react'
+import { Code, Info, Repeat2, Scissors } from 'lucide-react'
 
 export const tools = [
   {
@@ -21,16 +21,16 @@ export const tools = [
     description: 'Trim audio/video'
   },
   {
-    name: 'Remove audio',
-    path: '/remove-audio',
-    icon: VolumeOff,
-    description: 'Remove audio tracks from video'
-  },
-  {
     name: 'Extract track',
     path: '/extract-track',
-    icon: Disc,
+    icon: IconDisc,
     description: 'Extract specific track from video'
+  },
+  {
+    name: 'Discard track',
+    path: '/discard-track',
+    icon: IconDiscOff,
+    description: 'Discard tracks from video'
   },
   {
     name: 'Change codec',

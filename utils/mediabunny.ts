@@ -360,41 +360,6 @@ export async function trim(
   return conversion
 }
 
-export async function removeAudio(
-  input: Input,
-  onProgress: (progress: number, processedTime: number) => unknown,
-  selectedIds: Set<number>,
-  target?: Target
-) {
-  await verifyDecodability(input)
-
-  const inputFormat = await input.getFormat()
-
-  const output = new Output({
-    format: getOutputFormatForInputFormat(inputFormat),
-    target: target ?? new BufferTarget()
-  })
-
-  const conversionOptions: ConversionOptions = {
-    input,
-    output,
-    audio: (audioTrack) => ({
-      discard: selectedIds.has(audioTrack.id)
-    })
-  }
-
-  const conversion = await Conversion.init(conversionOptions)
-
-  if (!conversion.isValid) {
-    throw new ConversionError(conversion.discardedTracks)
-  }
-
-  conversion.onProgress = onProgress
-  await conversion.execute()
-
-  return conversion
-}
-
 export async function extractTrack(
   input: Input,
   selectedTrack: TrackData,
@@ -570,6 +535,48 @@ export async function cropVideo(
   const unintentionallyDiscarded = conversion.discardedTracks
 
   if (unintentionallyDiscarded.length > 0 || !conversion.isValid) {
+    throw new ConversionError(conversion.discardedTracks)
+  }
+
+  conversion.onProgress = onProgress
+  await conversion.execute()
+
+  return conversion
+}
+
+export async function discardTrack(
+  input: Input,
+  selectedIds: Set<number>,
+  onProgress: (progress: number, processedTime: number) => unknown,
+  target?: Target
+) {
+  await verifyDecodability(input)
+
+  const inputFormat = await input.getFormat()
+
+  const outputFormat = getOutputFormatForInputFormat(inputFormat)
+
+  const output = new Output({
+    format: outputFormat,
+    target: target ?? new BufferTarget()
+  })
+
+  const conversionOptions: ConversionOptions = {
+    input,
+    output
+  }
+
+  conversionOptions.video = (videoTrack) => ({
+    discard: selectedIds.has(videoTrack.id)
+  })
+
+  conversionOptions.audio = (audioTrack) => ({
+    discard: selectedIds.has(audioTrack.id)
+  })
+
+  const conversion = await Conversion.init(conversionOptions)
+
+  if (!conversion.isValid) {
     throw new ConversionError(conversion.discardedTracks)
   }
 
