@@ -11,6 +11,8 @@ registerAc3Encoder()
 registerAacEncoder()
 registerMp3Encoder()
 
+import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { AppSidebar } from './app-sidebar'
 import { ThemeProvider } from './theme-provider'
@@ -20,10 +22,23 @@ import { Toaster } from './ui/sonner'
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useIsMobile()
+  const pathname = usePathname()
+
+  const [prevPathname, setPrevPathname] = useState(pathname)
+  const [userOverride, setUserOverride] = useState<boolean | null>(null)
+
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname)
+    setUserOverride(null)
+  }
+
+  const defaultOpen = pathname !== '/' && !isMobile
+  const open = userOverride ?? defaultOpen
+
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <TooltipProvider>
-        <SidebarProvider defaultOpen={isMobile ? false : true}>
+        <SidebarProvider open={open} onOpenChange={setUserOverride}>
           <AppSidebar />
           {children}
         </SidebarProvider>
