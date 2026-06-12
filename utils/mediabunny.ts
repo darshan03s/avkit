@@ -670,3 +670,43 @@ export async function compressVideo(
 
   return conversion
 }
+
+export async function rotateVideo(
+  input: Input,
+  rotation: 0 | 90 | 180 | 270,
+  onProgress: (progress: number) => unknown,
+  target?: Target
+) {
+  await verifyDecodability(input)
+
+  const inputFormat = await input.getFormat()
+  const outputFormat = getOutputFormatForInputFormat(inputFormat)
+
+  const output = new Output({
+    format: outputFormat,
+    target: target ?? new BufferTarget()
+  })
+
+  const conversionOptions: ConversionOptions = {
+    input,
+    output
+  }
+
+  conversionOptions.video = {
+    rotate: rotation,
+    allowRotationMetadata: false
+  }
+
+  const conversion = await Conversion.init(conversionOptions)
+
+  const unintentionallyDiscarded = conversion.discardedTracks
+
+  if (unintentionallyDiscarded.length > 0 || !conversion.isValid) {
+    throw new ConversionError(conversion.discardedTracks)
+  }
+
+  conversion.onProgress = onProgress
+  await conversion.execute()
+
+  return conversion
+}
