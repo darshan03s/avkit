@@ -1,4 +1,4 @@
-import { IconCrop, IconDisc, IconDiscOff, IconKeyframes } from '@tabler/icons-react'
+import { IconCrop, IconDisc, IconDiscOff, IconKeyframes, IconResize } from '@tabler/icons-react'
 import { Code, Info, Repeat2, Scissors } from 'lucide-react'
 
 export const tools = [
@@ -49,5 +49,11 @@ export const tools = [
     path: '/crop-video',
     icon: IconCrop,
     description: 'Crop video'
+  },
+  {
+    name: 'Resize video',
+    path: '/resize-video',
+    icon: IconResize,
+    description: 'Resize video'
   }
 ] as const

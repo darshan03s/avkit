@@ -585,3 +585,48 @@ export async function discardTrack(
 
   return conversion
 }
+
+export async function resizeVideo(
+  input: Input,
+  size: {
+    width: number
+    height: number
+  },
+  fit: 'fill' | 'contain' | 'cover',
+  onProgress: (progress: number) => unknown,
+  target?: Target
+) {
+  await verifyDecodability(input)
+
+  const inputFormat = await input.getFormat()
+  const outputFormat = getOutputFormatForInputFormat(inputFormat)
+
+  const output = new Output({
+    format: outputFormat,
+    target: target ?? new BufferTarget()
+  })
+
+  const conversionOptions: ConversionOptions = {
+    input,
+    output
+  }
+
+  conversionOptions.video = {
+    width: size.width,
+    height: size.height,
+    fit
+  }
+
+  const conversion = await Conversion.init(conversionOptions)
+
+  const unintentionallyDiscarded = conversion.discardedTracks
+
+  if (unintentionallyDiscarded.length > 0 || !conversion.isValid) {
+    throw new ConversionError(conversion.discardedTracks)
+  }
+
+  conversion.onProgress = onProgress
+  await conversion.execute()
+
+  return conversion
+}
