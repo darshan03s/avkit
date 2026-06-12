@@ -4,7 +4,6 @@ import { AppWindow, Download } from 'lucide-react'
 import { motion } from 'motion/react'
 import NoUpload from './icons/no-upload'
 import NoAccount from './icons/no-account'
-import { buttonVariants } from './ui/button'
 
 const containerVariants = {
   hidden: {},
@@ -16,7 +15,7 @@ const containerVariants = {
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
@@ -28,6 +27,25 @@ const itemVariants = {
 }
 
 const Features = () => {
+  const features = [
+    {
+      icon: AppWindow,
+      title: 'In-browser'
+    },
+    {
+      icon: NoUpload,
+      title: 'No upload needed'
+    },
+    {
+      icon: Download,
+      title: 'Instant save'
+    },
+    {
+      icon: NoAccount,
+      title: 'No account needed'
+    }
+  ] as const
+
   return (
     <motion.div
       className="*:cursor-default! flex items-center justify-center gap-4"
@@ -36,34 +54,16 @@ const Features = () => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
     >
-      <motion.span
-        variants={itemVariants}
-        className={buttonVariants({ variant: 'outline', size: 'default', className: 'p-6' })}
-      >
-        <AppWindow className="size-4" />
-        In-browser
-      </motion.span>
-      <motion.span
-        variants={itemVariants}
-        className={buttonVariants({ variant: 'outline', size: 'default', className: 'p-6' })}
-      >
-        <NoUpload className="size-4" />
-        No upload needed
-      </motion.span>
-      <motion.span
-        variants={itemVariants}
-        className={buttonVariants({ variant: 'outline', size: 'default', className: 'p-6' })}
-      >
-        <Download className="size-4" />
-        Instant save
-      </motion.span>
-      <motion.span
-        variants={itemVariants}
-        className={buttonVariants({ variant: 'outline', size: 'default', className: 'p-6' })}
-      >
-        <NoAccount className="size-4" />
-        No account needed
-      </motion.span>
+      {features.map((feature) => (
+        <motion.span
+          key={feature.title}
+          variants={itemVariants}
+          className="p-4 outline-border outline-1 rounded-lg flex items-center gap-2 bg-foreground/5 hover:bg-foreground/8 transition-colors"
+        >
+          <feature.icon className="size-4" />
+          {feature.title}
+        </motion.span>
+      ))}
     </motion.div>
   )
 }
