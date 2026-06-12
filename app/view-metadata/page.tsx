@@ -37,10 +37,10 @@ const ShowMetadata = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
             />
             <Info title="Format" description={fileData.format.name} />
             <Info title="MIME type" description={fileData.format.mimeType} />
-            {fileData.metadata ? (
+            {fileData.metadataTags ? (
               <>
-                <Info title="Artist" description={fileData.metadata.artist ?? 'N/A'} />
-                <Info title="Genre" description={fileData.metadata.genre ?? 'N/A'} />
+                <Info title="Artist" description={fileData.metadataTags.artist ?? 'N/A'} />
+                <Info title="Genre" description={fileData.metadataTags.genre ?? 'N/A'} />
               </>
             ) : null}
           </div>

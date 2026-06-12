@@ -263,7 +263,7 @@ const Player = ({
   const fileUrl = URL.createObjectURL(file)
   const fileType = getFileType(file)
 
-  const image = data.metadata.images?.[0]
+  const image = data.metadataTags.images?.[0]
 
   const posterUrl = image
     ? URL.createObjectURL(

@@ -199,7 +199,7 @@ export function getOutputFormatForInputFormat(inputFormat: InputFormat): OutputF
 export async function getInputData(input: Input): Promise<InputMediaData> {
   let data = {}
 
-  const [audioTracks, duration, format, metadata, mimeType, size] = await Promise.all([
+  const [audioTracks, duration, format, metadataTags, mimeType, size] = await Promise.all([
     input.getAudioTracks(),
     input.getDurationFromMetadata(),
     input.getFormat(),
@@ -215,7 +215,7 @@ export async function getInputData(input: Input): Promise<InputMediaData> {
     duration,
     computedDuration,
     format: { name: format.name, mimeType: format.mimeType },
-    metadata,
+    metadataTags,
     mimeType,
     size
   }

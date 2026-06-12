@@ -4,7 +4,7 @@ import {
   supportedOutputFormats,
   supportedVideoOutputFormats
 } from '@/utils/mediabunny'
-import { Input, InputAudioTrack, Rotation } from 'mediabunny'
+import { Input, InputAudioTrack, MetadataTags, Rotation } from 'mediabunny'
 
 export type InputMediaData = {
   audioTracks: InputAudioTrack[]
@@ -13,26 +13,10 @@ export type InputMediaData = {
     name: string
     mimeType: string
   }
-  metadata: Metadata
+  metadataTags: MetadataTags
   mimeType: string
   size: number | null
   tracksData: TrackData[]
-}
-
-type Metadata = {
-  raw: Record<string, unknown>
-  title?: string
-  artist?: string
-  genre?: string
-  images?: MetadataImage[]
-  comment?: string
-  description?: string
-}
-
-type MetadataImage = {
-  data: Uint8Array
-  kind?: string
-  mimeType: string
 }
 
 export type TrackData = Awaited<ReturnType<typeof getTrackData>> & {
