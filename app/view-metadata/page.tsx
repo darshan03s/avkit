@@ -6,6 +6,7 @@ import { ToolPage } from '@/components/tool-page'
 import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
 import { ToolPageProps } from '@/types'
 import { formatBitrate, formatBytes, truncateTo2Decimals } from '@/utils'
+import DetailsDialog from '@/components/details-dialog'
 
 const Info = ({
   title,
@@ -16,9 +17,9 @@ const Info = ({
 }) => {
   return (
     <Item variant={'outline'}>
-      <ItemContent>
+      <ItemContent className="overflow-hidden text-ellipsis h-12">
         <ItemTitle>{title}</ItemTitle>
-        <ItemDescription>{description}</ItemDescription>
+        <ItemDescription className="line-clamp-1">{description}</ItemDescription>
       </ItemContent>
     </Item>
   )
@@ -41,6 +42,40 @@ const ShowMetadata = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
               <>
                 <Info title="Artist" description={fileData.metadataTags.artist ?? 'N/A'} />
                 <Info title="Genre" description={fileData.metadataTags.genre ?? 'N/A'} />
+                <Info title="Album" description={fileData.metadataTags.album ?? 'N/A'} />
+                <Info
+                  title="Album artist"
+                  description={fileData.metadataTags.albumArtist ?? 'N/A'}
+                />
+                <Info
+                  title="Date"
+                  description={
+                    fileData.metadataTags.date
+                      ? new Date(fileData.metadataTags.date).toLocaleString()
+                      : 'N/A'
+                  }
+                />
+                <DetailsDialog
+                  title="Description"
+                  description={'Description'}
+                  data={<div>{fileData.metadataTags.description ?? 'N/A'}</div>}
+                >
+                  <Info
+                    title="Description"
+                    description={fileData.metadataTags.description ?? 'N/A'}
+                  />
+                </DetailsDialog>
+                <Info
+                  title="Tracks total"
+                  description={fileData.metadataTags.tracksTotal ?? 'N/A'}
+                />
+                <DetailsDialog
+                  title="Lyrics"
+                  description={'Lyrics'}
+                  data={<div>{fileData.metadataTags.lyrics ?? 'N/A'}</div>}
+                >
+                  <Info title="Lyrics" description={fileData.metadataTags.lyrics ?? 'N/A'} />
+                </DetailsDialog>
               </>
             ) : null}
           </div>
