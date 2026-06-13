@@ -21,14 +21,14 @@ const Page = () => {
           maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)'
         }}
       />
-      <div className="flex flex-col gap-4 z-10">
+      <div className="flex flex-col gap-8 md:gap-4 z-10">
         <div className="flex flex-col gap-2">
-          <h1 className="text-7xl font-bold text-center">
+          <h1 className="text-4xl md:text-7xl font-bold text-center">
             <TextAnimate animation="blurInUp" by="character" once>
               Audio & Video tools
             </TextAnimate>
           </h1>
-          <p className="text-lg text-muted-foreground text-center">
+          <p className="text-sm md:text-lg text-muted-foreground text-center">
             <TextAnimate animation="blurInUp" by="character" once>
               Right in your browser
             </TextAnimate>

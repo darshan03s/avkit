@@ -48,7 +48,7 @@ const Features = () => {
 
   return (
     <motion.div
-      className="*:cursor-default! flex items-center justify-center gap-4"
+      className="*:cursor-default! flex items-center justify-center gap-4 flex-wrap"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
@@ -58,7 +58,7 @@ const Features = () => {
         <motion.span
           key={feature.title}
           variants={itemVariants}
-          className="p-4 outline-border outline-1 rounded-lg flex items-center gap-2 bg-foreground/5 hover:bg-foreground/8 transition-colors"
+          className="p-3 md:p-4 text-sm md:text-base outline-border outline-1 rounded-lg flex items-center gap-2 bg-foreground/5 hover:bg-foreground/8 transition-colors"
         >
           <feature.icon className="size-4" />
           {feature.title}
