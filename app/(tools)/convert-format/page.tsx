@@ -55,42 +55,40 @@ const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
   return (
     <ToolContainer>
       <ToolMain file={file} fileData={fileData} showPlayer={false}>
-        <div className="flex flex-col gap-4 max-w-xl mx-auto">
-          <Select onValueChange={(v) => setFormat(v as SupportedOutputFormat)} value={format}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a format" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Formats</SelectLabel>
-                {outputFormatOptions.map((format) => {
-                  return (
-                    <SelectItem key={format} value={format}>
-                      {format}
-                    </SelectItem>
-                  )
-                })}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          {progress < 1 && (
-            <Button onClick={handleConvert}>
-              <Repeat2 /> Convert
-            </Button>
-          )}
-          {progress > 1 && (
-            <>
-              <div className="flex justify-center">
-                <ProgressBar progress={progress} description="Converting..." />
-              </div>
-              <div className="flex justify-center">
-                <Button disabled={progress < 100} onClick={handleSave}>
-                  Save
-                </Button>
-              </div>
-            </>
-          )}
-        </div>
+        <Select onValueChange={(v) => setFormat(v as SupportedOutputFormat)} value={format}>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select a format" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Formats</SelectLabel>
+              {outputFormatOptions.map((format) => {
+                return (
+                  <SelectItem key={format} value={format}>
+                    {format}
+                  </SelectItem>
+                )
+              })}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        {progress < 1 && (
+          <Button onClick={handleConvert}>
+            <Repeat2 /> Convert
+          </Button>
+        )}
+        {progress > 1 && (
+          <>
+            <div className="flex justify-center">
+              <ProgressBar progress={progress} description="Converting..." />
+            </div>
+            <div className="flex justify-center">
+              <Button disabled={progress < 100} onClick={handleSave}>
+                Save
+              </Button>
+            </div>
+          </>
+        )}
       </ToolMain>
     </ToolContainer>
   )

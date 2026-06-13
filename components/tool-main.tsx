@@ -21,7 +21,12 @@ const ToolMain = ({
   showCropper
 }: ToolMainProps) => {
   return (
-    <div className={cn('space-y-4 pb-4', className)}>
+    <div
+      className={cn(
+        'space-y-4 pb-4 flex flex-col gap-2 max-w-xs md:max-w-sm lg:max-w-lg mx-auto',
+        className
+      )}
+    >
       {showPlayer && <Player data={fileData} file={file} showCropper={showCropper} />}
       <FileName name={file.name} />
       {children}

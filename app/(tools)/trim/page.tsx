@@ -67,25 +67,23 @@ const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
   return (
     <ToolContainer>
       <ToolMain file={file} fileData={fileData}>
-        <div className="flex flex-col gap-4 max-w-xl mx-auto">
-          <div className="trim flex items-center gap-4">
-            <Input placeholder="HH:MM:SS" onChange={(e) => setStartTime(e.target.value)} />
-            <Input placeholder="HH:MM:SS" onChange={(e) => setEndTime(e.target.value)} />
-          </div>
-          {progress < 1 && (
-            <Button onClick={handleTrim}>
-              <Scissors /> Trim
-            </Button>
-          )}
-          {progress > 1 && (
-            <>
-              <ProgressBar progress={progress} description="Trimming..." />
-              <Button disabled={progress < 100} onClick={handleSave}>
-                Save
-              </Button>
-            </>
-          )}
+        <div className="trim flex items-center gap-4">
+          <Input placeholder="HH:MM:SS" onChange={(e) => setStartTime(e.target.value)} />
+          <Input placeholder="HH:MM:SS" onChange={(e) => setEndTime(e.target.value)} />
         </div>
+        {progress < 1 && (
+          <Button onClick={handleTrim}>
+            <Scissors /> Trim
+          </Button>
+        )}
+        {progress > 1 && (
+          <>
+            <ProgressBar progress={progress} description="Trimming..." />
+            <Button disabled={progress < 100} onClick={handleSave}>
+              Save
+            </Button>
+          </>
+        )}
       </ToolMain>
     </ToolContainer>
   )

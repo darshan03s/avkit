@@ -32,52 +32,56 @@ const RemoveMetadata = ({ file, fileInput, fileData }: ToolPageProps) => {
   return (
     <ToolContainer>
       <ToolMain file={file} fileData={fileData}>
-        <div className="flex flex-col gap-4 max-w-2xl mx-auto">
-          <div className="info grid grid-cols-3 gap-2">
-            {metadataTags ? (
-              <>
-                <Info title="Artist" description={metadataTags.artist ?? 'N/A'} />
-                <Info title="Genre" description={metadataTags.genre ?? 'N/A'} />
-                <Info title="Album" description={metadataTags.album ?? 'N/A'} />
-                <Info title="Album artist" description={metadataTags.albumArtist ?? 'N/A'} />
-                <Info
-                  title="Date"
-                  description={
-                    metadataTags.date ? new Date(metadataTags.date).toLocaleString() : 'N/A'
-                  }
-                />
-                <DetailsDialog
-                  title="Description"
-                  description={'Description'}
-                  data={<div>{metadataTags.description ?? 'N/A'}</div>}
-                >
-                  <Info title="Description" description={metadataTags.description ?? 'N/A'} />
-                </DetailsDialog>
-                <Info title="Tracks total" description={metadataTags.tracksTotal ?? 'N/A'} />
-                <DetailsDialog
-                  title="Lyrics"
-                  description={'Lyrics'}
-                  data={<div>{metadataTags.lyrics ?? 'N/A'}</div>}
-                >
-                  <Info title="Lyrics" description={metadataTags.lyrics ?? 'N/A'} />
-                </DetailsDialog>
-              </>
-            ) : null}
-          </div>
-          {progress < 1 && (
-            <Button onClick={handleRemoveMetadata}>
-              <FileText /> Remove metadata
-            </Button>
-          )}
-          {progress > 1 && (
+        <div className="info grid grid-cols-2 lg:grid-cols-3 gap-2">
+          {metadataTags ? (
             <>
-              <ProgressBar progress={progress} description="Removing metadata..." />
-              <Button disabled={progress < 100} onClick={handleSave}>
-                Save
-              </Button>
+              <DetailsDialog
+                title="Artist"
+                description={'Artist'}
+                data={<div>{metadataTags.artist ?? 'N/A'}</div>}
+              >
+                <Info title="Artist" description={metadataTags.artist ?? 'N/A'} />
+              </DetailsDialog>
+              <Info title="Genre" description={metadataTags.genre ?? 'N/A'} />
+              <Info title="Album" description={metadataTags.album ?? 'N/A'} />
+              <Info title="Album artist" description={metadataTags.albumArtist ?? 'N/A'} />
+              <Info
+                title="Date"
+                description={
+                  metadataTags.date ? new Date(metadataTags.date).toLocaleString() : 'N/A'
+                }
+              />
+              <DetailsDialog
+                title="Description"
+                description={'Description'}
+                data={<div>{metadataTags.description ?? 'N/A'}</div>}
+              >
+                <Info title="Description" description={metadataTags.description ?? 'N/A'} />
+              </DetailsDialog>
+              <Info title="Tracks total" description={metadataTags.tracksTotal ?? 'N/A'} />
+              <DetailsDialog
+                title="Lyrics"
+                description={'Lyrics'}
+                data={<div>{metadataTags.lyrics ?? 'N/A'}</div>}
+              >
+                <Info title="Lyrics" description={metadataTags.lyrics ?? 'N/A'} />
+              </DetailsDialog>
             </>
-          )}
+          ) : null}
         </div>
+        {progress < 1 && (
+          <Button onClick={handleRemoveMetadata}>
+            <FileText /> Remove metadata
+          </Button>
+        )}
+        {progress > 1 && (
+          <>
+            <ProgressBar progress={progress} description="Removing metadata..." />
+            <Button disabled={progress < 100} onClick={handleSave}>
+              Save
+            </Button>
+          </>
+        )}
       </ToolMain>
     </ToolContainer>
   )
