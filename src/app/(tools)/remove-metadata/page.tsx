@@ -2,17 +2,16 @@
 
 import DetailsDialog from '@/components/details-dialog'
 import Info from '@/components/info'
-import ProgressBar from '@/components/progress-bar'
+import ToolAction from '@/components/tool-action'
 import ToolCentered from '@/components/tool-centered'
+import ToolCompletion from '@/components/tool-completion'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
-import { Button } from '@/components/ui/button'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 import { removeMetadata } from '@/utils/mediabunny'
-import { FileText } from 'lucide-react'
 
 const RemoveMetadata = ({ file, fileInput, fileData }: ToolPageProps) => {
   const { conversion, execute, progress, reset } = useConversion()
@@ -31,7 +30,7 @@ const RemoveMetadata = ({ file, fileInput, fileData }: ToolPageProps) => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData}>
+      <ToolMain file={file} fileData={fileData} className="xl:max-w-2xl">
         <div className="info grid grid-cols-2 lg:grid-cols-3 gap-2">
           {metadataTags ? (
             <>
@@ -69,19 +68,8 @@ const RemoveMetadata = ({ file, fileInput, fileData }: ToolPageProps) => {
             </>
           ) : null}
         </div>
-        {progress < 1 && (
-          <Button onClick={handleRemoveMetadata}>
-            <FileText /> Remove metadata
-          </Button>
-        )}
-        {progress > 1 && (
-          <>
-            <ProgressBar progress={progress} description="Removing metadata..." />
-            <Button disabled={progress < 100} onClick={handleSave}>
-              Save
-            </Button>
-          </>
-        )}
+        {progress < 1 && <ToolAction onClick={handleRemoveMetadata} disabled={!metadataTags} />}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
       </ToolMain>
     </ToolContainer>
   )
