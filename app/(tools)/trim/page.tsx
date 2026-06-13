@@ -7,6 +7,7 @@ import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import {
@@ -68,8 +69,22 @@ const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
     <ToolContainer>
       <ToolMain file={file} fileData={fileData}>
         <div className="trim flex items-center gap-4">
-          <Input placeholder="HH:MM:SS" onChange={(e) => setStartTime(e.target.value)} />
-          <Input placeholder="HH:MM:SS" onChange={(e) => setEndTime(e.target.value)} />
+          <div className="space-y-2">
+            <Label className="text-xs text-accent-foreground">Start</Label>
+            <Input
+              className="placeholder:text-xs md:text-sm"
+              placeholder="HH:MM:SS"
+              onChange={(e) => setStartTime(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-xs text-accent-foreground">End</Label>
+            <Input
+              className="placeholder:text-xs md:text-sm"
+              placeholder="HH:MM:SS"
+              onChange={(e) => setEndTime(e.target.value)}
+            />
+          </div>
         </div>
         {progress < 1 && (
           <Button onClick={handleTrim}>

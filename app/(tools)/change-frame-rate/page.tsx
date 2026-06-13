@@ -37,34 +37,32 @@ const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
   return (
     <ToolContainer>
       <ToolMain file={file} fileData={fileData}>
-        <div className="flex flex-col gap-4 max-w-xl mx-auto">
-          <ShowTracks data={fileData} onlyVideo={true} />
-          <div className="space-y-2">
-            <Label className="text-xs text-accent-foreground">Frame rate (fps)</Label>
-            <Input
-              min="1"
-              max="240"
-              step="1"
-              type="number"
-              placeholder="Frame rate"
-              value={frameRate}
-              onChange={(e) => setFrameRate(e.target.value)}
-            />
-          </div>
-          {progress < 1 && (
-            <Button onClick={handleChangeFrameRate} disabled={!frameRate}>
-              <IconKeyframes /> Change frame rate
-            </Button>
-          )}
-          {progress > 1 && (
-            <>
-              <ProgressBar progress={progress} description="Changing frame rate..." />
-              <Button disabled={progress < 100} onClick={handleSave}>
-                Save
-              </Button>
-            </>
-          )}
+        <ShowTracks data={fileData} onlyVideo={true} />
+        <div className="space-y-2">
+          <Label className="text-xs text-accent-foreground">Frame rate (fps)</Label>
+          <Input
+            min="1"
+            max="240"
+            step="1"
+            type="number"
+            placeholder="Frame rate"
+            value={frameRate}
+            onChange={(e) => setFrameRate(e.target.value)}
+          />
         </div>
+        {progress < 1 && (
+          <Button onClick={handleChangeFrameRate} disabled={!frameRate}>
+            <IconKeyframes /> Change frame rate
+          </Button>
+        )}
+        {progress > 1 && (
+          <>
+            <ProgressBar progress={progress} description="Changing frame rate..." />
+            <Button disabled={progress < 100} onClick={handleSave}>
+              Save
+            </Button>
+          </>
+        )}
       </ToolMain>
     </ToolContainer>
   )

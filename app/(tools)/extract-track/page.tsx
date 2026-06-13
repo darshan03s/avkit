@@ -48,6 +48,7 @@ const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
               data={fileData}
               onTrackClick={(id) => setSelectedTrackId(String(id))}
               activeTrack={selectedTrackId}
+              label={'Select a track'}
             />
             <SelectBox
               key={selectedTrackId}

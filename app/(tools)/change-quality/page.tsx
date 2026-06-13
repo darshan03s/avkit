@@ -61,7 +61,7 @@ const ChangeQuality = ({ file, fileInput, fileData }: ToolPageProps) => {
         {progress < 1 && (
           <div className="flex flex-col gap-2">
             <span className="text-xs text-accent-foreground text-center">
-              This tool will change the bitrate of the video.
+              This process will change the bitrate of the video.
             </span>
             <Button onClick={handleCompress} disabled={!quality}>
               <Hd /> Change quality

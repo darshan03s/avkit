@@ -58,6 +58,7 @@ const DiscardTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
               data={fileData}
               onTrackClick={(id) => toggle(Number(id))}
               activeTrack={selectedIds}
+              label="Select one or more track(s)"
             />
           </div>
         ) : (
