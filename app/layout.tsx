@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Header from '@/components/header'
-import { siteMetadata } from '@/data'
+import { siteMetadata } from '@/metadata'
 import { Analytics } from '@vercel/analytics/next'
 import { Plus_Jakarta_Sans, Lora, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'

@@ -1,4 +1,4 @@
-import { APP_NAME } from '@/data'
+import { APP_NAME } from '@/metadata'
 import { InstrumentSerifFontData } from '@/font'
 import { ImageResponse } from 'next/og'
 

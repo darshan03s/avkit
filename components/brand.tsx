@@ -1,4 +1,4 @@
-import { APP_NAME } from '@/data'
+import { APP_NAME } from '@/metadata'
 import Link from 'next/link'
 
 const Brand = () => {

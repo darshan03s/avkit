@@ -45,7 +45,7 @@ export const siteMetadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: APP_NAME,
+    title: `${APP_NAME}: ${APP_DESCRIPTION}`,
     description: APP_DESCRIPTION,
     images: [
       {
