@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { Dispatch, SetStateAction, useRef } from 'react'
+import { Dispatch, SetStateAction, useMemo, useRef } from 'react'
 import { buttonVariants } from './ui/button'
 import { Upload } from 'lucide-react'
 
@@ -28,86 +28,43 @@ const FileInput = ({
     }
   }
 
+  const audioFormats = '.wav, .ogg, .flac, .mp3, audio/wav, audio/ogg, audio/flac, audio/mpeg'
+  const videoFormats =
+    '.mp4, .mov, .mkv, .webm, video/mp4, video/quicktime, video/x-matroska, video/webm'
+
+  const accept = useMemo(() => {
+    if (acceptAudio && acceptVideo) {
+      return `${videoFormats}, ${audioFormats}`
+    }
+    if (acceptAudio) {
+      return audioFormats
+    }
+    return videoFormats
+  }, [acceptAudio, acceptVideo])
+
   return (
     <div>
       <div
         onClick={handleFileInput}
         className={cn(
           buttonVariants({ variant: 'outline' }),
-          'w-125 h-75 p-2 rounded-md cursor-pointer'
+          'w-full h-55 md:h-75 p-2 rounded-md cursor-pointer'
         )}
       >
         <div className="w-full h-full border-2 border-dashed rounded-md">
           <div className="flex flex-col gap-4 items-center justify-center h-full">
             <Upload className="bg-primary text-primary-foreground size-12 p-3 rounded-full" />
-            <span className="text-accent-foreground">{description}</span>
+            <span className="text-accent-foreground text-xs md:text-sm">{description}</span>
           </div>
         </div>
       </div>
-
-      {!acceptAudio && (
-        <input
-          type="file"
-          hidden
-          ref={fileInputRef}
-          onChange={(e) => handleFileChange(e.target.files)}
-          accept="
-  .mp4,
-  .mov,
-  .mkv,
-  .webm,
-  video/mp4,
-  video/quicktime,
-  video/x-matroska,
-  video/webm,
-"
-        />
-      )}
-      {!acceptVideo && (
-        <input
-          type="file"
-          hidden
-          ref={fileInputRef}
-          onChange={(e) => handleFileChange(e.target.files)}
-          accept="
-    .wav,
-    .ogg,
-    .flac,
-    .mp3,
-    audio/wav,
-    audio/ogg,
-    audio/flac,
-    audio/mpeg
-  "
-        />
-      )}
-
-      {acceptAudio && acceptVideo && (
-        <input
-          type="file"
-          hidden
-          ref={fileInputRef}
-          onChange={(e) => handleFileChange(e.target.files)}
-          accept="
-        .mp4,
-    .mov,
-    .mkv,
-    .webm,
-    .wav,
-    .ogg,
-    .flac,
-    .mp3,
-    video/mp4,
-    video/quicktime,
-    video/x-matroska,
-    video/webm,
-    audio/wav,
-    audio/ogg,
-    audio/flac,
-    audio/mpeg
-    "
-        />
-      )}
+      <input
+        type="file"
+        hidden
+        ref={fileInputRef}
+        onChange={(e) => handleFileChange(e.target.files)}
+        accept={accept}
+      />
     </div>
   )
 }

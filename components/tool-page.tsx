@@ -47,8 +47,8 @@ export function ToolPage({
     <Main>
       {!file ? (
         <div className="h-[calc(100vh-var(--header-height))] flex items-center justify-center">
-          <div className="space-y-4">
-            <h1 className="text-center font-sans font-bold text-xl">{heading}</h1>
+          <div className="space-y-4 w-full max-w-80 md:max-w-100 lg:max-w-125 mx-auto">
+            <h1 className="text-center font-sans font-bold md:text-xl text-lg">{heading}</h1>
             <FileInput
               setFile={setFile}
               description={description}
