@@ -28,11 +28,14 @@ const Page = () => {
               Audio & Video tools
             </TextAnimate>
           </h1>
-          <p className="text-sm md:text-lg text-muted-foreground text-center">
-            <TextAnimate animation="blurInUp" by="character" once>
-              Right in your browser
-            </TextAnimate>
-          </p>
+          <TextAnimate
+            animation="blurInUp"
+            by="character"
+            once
+            className="text-sm md:text-lg text-muted-foreground text-center"
+          >
+            Right in your browser
+          </TextAnimate>
         </div>
         <Features />
         <div className="flex justify-center">
