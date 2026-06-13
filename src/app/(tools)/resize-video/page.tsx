@@ -45,7 +45,7 @@ const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
     <ToolContainer>
       <ToolMain file={file} fileData={fileData}>
         <div className="space-y-2">
-          <Label className="text-xs text-accent-foreground">Width</Label>
+          <Label>Width</Label>
           <Input
             value={width}
             placeholder="Width"
@@ -58,7 +58,7 @@ const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
           />
         </div>
         <div className="space-y-2">
-          <Label className="text-xs text-accent-foreground">Height</Label>
+          <Label>Height</Label>
           <Input
             value={height}
             placeholder="Height"

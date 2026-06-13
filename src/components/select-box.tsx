@@ -26,7 +26,7 @@ const SelectBox = ({
 }) => {
   return (
     <div className="space-y-2">
-      <Label className="text-xs text-accent-foreground">{label}</Label>
+      <Label>{label}</Label>
       <Select
         onValueChange={onValueChange ? (v: unknown) => onValueChange(v) : undefined}
         value={value}

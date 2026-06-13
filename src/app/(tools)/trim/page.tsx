@@ -68,7 +68,7 @@ const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
     <ToolContainer>
       <ToolMain file={file} fileData={fileData}>
         <div className="space-y-2">
-          <Label className="text-xs text-accent-foreground">Start</Label>
+          <Label>Start</Label>
           <Input
             className="placeholder:text-xs md:text-sm"
             placeholder="HH:MM:SS"
@@ -76,7 +76,7 @@ const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
           />
         </div>
         <div className="space-y-2">
-          <Label className="text-xs text-accent-foreground">End</Label>
+          <Label>End</Label>
           <Input
             className="placeholder:text-xs md:text-sm"
             placeholder="HH:MM:SS"
