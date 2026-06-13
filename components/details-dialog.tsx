@@ -24,7 +24,7 @@ const DetailsDialog = ({
   return (
     <Dialog>
       <DialogTrigger className="h-full w-full">{children}</DialogTrigger>
-      <DialogContent className="max-w-lg!">
+      <DialogContent className="md:max-w-lg!">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

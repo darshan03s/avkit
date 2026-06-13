@@ -9,7 +9,7 @@ const Info = ({
 }) => {
   return (
     <Item variant={'outline'}>
-      <ItemContent className="overflow-hidden text-ellipsis h-12">
+      <ItemContent className="overflow-hidden text-ellipsis h-10 md:h-12">
         <ItemTitle>{title}</ItemTitle>
         <ItemDescription className="line-clamp-1">{description}</ItemDescription>
       </ItemContent>

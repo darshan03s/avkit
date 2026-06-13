@@ -16,7 +16,7 @@ const VideoPlayer = ({
       src={fileUrl}
       controls={true}
       poster={posterUrl}
-      className="aspect-video w-140 rounded-md outline"
+      className="aspect-video w-80 md:w-100 rounded-md outline"
     />
   )
 }
@@ -181,7 +181,7 @@ const VideoPlayerWithCropper = ({
         src={fileUrl}
         controls={true}
         poster={posterUrl}
-        className="w-140 outline"
+        className="w-80 md:w-140 outline"
         onLoadedData={handleVideoLoad}
       />
       <div className="absolute inset-0 pointer-events-none">
@@ -234,7 +234,7 @@ const AudioPlayer = ({
   return (
     <>
       {posterUrl ? (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center w-80 md:w-100">
           <Image
             src={posterUrl}
             alt="poster"

@@ -3,7 +3,7 @@
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
-import { Item, ItemContent, ItemTitle } from '@/components/ui/item'
+import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
 import { ToolPageProps } from '@/types'
 import { formatBitrate, formatBytes, truncateTo2Decimals } from '@/utils'
 import DetailsDialog from '@/components/details-dialog'
@@ -11,20 +11,32 @@ import Info from '@/components/info'
 
 const Inspect = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
   return (
-    <ToolContainer className="pb-4">
+    <ToolContainer className="py-4 px-4 xl:px-0">
       <ToolMain file={file} fileData={fileData}>
         <div className="flex flex-col gap-4 max-w-3xl mx-auto">
-          <div className="info grid grid-cols-3 gap-2">
+          <div className="info grid grid-cols-2 lg:grid-cols-3 gap-2">
             <Info title="Size" description={formatBytes(fileData.size)} />
-            <Info
+            <DetailsDialog
               title="Last modified"
-              description={new Date(file.lastModified).toLocaleString()}
-            />
+              description="Last modified"
+              data={<div>{new Date(file.lastModified).toLocaleString()}</div>}
+            >
+              <Info
+                title="Last modified"
+                description={new Date(file.lastModified).toLocaleString()}
+              />
+            </DetailsDialog>
             <Info title="Format" description={fileData.format.name} />
             <Info title="MIME type" description={fileData.format.mimeType} />
             {fileData.metadataTags ? (
               <>
-                <Info title="Artist" description={fileData.metadataTags.artist ?? 'N/A'} />
+                <DetailsDialog
+                  title="Artist"
+                  description="Artist"
+                  data={<div>{fileData.metadataTags.artist ?? 'N/A'}</div>}
+                >
+                  <Info title="Artist" description={fileData.metadataTags.artist ?? 'N/A'} />
+                </DetailsDialog>
                 <Info title="Genre" description={fileData.metadataTags.genre ?? 'N/A'} />
                 <Info title="Album" description={fileData.metadataTags.album ?? 'N/A'} />
                 <Info
@@ -77,31 +89,35 @@ const Inspect = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
                             <Item variant={'outline'}>
                               <ItemContent>
                                 <ItemTitle>Id</ItemTitle>
-                                {track.id}
+                                <ItemDescription>{track.id}</ItemDescription>
                               </ItemContent>
                             </Item>
                             <Item variant={'outline'}>
                               <ItemContent>
                                 <ItemTitle>Average bitrate</ItemTitle>
-                                {track.averageBitrate ? formatBitrate(track.averageBitrate) : 'N/A'}
+                                <ItemDescription>
+                                  {track.averageBitrate
+                                    ? formatBitrate(track.averageBitrate)
+                                    : 'N/A'}
+                                </ItemDescription>
                               </ItemContent>
                             </Item>
                             <Item variant={'outline'}>
                               <ItemContent>
                                 <ItemTitle>Codec</ItemTitle>
-                                {track.codec ?? 'N/A'}
+                                <ItemDescription>{track.codec ?? 'N/A'}</ItemDescription>
                               </ItemContent>
                             </Item>
                             <Item variant={'outline'}>
                               <ItemContent>
                                 <ItemTitle>Codec string</ItemTitle>
-                                {track.codecParamString ?? 'N/A'}
+                                <ItemDescription>{track.codecParamString ?? 'N/A'}</ItemDescription>
                               </ItemContent>
                             </Item>
                             <Item variant={'outline'}>
                               <ItemContent>
                                 <ItemTitle>Language</ItemTitle>
-                                {track.lang ?? 'N/A'}
+                                <ItemDescription>{track.lang ?? 'N/A'}</ItemDescription>
                               </ItemContent>
                             </Item>
                             {track.isVideo && (
@@ -109,31 +125,37 @@ const Inspect = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
                                 <Item variant={'outline'}>
                                   <ItemContent>
                                     <ItemTitle>Frame rate</ItemTitle>
-                                    {track.frameRate ? truncateTo2Decimals(track.frameRate) : 'N/A'}
+                                    <ItemDescription>
+                                      {track.frameRate
+                                        ? truncateTo2Decimals(track.frameRate)
+                                        : 'N/A'}
+                                    </ItemDescription>
                                   </ItemContent>
                                 </Item>
                                 <Item variant={'outline'}>
                                   <ItemContent>
                                     <ItemTitle>Coded height</ItemTitle>
-                                    {track.codedHeight ?? 'N/A'}
+                                    <ItemDescription>{track.codedHeight ?? 'N/A'}</ItemDescription>
                                   </ItemContent>
                                 </Item>
                                 <Item variant={'outline'}>
                                   <ItemContent>
                                     <ItemTitle>Coded width</ItemTitle>
-                                    {track.codedWidth ?? 'N/A'}
+                                    <ItemDescription>{track.codedWidth ?? 'N/A'}</ItemDescription>
                                   </ItemContent>
                                 </Item>
                                 <Item variant={'outline'}>
                                   <ItemContent>
                                     <ItemTitle>Display height</ItemTitle>
-                                    {track.displayHeight ?? 'N/A'}
+                                    <ItemDescription>
+                                      {track.displayHeight ?? 'N/A'}
+                                    </ItemDescription>
                                   </ItemContent>
                                 </Item>
                                 <Item variant={'outline'}>
                                   <ItemContent>
                                     <ItemTitle>Display width</ItemTitle>
-                                    {track.displayWidth ?? 'N/A'}
+                                    <ItemDescription>{track.displayWidth ?? 'N/A'}</ItemDescription>
                                   </ItemContent>
                                 </Item>
                               </>
@@ -143,13 +165,13 @@ const Inspect = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
                                 <Item variant={'outline'}>
                                   <ItemContent>
                                     <ItemTitle>Sample rate</ItemTitle>
-                                    {track.sampleRate ?? 'N/A'}
+                                    <ItemDescription>{track.sampleRate ?? 'N/A'}</ItemDescription>
                                   </ItemContent>
                                 </Item>
                                 <Item variant={'outline'}>
                                   <ItemContent>
                                     <ItemTitle>Channels</ItemTitle>
-                                    {track.channels ?? 'N/A'}
+                                    <ItemDescription>{track.channels ?? 'N/A'}</ItemDescription>
                                   </ItemContent>
                                 </Item>
                               </>
