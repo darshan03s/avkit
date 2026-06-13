@@ -3,27 +3,11 @@
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
-import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
+import { Item, ItemContent, ItemTitle } from '@/components/ui/item'
 import { ToolPageProps } from '@/types'
 import { formatBitrate, formatBytes, truncateTo2Decimals } from '@/utils'
 import DetailsDialog from '@/components/details-dialog'
-
-const Info = ({
-  title,
-  description
-}: {
-  title: string
-  description: string | number | null | undefined
-}) => {
-  return (
-    <Item variant={'outline'}>
-      <ItemContent className="overflow-hidden text-ellipsis h-12">
-        <ItemTitle>{title}</ItemTitle>
-        <ItemDescription className="line-clamp-1">{description}</ItemDescription>
-      </ItemContent>
-    </Item>
-  )
-}
+import Info from '@/components/info'
 
 const Inspect = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
   return (

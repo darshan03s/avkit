@@ -1,5 +1,5 @@
 import { IconCrop, IconDisc, IconDiscOff, IconKeyframes, IconResize } from '@tabler/icons-react'
-import { Code, Hd, Info, Repeat2, RotateCw, Scissors } from 'lucide-react'
+import { Code, FileText, Hd, Info, Repeat2, RotateCw, Scissors } from 'lucide-react'
 
 export const tools = [
   {
@@ -67,5 +67,11 @@ export const tools = [
     path: '/rotate-video',
     icon: RotateCw,
     description: 'Rotate video'
+  },
+  {
+    name: 'Remove metadata',
+    path: '/remove-metadata',
+    icon: FileText,
+    description: 'Remove metadata from audio/video'
   }
 ] as const

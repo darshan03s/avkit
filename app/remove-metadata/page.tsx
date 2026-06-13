@@ -1,0 +1,98 @@
+'use client'
+
+import DetailsDialog from '@/components/details-dialog'
+import Info from '@/components/info'
+import ProgressBar from '@/components/progress-bar'
+import ToolCentered from '@/components/tool-centered'
+import ToolContainer from '@/components/tool-container'
+import ToolMain from '@/components/tool-main'
+import { ToolPage } from '@/components/tool-page'
+import { Button } from '@/components/ui/button'
+import { useConversion } from '@/hooks/use-conversion'
+import { ToolPageProps } from '@/types'
+import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
+import { removeMetadata } from '@/utils/mediabunny'
+import { FileText } from 'lucide-react'
+
+const RemoveMetadata = ({ file, fileInput, fileData }: ToolPageProps) => {
+  const { conversion, execute, progress, reset } = useConversion()
+  const metadataTags = fileData.metadataTags
+
+  async function handleRemoveMetadata() {
+    await convertWithErrorHandler(() =>
+      execute((onProgress) => removeMetadata(fileInput, onProgress))
+    )
+  }
+
+  async function handleSave() {
+    saveOutput(conversion, getFilename(file.name), getExtension(file.name))
+    reset()
+  }
+
+  return (
+    <ToolContainer>
+      <ToolMain file={file} fileData={fileData}>
+        <div className="flex flex-col gap-4 max-w-2xl mx-auto">
+          <div className="info grid grid-cols-3 gap-2">
+            {metadataTags ? (
+              <>
+                <Info title="Artist" description={metadataTags.artist ?? 'N/A'} />
+                <Info title="Genre" description={metadataTags.genre ?? 'N/A'} />
+                <Info title="Album" description={metadataTags.album ?? 'N/A'} />
+                <Info title="Album artist" description={metadataTags.albumArtist ?? 'N/A'} />
+                <Info
+                  title="Date"
+                  description={
+                    metadataTags.date ? new Date(metadataTags.date).toLocaleString() : 'N/A'
+                  }
+                />
+                <DetailsDialog
+                  title="Description"
+                  description={'Description'}
+                  data={<div>{metadataTags.description ?? 'N/A'}</div>}
+                >
+                  <Info title="Description" description={metadataTags.description ?? 'N/A'} />
+                </DetailsDialog>
+                <Info title="Tracks total" description={metadataTags.tracksTotal ?? 'N/A'} />
+                <DetailsDialog
+                  title="Lyrics"
+                  description={'Lyrics'}
+                  data={<div>{metadataTags.lyrics ?? 'N/A'}</div>}
+                >
+                  <Info title="Lyrics" description={metadataTags.lyrics ?? 'N/A'} />
+                </DetailsDialog>
+              </>
+            ) : null}
+          </div>
+          {progress < 1 && (
+            <Button onClick={handleRemoveMetadata}>
+              <FileText /> Remove metadata
+            </Button>
+          )}
+          {progress > 1 && (
+            <>
+              <ProgressBar progress={progress} description="Removing metadata..." />
+              <Button disabled={progress < 100} onClick={handleSave}>
+                Save
+              </Button>
+            </>
+          )}
+        </div>
+      </ToolMain>
+    </ToolContainer>
+  )
+}
+
+const Page = () => {
+  return (
+    <ToolPage description="Import audio or video">
+      {(file, fileInput, fileData) => (
+        <ToolCentered>
+          <RemoveMetadata file={file} fileInput={fileInput} fileData={fileData} />
+        </ToolCentered>
+      )}
+    </ToolPage>
+  )
+}
+
+export default Page

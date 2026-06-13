@@ -710,3 +710,39 @@ export async function rotateVideo(
 
   return conversion
 }
+
+export async function removeMetadata(
+  input: Input,
+  onProgress: (progress: number) => unknown,
+  target?: Target
+) {
+  await verifyDecodability(input)
+
+  const inputFormat = await input.getFormat()
+  const outputFormat = getOutputFormatForInputFormat(inputFormat)
+
+  const output = new Output({
+    format: outputFormat,
+    target: target ?? new BufferTarget()
+  })
+
+  const conversionOptions: ConversionOptions = {
+    input,
+    output
+  }
+
+  conversionOptions.tags = {}
+
+  const conversion = await Conversion.init(conversionOptions)
+
+  const unintentionallyDiscarded = conversion.discardedTracks
+
+  if (unintentionallyDiscarded.length > 0 || !conversion.isValid) {
+    throw new ConversionError(conversion.discardedTracks)
+  }
+
+  conversion.onProgress = onProgress
+  await conversion.execute()
+
+  return conversion
+}
