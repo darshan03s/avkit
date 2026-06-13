@@ -3,10 +3,10 @@ import { Code, Hd, Info, Repeat2, RotateCw, Scissors } from 'lucide-react'
 
 export const tools = [
   {
-    name: 'View metadata',
-    path: '/view-metadata',
+    name: 'Inspect',
+    path: '/inspect',
     icon: Info,
-    description: 'View metadata of audio/video'
+    description: 'Inspect audio/video'
   },
   {
     name: 'Convert format',

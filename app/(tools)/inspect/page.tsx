@@ -25,7 +25,7 @@ const Info = ({
   )
 }
 
-const ShowMetadata = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
+const Inspect = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
   return (
     <ToolContainer className="pb-4">
       <ToolMain file={file} fileData={fileData}>
@@ -190,7 +190,7 @@ const Page = () => {
     <ToolPage description="Import audio or video">
       {(file, _, fileData) => (
         <div className="flex-1">
-          <ShowMetadata file={file} fileData={fileData} />
+          <Inspect file={file} fileData={fileData} />
         </div>
       )}
     </ToolPage>

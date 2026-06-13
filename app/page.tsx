@@ -37,7 +37,7 @@ const Page = () => {
         <Features />
         <div className="flex justify-center">
           <Link
-            href="/view-metadata"
+            href="/inspect"
             className={cn(buttonVariants({ variant: 'default', size: 'lg' }), 'px-4 py-2')}
           >
             <CornerDownRight />
