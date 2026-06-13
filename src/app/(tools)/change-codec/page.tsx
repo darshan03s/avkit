@@ -1,9 +1,7 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { changeCodec } from '@/utils/mediabunny'
 import { useState } from 'react'
-import { Code } from 'lucide-react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import {
   convertWithErrorHandler,
@@ -15,7 +13,6 @@ import {
 } from '@/utils'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool-page'
-import ProgressBar from '@/components/progress-bar'
 import ToolCentered from '@/components/tool-centered'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
@@ -23,6 +20,8 @@ import { AudioCodec, VideoCodec } from 'mediabunny'
 import ShowTracks from '@/components/show-tracks'
 import { ToolPageProps } from '@/types'
 import SelectBox from '@/components/select-box'
+import ToolAction from '@/components/tool-action'
+import ToolCompletion from '@/components/tool-completion'
 
 const ChangeCodec = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [codec, setCodec] = useState<AudioCodec | VideoCodec | ''>('')
@@ -79,28 +78,8 @@ const ChangeCodec = ({ file, fileInput, fileData }: ToolPageProps) => {
           groupLabel="Codecs"
           options={codecOptions}
         />
-        {progress < 1 && (
-          <>
-            <span className="text-[10px] md:text-xs text-accent-foreground text-center">
-              This process is dependent on your browser support for the codec.
-            </span>
-            <Button onClick={handleChangeCodec} disabled={!format || !codec}>
-              <Code /> Change codec
-            </Button>
-          </>
-        )}
-        {progress > 1 && (
-          <>
-            <div className="flex justify-center">
-              <ProgressBar progress={progress} description="Converting..." />
-            </div>
-            <div className="flex justify-center">
-              <Button disabled={progress < 100} onClick={handleSave}>
-                Save
-              </Button>
-            </div>
-          </>
-        )}
+        {progress < 1 && <ToolAction onClick={handleChangeCodec} disabled={!format || !codec} />}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
       </ToolMain>
     </ToolContainer>
   )

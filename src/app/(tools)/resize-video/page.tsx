@@ -1,19 +1,18 @@
 'use client'
 
-import ProgressBar from '@/components/progress-bar'
 import SelectBox from '@/components/select-box'
+import ToolAction from '@/components/tool-action'
 import ToolCentered from '@/components/tool-centered'
+import ToolCompletion from '@/components/tool-completion'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 import { resizeVideo } from '@/utils/mediabunny'
-import { IconResize } from '@tabler/icons-react'
 import { useState } from 'react'
 
 const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
@@ -79,19 +78,8 @@ const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
           groupLabel="Fit"
           options={['fill', 'contain', 'cover']}
         />
-        {progress < 1 && (
-          <Button onClick={handleResize} disabled={!width || !height || !fit}>
-            <IconResize /> Resize video
-          </Button>
-        )}
-        {progress > 1 && (
-          <>
-            <ProgressBar progress={progress} description="Resizing video..." />
-            <Button disabled={progress < 100} onClick={handleSave}>
-              Save
-            </Button>
-          </>
-        )}
+        {progress < 1 && <ToolAction onClick={handleResize} disabled={!width || !height || !fit} />}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
       </ToolMain>
     </ToolContainer>
   )

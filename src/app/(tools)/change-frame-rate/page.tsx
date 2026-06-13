@@ -1,19 +1,18 @@
 'use client'
 
-import ProgressBar from '@/components/progress-bar'
 import ShowTracks from '@/components/show-tracks'
+import ToolAction from '@/components/tool-action'
 import ToolCentered from '@/components/tool-centered'
+import ToolCompletion from '@/components/tool-completion'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 import { changeFrameRate } from '@/utils/mediabunny'
-import { IconKeyframes } from '@tabler/icons-react'
 import { useState } from 'react'
 
 const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
@@ -50,19 +49,8 @@ const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
             onChange={(e) => setFrameRate(e.target.value)}
           />
         </div>
-        {progress < 1 && (
-          <Button onClick={handleChangeFrameRate} disabled={!frameRate}>
-            <IconKeyframes /> Change frame rate
-          </Button>
-        )}
-        {progress > 1 && (
-          <>
-            <ProgressBar progress={progress} description="Changing frame rate..." />
-            <Button disabled={progress < 100} onClick={handleSave}>
-              Save
-            </Button>
-          </>
-        )}
+        {progress < 1 && <ToolAction onClick={handleChangeFrameRate} disabled={!frameRate} />}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
       </ToolMain>
     </ToolContainer>
   )

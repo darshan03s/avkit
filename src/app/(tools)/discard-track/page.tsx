@@ -1,17 +1,16 @@
 'use client'
 
-import ProgressBar from '@/components/progress-bar'
 import ShowTracks from '@/components/show-tracks'
+import ToolAction from '@/components/tool-action'
 import ToolCentered from '@/components/tool-centered'
+import ToolCompletion from '@/components/tool-completion'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
-import { Button } from '@/components/ui/button'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 import { discardTrack } from '@/utils/mediabunny'
-import { Disc } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -53,30 +52,19 @@ const DiscardTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
     <ToolContainer>
       <ToolMain file={file} fileData={fileData}>
         {fileData.tracksData.length > 0 ? (
-          <div className="space-y-4">
-            <ShowTracks
-              data={fileData}
-              onTrackClick={(id) => toggle(Number(id))}
-              activeTrack={selectedIds}
-              label="Select one or more track(s)"
-            />
-          </div>
+          <ShowTracks
+            data={fileData}
+            onTrackClick={(id) => toggle(Number(id))}
+            activeTrack={selectedIds}
+            label="Select one or more track(s)"
+          />
         ) : (
           <div className="text-center">No tracks to discard</div>
         )}
         {fileData.tracksData.length > 0 && progress < 1 && (
-          <Button onClick={handleDiscard} disabled={selectedIds.size === 0}>
-            <Disc /> Discard Track
-          </Button>
+          <ToolAction onClick={handleDiscard} disabled={selectedIds.size === 0} />
         )}
-        {progress > 1 && (
-          <>
-            <ProgressBar progress={progress} description="Discarding track..." />
-            <Button disabled={progress < 100} onClick={handleSave}>
-              Save
-            </Button>
-          </>
-        )}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
       </ToolMain>
     </ToolContainer>
   )

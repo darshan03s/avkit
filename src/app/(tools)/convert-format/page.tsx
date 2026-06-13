@@ -1,18 +1,7 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { convertFormat } from '@/utils/mediabunny'
 import { useState } from 'react'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
-import { Repeat2 } from 'lucide-react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import {
   convertWithErrorHandler,
@@ -23,11 +12,13 @@ import {
 } from '@/utils'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool-page'
-import ProgressBar from '@/components/progress-bar'
 import ToolCentered from '@/components/tool-centered'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPageProps } from '@/types'
+import SelectBox from '@/components/select-box'
+import ToolAction from '@/components/tool-action'
+import ToolCompletion from '@/components/tool-completion'
 
 const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()
@@ -55,40 +46,16 @@ const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
   return (
     <ToolContainer>
       <ToolMain file={file} fileData={fileData} showPlayer={false}>
-        <Select onValueChange={(v) => setFormat(v as SupportedOutputFormat)} value={format}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select a format" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Formats</SelectLabel>
-              {outputFormatOptions.map((format) => {
-                return (
-                  <SelectItem key={format} value={format}>
-                    {format}
-                  </SelectItem>
-                )
-              })}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        {progress < 1 && (
-          <Button onClick={handleConvert}>
-            <Repeat2 /> Convert
-          </Button>
-        )}
-        {progress > 1 && (
-          <>
-            <div className="flex justify-center">
-              <ProgressBar progress={progress} description="Converting..." />
-            </div>
-            <div className="flex justify-center">
-              <Button disabled={progress < 100} onClick={handleSave}>
-                Save
-              </Button>
-            </div>
-          </>
-        )}
+        <SelectBox
+          label="Format"
+          value={format}
+          onValueChange={(v) => setFormat(v as SupportedOutputFormat)}
+          placeholder="Select a format"
+          groupLabel="Formats"
+          options={outputFormatOptions}
+        />
+        {progress < 1 && <ToolAction onClick={handleConvert} disabled={!format} />}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
       </ToolMain>
     </ToolContainer>
   )

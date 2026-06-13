@@ -1,17 +1,16 @@
 'use client'
 
-import ProgressBar from '@/components/progress-bar'
 import SelectBox from '@/components/select-box'
+import ToolAction from '@/components/tool-action'
 import ToolCentered from '@/components/tool-centered'
+import ToolCompletion from '@/components/tool-completion'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
-import { Button } from '@/components/ui/button'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 import { compressVideo } from '@/utils/mediabunny'
-import { Hd } from 'lucide-react'
 import {
   QUALITY_HIGH,
   QUALITY_LOW,
@@ -58,24 +57,8 @@ const ChangeQuality = ({ file, fileInput, fileData }: ToolPageProps) => {
           groupLabel="Quality"
           options={qualityOptions}
         />
-        {progress < 1 && (
-          <div className="flex flex-col gap-2">
-            <span className="text-xs text-accent-foreground text-center">
-              This process will change the bitrate of the video.
-            </span>
-            <Button onClick={handleCompress} disabled={!quality}>
-              <Hd /> Change quality
-            </Button>
-          </div>
-        )}
-        {progress > 1 && (
-          <>
-            <ProgressBar progress={progress} description="Changing quality..." />
-            <Button disabled={progress < 100} onClick={handleSave}>
-              Save
-            </Button>
-          </>
-        )}
+        {progress < 1 && <ToolAction onClick={handleCompress} disabled={!quality} />}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
       </ToolMain>
     </ToolContainer>
   )

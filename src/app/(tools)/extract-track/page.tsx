@@ -1,19 +1,18 @@
 'use client'
 
-import ProgressBar from '@/components/progress-bar'
 import SelectBox from '@/components/select-box'
 import ShowTracks from '@/components/show-tracks'
+import ToolAction from '@/components/tool-action'
 import ToolCentered from '@/components/tool-centered'
+import ToolCompletion from '@/components/tool-completion'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
-import { Button } from '@/components/ui/button'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import { convertWithErrorHandler, getFilename, getOutputFormatOptions, saveOutput } from '@/utils'
 import { extractTrack } from '@/utils/mediabunny'
-import { Disc } from 'lucide-react'
 import { useState } from 'react'
 
 const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
@@ -64,18 +63,9 @@ const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
           <div className="text-center">No tracks to extract</div>
         )}
         {fileData.tracksData.length > 0 && progress < 1 && (
-          <Button onClick={handleExtract} disabled={!selectedTrackId || !format}>
-            <Disc /> Extract Track
-          </Button>
+          <ToolAction onClick={handleExtract} disabled={!selectedTrackId || !format} />
         )}
-        {progress > 1 && (
-          <>
-            <ProgressBar progress={progress} description="Extracting track..." />
-            <Button disabled={progress < 100} onClick={handleSave}>
-              Save
-            </Button>
-          </>
-        )}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
       </ToolMain>
     </ToolContainer>
   )

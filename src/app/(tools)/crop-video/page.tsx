@@ -1,17 +1,16 @@
 'use client'
 
-import ProgressBar from '@/components/progress-bar'
+import ToolAction from '@/components/tool-action'
 import ToolCentered from '@/components/tool-centered'
+import ToolCompletion from '@/components/tool-completion'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
-import { Button } from '@/components/ui/button'
 import { useConversion } from '@/hooks/use-conversion'
 import { usePlayerStore } from '@/store/use-player-store'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 import { cropVideo } from '@/utils/mediabunny'
-import { IconCrop } from '@tabler/icons-react'
 
 const CropVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
   const { progress, conversion, execute, reset } = useConversion()
@@ -32,26 +31,13 @@ const CropVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
   return (
     <ToolContainer>
       <ToolMain file={file} fileData={fileData} showCropper={true}>
-        <div className="flex flex-col gap-4 max-w-xl mx-auto">
-          {crop && (
-            <p className="text-xs text-muted-foreground">
-              {crop.width} × {crop.height} px &nbsp;·&nbsp; left {crop.left}px, top {crop.top}px
-            </p>
-          )}
-          {progress < 1 && (
-            <Button onClick={handleCrop} disabled={!crop}>
-              <IconCrop /> Crop video
-            </Button>
-          )}
-          {progress > 1 && (
-            <>
-              <ProgressBar progress={progress} description="Cropping video..." />
-              <Button disabled={progress < 100} onClick={handleSave}>
-                Save
-              </Button>
-            </>
-          )}
-        </div>
+        {crop && (
+          <p className="text-xs text-muted-foreground">
+            {crop.width} × {crop.height} px &nbsp;·&nbsp; left {crop.left}px, top {crop.top}px
+          </p>
+        )}
+        {progress < 1 && <ToolAction onClick={handleCrop} disabled={!crop} />}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
       </ToolMain>
     </ToolContainer>
   )

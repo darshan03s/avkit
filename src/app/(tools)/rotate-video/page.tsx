@@ -1,17 +1,16 @@
 'use client'
 
-import ProgressBar from '@/components/progress-bar'
 import SelectBox from '@/components/select-box'
+import ToolAction from '@/components/tool-action'
 import ToolCentered from '@/components/tool-centered'
+import ToolCompletion from '@/components/tool-completion'
 import ToolContainer from '@/components/tool-container'
 import ToolMain from '@/components/tool-main'
 import { ToolPage } from '@/components/tool-page'
-import { Button } from '@/components/ui/button'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 import { rotateVideo } from '@/utils/mediabunny'
-import { RotateCw } from 'lucide-react'
 import { useState } from 'react'
 
 type Rotation = 0 | 90 | 180 | 270
@@ -52,19 +51,8 @@ const RotateVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
           groupLabel="Clockwise rotations"
           options={rotationOptions}
         />
-        {progress < 1 && (
-          <Button onClick={handleRotate} disabled={rotation === undefined}>
-            <RotateCw /> Rotate video
-          </Button>
-        )}
-        {progress > 1 && (
-          <>
-            <ProgressBar progress={progress} description="Rotating video..." />
-            <Button disabled={progress < 100} onClick={handleSave}>
-              Save
-            </Button>
-          </>
-        )}
+        {progress < 1 && <ToolAction onClick={handleRotate} disabled={rotation === undefined} />}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
       </ToolMain>
     </ToolContainer>
   )
