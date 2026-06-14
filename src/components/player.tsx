@@ -111,20 +111,34 @@ const VideoPlayerWithCropper = ({
   }, [crop, videoNaturalSize, containerSize, onCropChange])
 
   const startDrag = useCallback(
-    (handle: DragHandle, e: React.MouseEvent) => {
+    (handle: DragHandle, e: React.MouseEvent | React.TouchEvent) => {
       e.preventDefault()
       e.stopPropagation()
       const container = containerRef.current
       if (!container) return
 
-      const startX = e.clientX
-      const startY = e.clientY
+      const getPoint = (ev: MouseEvent | TouchEvent) => {
+        if ('touches' in ev) {
+          const t = ev.touches[0] ?? ev.changedTouches[0]
+          return { clientX: t.clientX, clientY: t.clientY }
+        }
+        return { clientX: ev.clientX, clientY: ev.clientY }
+      }
+
+      const origin =
+        'touches' in e
+          ? { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }
+          : { clientX: e.clientX, clientY: e.clientY }
+
+      const startX = origin.clientX
+      const startY = origin.clientY
       const { x, y, w, h } = crop
       const { width: cw, height: ch } = container.getBoundingClientRect()
 
-      const onMove = (ev: MouseEvent) => {
-        const dx = ev.clientX - startX
-        const dy = ev.clientY - startY
+      const onMove = (ev: MouseEvent | TouchEvent) => {
+        const { clientX, clientY } = getPoint(ev)
+        const dx = clientX - startX
+        const dy = clientY - startY
 
         if (handle === 'move') {
           setCrop({
@@ -166,10 +180,14 @@ const VideoPlayerWithCropper = ({
       const onUp = () => {
         window.removeEventListener('mousemove', onMove)
         window.removeEventListener('mouseup', onUp)
+        window.removeEventListener('touchmove', onMove)
+        window.removeEventListener('touchend', onUp)
       }
 
       window.addEventListener('mousemove', onMove)
       window.addEventListener('mouseup', onUp)
+      window.addEventListener('touchmove', onMove, { passive: false })
+      window.addEventListener('touchend', onUp)
     },
     [crop]
   )
@@ -207,16 +225,18 @@ const VideoPlayerWithCropper = ({
       </div>
 
       <div
-        className="absolute cursor-move"
+        className="absolute cursor-move touch-none"
         style={{ left: crop.x, top: crop.y, width: crop.w, height: crop.h }}
         onMouseDown={(e) => startDrag('move', e)}
+        onTouchStart={(e) => startDrag('move', e)}
       >
         {HANDLES.map(({ id, cursor, style }) => (
           <div
             key={id}
-            className="absolute w-2 h-2 bg-white rounded-sm shadow-md border border-black/30"
+            className="absolute w-4 h-4 bg-white rounded-sm shadow-md border border-black/30 touch-none"
             style={{ ...style, cursor }}
             onMouseDown={(e) => startDrag(id, e)}
+            onTouchStart={(e) => startDrag(id, e)}
           />
         ))}
       </div>
