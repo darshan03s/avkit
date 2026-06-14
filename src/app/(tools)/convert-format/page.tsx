@@ -26,15 +26,13 @@ const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
 
   const outputFormatOptions = getOutputFormatOptions(fileType)
 
-  const { progress, conversion, execute, reset } = useConversion()
+  const { progress, execute, reset, cancel, conversion } = useConversion()
 
   async function handleConvert() {
     if (!format) return
 
     await convertWithErrorHandler(() =>
-      execute((onProgress) => {
-        return convertFormat(fileInput, format, onProgress)
-      })
+      execute((onProgress) => convertFormat(fileInput, format, onProgress))
     )
   }
 
@@ -55,7 +53,9 @@ const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
           options={outputFormatOptions}
         />
         {progress < 1 && <ToolAction onClick={handleConvert} disabled={!format} />}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )

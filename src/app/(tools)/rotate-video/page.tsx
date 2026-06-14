@@ -25,7 +25,7 @@ const RotateVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
   const rotationOptions = Object.keys(rotationOptionsMap)
   const [rotation, setRotation] = useState<Rotation | undefined>()
 
-  const { progress, conversion, execute, reset } = useConversion()
+  const { progress, conversion, execute, reset, cancel } = useConversion()
 
   async function handleRotate() {
     if (rotation === undefined) return
@@ -52,7 +52,9 @@ const RotateVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
           options={rotationOptions}
         />
         {progress < 1 && <ToolAction onClick={handleRotate} disabled={rotation === undefined} />}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )

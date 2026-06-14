@@ -7,11 +7,15 @@ export function useConversion() {
 
   async function execute(fn: (onProgress: (progress: number) => void) => Promise<Conversion>) {
     const conversion = await fn((progress) => {
-      const prog = Math.round(progress * 100)
-      setProgress(prog)
+      setProgress(Math.round(progress * 100))
     })
-
     setConversion(conversion)
+    try {
+      await conversion.execute()
+    } catch (e) {
+      setConversion(null)
+      throw e
+    }
   }
 
   function reset() {
@@ -19,10 +23,18 @@ export function useConversion() {
     setConversion(null)
   }
 
+  async function cancel() {
+    if (!conversion) return
+    setConversion(null)
+    setProgress(0)
+    await conversion.cancel()
+  }
+
   return {
     progress,
-    conversion,
     execute,
-    reset
+    reset,
+    cancel,
+    conversion
   }
 }

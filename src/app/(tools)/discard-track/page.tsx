@@ -17,7 +17,7 @@ import { toast } from 'sonner'
 const DiscardTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
 
-  const { progress, conversion, execute, reset } = useConversion()
+  const { progress, conversion, execute, reset, cancel } = useConversion()
 
   async function handleDiscard() {
     if (selectedIds.size - fileData.tracksData.length === 0) {
@@ -64,7 +64,9 @@ const DiscardTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
         {fileData.tracksData.length > 0 && progress < 1 && (
           <ToolAction onClick={handleDiscard} disabled={selectedIds.size === 0} />
         )}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )

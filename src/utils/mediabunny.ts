@@ -317,7 +317,6 @@ export async function convertFormat(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }
@@ -356,7 +355,6 @@ export async function trim(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }
@@ -411,7 +409,6 @@ export async function extractTrack(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }
@@ -457,7 +454,6 @@ export async function changeCodec(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }
@@ -496,7 +492,6 @@ export async function changeFrameRate(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }
@@ -540,7 +535,6 @@ export async function cropVideo(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }
@@ -582,7 +576,6 @@ export async function discardTrack(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }
@@ -627,7 +620,6 @@ export async function resizeVideo(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }
@@ -666,7 +658,6 @@ export async function compressVideo(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }
@@ -706,7 +697,6 @@ export async function rotateVideo(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }
@@ -742,7 +732,6 @@ export async function removeMetadata(
   }
 
   conversion.onProgress = onProgress
-  await conversion.execute()
 
   return conversion
 }

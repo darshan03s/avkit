@@ -31,7 +31,7 @@ const ChangeQuality = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [quality, setQuality] = useState<keyof typeof qualityMap>()
   const qualityOptions = Object.keys(qualityMap)
 
-  const { progress, conversion, execute, reset } = useConversion()
+  const { progress, conversion, execute, reset, cancel } = useConversion()
 
   async function handleCompress() {
     if (!quality) return
@@ -58,7 +58,9 @@ const ChangeQuality = ({ file, fileInput, fileData }: ToolPageProps) => {
           options={qualityOptions}
         />
         {progress < 1 && <ToolAction onClick={handleCompress} disabled={!quality} />}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )

@@ -14,7 +14,7 @@ import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '
 import { removeMetadata } from '@/utils/mediabunny'
 
 const RemoveMetadata = ({ file, fileInput, fileData }: ToolPageProps) => {
-  const { conversion, execute, progress, reset } = useConversion()
+  const { conversion, execute, progress, reset, cancel } = useConversion()
   const metadataTags = fileData.metadataTags
 
   async function handleRemoveMetadata() {
@@ -69,7 +69,9 @@ const RemoveMetadata = ({ file, fileInput, fileData }: ToolPageProps) => {
           ) : null}
         </div>
         {progress < 1 && <ToolAction onClick={handleRemoveMetadata} disabled={!metadataTags} />}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )

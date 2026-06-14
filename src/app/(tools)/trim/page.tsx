@@ -26,7 +26,7 @@ const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
 
-  const { progress, conversion, execute, reset } = useConversion()
+  const { progress, conversion, execute, reset, cancel } = useConversion()
 
   async function handleTrim() {
     if (!isValidDuration(startTime) && !isValidDuration(endTime)) return
@@ -84,7 +84,9 @@ const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
           />
         </div>
         {progress < 1 && <ToolAction onClick={handleTrim} disabled={!startTime || !endTime} />}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )

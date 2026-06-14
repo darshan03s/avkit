@@ -18,7 +18,7 @@ import { useState } from 'react'
 const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [frameRate, setFrameRate] = useState<string>('1')
 
-  const { progress, conversion, execute, reset } = useConversion()
+  const { progress, conversion, execute, reset, cancel } = useConversion()
 
   async function handleChangeFrameRate() {
     if (!frameRate) return
@@ -50,7 +50,9 @@ const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
           />
         </div>
         {progress < 1 && <ToolAction onClick={handleChangeFrameRate} disabled={!frameRate} />}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )

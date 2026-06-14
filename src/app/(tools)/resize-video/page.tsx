@@ -24,7 +24,7 @@ const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
   )
   const [fit, setFit] = useState<'fill' | 'contain' | 'cover'>()
 
-  const { progress, conversion, execute, reset } = useConversion()
+  const { progress, conversion, execute, reset, cancel } = useConversion()
 
   async function handleResize() {
     if (!width || !height || !fit) return
@@ -79,7 +79,9 @@ const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
           options={['fill', 'contain', 'cover']}
         />
         {progress < 1 && <ToolAction onClick={handleResize} disabled={!width || !height || !fit} />}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )

@@ -2,7 +2,13 @@
 
 import { ConversionError, DecodabilityError, EncodabilityError } from '@/errors'
 import { SupportedOutputFormat } from '@/types/mediabunny'
-import { AUDIO_CODECS, BufferTarget, Conversion, VIDEO_CODECS } from 'mediabunny'
+import {
+  AUDIO_CODECS,
+  BufferTarget,
+  Conversion,
+  ConversionCanceledError,
+  VIDEO_CODECS
+} from 'mediabunny'
 import { toast } from 'sonner'
 import { SUPPORTED_AUDIO_OUTPUT_FORMATS, SUPPORTED_VIDEO_OUTPUT_FORMATS } from './mediabunny'
 
@@ -145,6 +151,10 @@ export async function convertWithErrorHandler<T>(fn: () => Promise<T>): Promise<
   try {
     return await fn()
   } catch (error) {
+    if (error instanceof ConversionCanceledError) {
+      return
+    }
+
     if (error instanceof ConversionError) {
       error.discardedTracks.forEach((track) => {
         toast.error(String(track.reason))

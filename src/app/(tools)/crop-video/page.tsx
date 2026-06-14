@@ -13,9 +13,10 @@ import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '
 import { cropVideo } from '@/utils/mediabunny'
 
 const CropVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
-  const { progress, conversion, execute, reset } = useConversion()
   const { left, top, width, height } = usePlayerStore()
   const crop = { left, top, width, height }
+
+  const { progress, conversion, execute, reset, cancel } = useConversion()
 
   async function handleCrop() {
     await convertWithErrorHandler(() =>
@@ -37,7 +38,9 @@ const CropVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
           </p>
         )}
         {progress < 1 && <ToolAction onClick={handleCrop} disabled={!crop} />}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )

@@ -31,15 +31,15 @@ const ChangeCodec = ({ file, fileInput, fileData }: ToolPageProps) => {
   const outputFormatOptions = getOutputFormatOptions(fileType)
   const codecOptions = getCodecOptions(fileType)
 
-  const { progress, conversion, execute, reset } = useConversion()
+  const { progress, conversion, execute, reset, cancel } = useConversion()
 
   async function handleChangeCodec() {
     if (!format || !codec) return
 
     await convertWithErrorHandler(() =>
-      execute((onProgress) => {
-        return changeCodec(fileInput, fileType, format as SupportedOutputFormat, codec, onProgress)
-      })
+      execute((onProgress) =>
+        changeCodec(fileInput, fileType, format as SupportedOutputFormat, codec, onProgress)
+      )
     )
   }
 
@@ -79,7 +79,9 @@ const ChangeCodec = ({ file, fileInput, fileData }: ToolPageProps) => {
           options={codecOptions}
         />
         {progress < 1 && <ToolAction onClick={handleChangeCodec} disabled={!format || !codec} />}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )

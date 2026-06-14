@@ -22,7 +22,7 @@ const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
 
   const outputFormatOptions = getOutputFormatOptions(selectedTrack?.type as 'video' | 'audio')
 
-  const { progress, conversion, execute, reset } = useConversion()
+  const { progress, conversion, execute, reset, cancel } = useConversion()
 
   async function handleExtract() {
     if (!selectedTrack || !format) return
@@ -65,7 +65,9 @@ const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
         {fileData.tracksData.length > 0 && progress < 1 && (
           <ToolAction onClick={handleExtract} disabled={!selectedTrackId || !format} />
         )}
-        {progress > 1 && <ToolCompletion progress={progress} handleSave={handleSave} />}
+        {progress > 1 && (
+          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+        )}
       </ToolMain>
     </ToolContainer>
   )
