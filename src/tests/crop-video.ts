@@ -20,7 +20,8 @@ async function main() {
 
   const target = getFileOutputTarget(outputFormat.fileExtension)
 
-  await cropVideo(input, crop, onProgress, target)
+  const conversion = await cropVideo(input, crop, onProgress, target)
+  await conversion.execute()
 }
 
 main()
