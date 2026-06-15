@@ -3,6 +3,7 @@
 import { ModeToggle } from './mode-toggle'
 import Brand from './brand'
 import { SidebarTrigger, useSidebar } from './ui/sidebar'
+import GithubRepo from './github-repo'
 
 const Header = () => {
   const { open } = useSidebar()
@@ -17,7 +18,8 @@ const Header = () => {
           </div>
         ) : null}
       </div>
-      <div className="header-right">
+      <div className="header-right flex items-center gap-3">
+        <GithubRepo />
         <ModeToggle />
       </div>
     </header>
