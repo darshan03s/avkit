@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 
 export const APP_NAME = 'avkit'
 
-const APP_DESCRIPTION = 'Browser-based audio and video utilities'
+export const APP_DESCRIPTION = 'Browser-based audio and video utilities'
 
 const APP_KEYWORDS: string[] = []
 
