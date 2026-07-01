@@ -1,0 +1,35 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="200" height="200" rx="44" fill="#123A34"/>
+
+  <!-- 2x2 grid of rounded tiles, each representing a tool -->
+  <!-- Tile 1: top-left, play (video) -->
+  <rect x="28" y="28" width="66" height="66" rx="16" fill="#FFFFFF" fill-opacity="0.14"/>
+  <path d="M52 46 L52 76 L78 61 Z" fill="#F2C572"/>
+
+  <!-- Tile 2: top-right, waveform (audio) -->
+  <rect x="106" y="28" width="66" height="66" rx="16" fill="#FFFFFF" fill-opacity="0.14"/>
+  <g fill="#F2C572">
+    <rect x="120" y="55" width="7" height="14" rx="3.5"/>
+    <rect x="133" y="46" width="7" height="32" rx="3.5"/>
+    <rect x="146" y="51" width="7" height="22" rx="3.5"/>
+    <rect x="159" y="58" width="7" height="8" rx="3.5"/>
+  </g>
+
+  <!-- Tile 3: bottom-left, microphone (audio recording) -->
+  <rect x="28" y="106" width="66" height="66" rx="16" fill="#FFFFFF" fill-opacity="0.14"/>
+  <g fill="none" stroke="#F2C572" stroke-width="6" stroke-linecap="round">
+    <rect x="53" y="122" width="16" height="26" rx="8" fill="#F2C572" stroke="none"/>
+    <path d="M45 143 Q45 158 61 158 Q77 158 77 143"/>
+    <line x1="61" y1="158" x2="61" y2="167"/>
+  </g>
+
+  <!-- Tile 4: bottom-right, scissors (editing/cutting) -->
+  <rect x="106" y="106" width="66" height="66" rx="16" fill="#FFFFFF" fill-opacity="0.14"/>
+  <g fill="none" stroke="#F2C572" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="124" cy="124" r="6" fill="#F2C572" stroke="none"/>
+    <circle cx="124" cy="154" r="6" fill="#F2C572" stroke="none"/>
+    <line x1="129" y1="128" x2="160" y2="150"/>
+    <line x1="129" y1="150" x2="160" y2="128"/>
+  </g>
+</svg>
