@@ -182,8 +182,14 @@ export function useConversion() {
 
     const unintentionallyDiscarded = conversionInit.discardedTracks
 
-    if (unintentionallyDiscarded.length > 0 || !conversionInit.isValid) {
-      throw new ConversionError(conversionInit.discardedTracks)
+    if (trackIdsToDiscard || trackToExtract) {
+      if (!conversionInit.isValid) {
+        throw new ConversionError(conversionInit.discardedTracks)
+      }
+    } else {
+      if (unintentionallyDiscarded.length > 0 || !conversionInit.isValid) {
+        throw new ConversionError(conversionInit.discardedTracks)
+      }
     }
 
     conversionInit.onProgress = onProgress
