@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from './ui/button'
-import ProgressBar from './progress-bar'
+import { Button } from '../ui/button'
+import ProgressBar from '../progress-bar'
 import { usePathname } from 'next/navigation'
 import { tools } from '@/tools'
 import { X } from 'lucide-react'

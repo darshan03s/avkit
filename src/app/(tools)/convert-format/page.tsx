@@ -10,14 +10,14 @@ import {
   saveOutput
 } from '@/utils'
 import { useConversion } from '@/hooks/use-conversion'
-import { ToolPage } from '@/components/tool-page'
-import ToolCentered from '@/components/tool-centered'
-import ToolContainer from '@/components/tool-container'
-import ToolMain from '@/components/tool-main'
+import { ToolPage } from '@/components/tool/tool-page'
+import ToolCentered from '@/components/tool/tool-centered'
+import ToolContainer from '@/components/tool/tool-container'
+import ToolMain from '@/components/tool/tool-main'
 import { ToolPageProps } from '@/types'
 import SelectBox from '@/components/select-box'
-import ToolAction from '@/components/tool-action'
-import ToolCompletion from '@/components/tool-completion'
+import ToolAction from '@/components/tool/tool-action'
+import ToolCompletion from '@/components/tool/tool-completion'
 
 const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()

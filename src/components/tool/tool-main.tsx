@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
-import FileName from './file-name'
+import FileName from '../file-name'
 import { InputMediaData } from '@/types/mediabunny'
-import Player from './player'
+import Player from '../player'
 
 interface ToolMainProps {
   children: React.ReactNode

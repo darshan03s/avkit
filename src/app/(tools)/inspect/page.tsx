@@ -1,8 +1,8 @@
 'use client'
 
-import ToolContainer from '@/components/tool-container'
-import ToolMain from '@/components/tool-main'
-import { ToolPage } from '@/components/tool-page'
+import ToolContainer from '@/components/tool/tool-container'
+import ToolMain from '@/components/tool/tool-main'
+import { ToolPage } from '@/components/tool/tool-page'
 import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
 import { ToolPageProps } from '@/types'
 import { formatBitrate, formatBytes, truncateTo2Decimals } from '@/utils'

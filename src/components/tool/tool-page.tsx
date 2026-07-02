@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import Main from './main'
-import FileInput from './file-input'
-import { Button } from './ui/button'
+import Main from '../main'
+import FileInput from '../file-input'
+import { Button } from '../ui/button'
 import { tools } from '@/tools'
 import { usePathname } from 'next/navigation'
 import { ALL_FORMATS, BlobSource, Input } from 'mediabunny'
