@@ -5,6 +5,7 @@ import ProgressBar from '../progress-bar'
 import { usePathname } from 'next/navigation'
 import { tools } from '@/tools'
 import { X } from 'lucide-react'
+import { IconFileDownload } from '@tabler/icons-react'
 
 const ToolCompletion = ({
   progress,
@@ -26,6 +27,7 @@ const ToolCompletion = ({
       </div>
       <div className="flex justify-center items-center gap-2">
         <Button disabled={progress < 100} onClick={handleSave}>
+          <IconFileDownload />
           Save
         </Button>
         {progress < 100 && (
