@@ -35,7 +35,7 @@ const ChangeCodec = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleChangeCodec() {
     if (!format || !codec) return
 
-    await convertWithErrorHandler(() => execute(fileInput, { format, codec }))
+    await convertWithErrorHandler(() => execute(fileInput, { format, codec, type: fileType }))
   }
 
   async function handleSave() {
