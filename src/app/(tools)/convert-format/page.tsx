@@ -19,7 +19,7 @@ import SelectBox from '@/components/select-box'
 import ToolAction from '@/components/tool/tool-action'
 import ToolCompletion from '@/components/tool/tool-completion'
 
-const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
+const Convert = ({ file, fileData }: ToolPageProps) => {
   const [format, setFormat] = useState<SupportedOutputFormat>()
   const fileType = getFileType(file)
 
@@ -30,7 +30,7 @@ const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleConvert() {
     if (!format) return
 
-    await convertWithErrorHandler(() => execute(fileInput, { format }))
+    await convertWithErrorHandler(() => execute({ format }))
   }
 
   async function handleSave() {
@@ -61,9 +61,9 @@ const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage description="Import audio or video">
-      {(file, fileInput, fileData) => (
+      {(file, fileData) => (
         <ToolCentered>
-          <Convert file={file} fileInput={fileInput} fileData={fileData} />
+          <Convert file={file} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

@@ -19,7 +19,7 @@ import {
 } from 'mediabunny'
 import { useState } from 'react'
 
-const ChangeQuality = ({ file, fileInput, fileData }: ToolPageProps) => {
+const ChangeQuality = ({ file, fileData }: ToolPageProps) => {
   const qualityMap = {
     'Very low': QUALITY_VERY_LOW,
     Low: QUALITY_LOW,
@@ -35,7 +35,7 @@ const ChangeQuality = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleCompress() {
     if (!quality) return
 
-    await convertWithErrorHandler(() => execute(fileInput, { quality: qualityMap[quality] }))
+    await convertWithErrorHandler(() => execute({ quality: qualityMap[quality] }))
   }
 
   async function handleSave() {
@@ -66,9 +66,9 @@ const ChangeQuality = ({ file, fileInput, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage description="Import video" acceptAudio={false}>
-      {(file, fileInput, fileData) => (
+      {(file, fileData) => (
         <ToolCentered>
-          <ChangeQuality file={file} fileInput={fileInput} fileData={fileData} />
+          <ChangeQuality file={file} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

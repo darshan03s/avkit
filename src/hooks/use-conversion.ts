@@ -1,4 +1,5 @@
 import { ConversionError } from '@/errors'
+import { useFile } from '@/store/use-file'
 import { SupportedOutputFormat, TrackData } from '@/types/mediabunny'
 import {
   getOutputFormatForInputFormat,
@@ -11,7 +12,6 @@ import {
   BufferTarget,
   Conversion,
   ConversionOptions,
-  Input,
   Output,
   OutputOptions,
   Quality,
@@ -50,12 +50,15 @@ type ExecuteOptions = {
 export function useConversion() {
   const [progress, setProgress] = useState(0)
   const [conversion, setConversion] = useState<Conversion | null>(null)
+  const { fileInput } = useFile()
+
+  const input = fileInput!
 
   function onProgress(progress: number) {
     setProgress(Math.trunc(progress * 100))
   }
 
-  async function execute(input: Input, options: Partial<ExecuteOptions>) {
+  async function execute(options: Partial<ExecuteOptions>) {
     await verifyDecodability(input)
 
     const {

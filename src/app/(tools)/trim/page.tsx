@@ -21,7 +21,7 @@ import {
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
+const Trim = ({ file, fileData }: ToolPageProps) => {
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
 
@@ -48,7 +48,7 @@ const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
       return
     }
 
-    await convertWithErrorHandler(() => execute(fileInput, { trim: { start, end } }))
+    await convertWithErrorHandler(() => execute({ trim: { start, end } }))
   }
 
   async function handleSave() {
@@ -87,9 +87,9 @@ const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage description="Import audio or video">
-      {(file, fileInput, fileData) => (
+      {(file, fileData) => (
         <ToolCentered>
-          <Trim file={file} fileInput={fileInput} fileData={fileData} />
+          <Trim file={file} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

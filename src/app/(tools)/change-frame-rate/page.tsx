@@ -14,7 +14,7 @@ import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 import { useState } from 'react'
 
-const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
+const ChangeFrameRate = ({ file, fileData }: ToolPageProps) => {
   const [frameRate, setFrameRate] = useState<string>('1')
 
   const { progress, conversion, execute, reset, cancel } = useConversion()
@@ -22,7 +22,7 @@ const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleChangeFrameRate() {
     if (!frameRate) return
 
-    await convertWithErrorHandler(() => execute(fileInput, { frameRate }))
+    await convertWithErrorHandler(() => execute({ frameRate }))
   }
 
   async function handleSave() {
@@ -58,9 +58,9 @@ const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage description="Import video" acceptAudio={false}>
-      {(file, fileInput, fileData) => (
+      {(file, fileData) => (
         <ToolCentered>
-          <ChangeFrameRate file={file} fileInput={fileInput} fileData={fileData} />
+          <ChangeFrameRate file={file} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

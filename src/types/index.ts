@@ -1,8 +1,7 @@
-import { InputMediaData, MediaBunnyInput } from './mediabunny'
+import { InputMediaData } from './mediabunny'
 
 export type ToolPageProps = {
   file: File
-  fileInput: MediaBunnyInput
   fileData: InputMediaData
 }
 

@@ -22,7 +22,7 @@ import SelectBox from '@/components/select-box'
 import ToolAction from '@/components/tool/tool-action'
 import ToolCompletion from '@/components/tool/tool-completion'
 
-const ChangeCodec = ({ file, fileInput, fileData }: ToolPageProps) => {
+const ChangeCodec = ({ file, fileData }: ToolPageProps) => {
   const [codec, setCodec] = useState<AudioCodec | VideoCodec | ''>('')
   const [format, setFormat] = useState<SupportedOutputFormat | ''>('')
   const fileType = getFileType(file)
@@ -35,7 +35,7 @@ const ChangeCodec = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleChangeCodec() {
     if (!format || !codec) return
 
-    await convertWithErrorHandler(() => execute(fileInput, { format, codec, type: fileType }))
+    await convertWithErrorHandler(() => execute({ format, codec, type: fileType }))
   }
 
   async function handleSave() {
@@ -85,9 +85,9 @@ const ChangeCodec = ({ file, fileInput, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage description="Import audio or video">
-      {(file, fileInput, fileData) => (
+      {(file, fileData) => (
         <ToolCentered>
-          <ChangeCodec file={file} fileInput={fileInput} fileData={fileData} />
+          <ChangeCodec file={file} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

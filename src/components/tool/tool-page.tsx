@@ -13,7 +13,7 @@ import { useFile } from '@/store/use-file'
 
 type ToolPageProps = {
   description: string
-  children: (file: File, fileInput: Input, fileData: InputMediaData) => React.ReactNode
+  children: (file: File, fileData: InputMediaData) => React.ReactNode
   acceptAudio?: boolean
   acceptVideo?: boolean
 }
@@ -69,7 +69,7 @@ export function ToolPage({
             <Button onClick={() => setFile(null)}>Clear</Button>
           </div>
 
-          {fileInput && fileData ? children(file, fileInput, fileData) : null}
+          {fileInput && fileData ? children(file, fileData) : null}
         </div>
       )}
     </Main>

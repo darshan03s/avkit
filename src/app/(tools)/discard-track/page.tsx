@@ -13,7 +13,7 @@ import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-const DiscardTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
+const DiscardTrack = ({ file, fileData }: ToolPageProps) => {
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
 
   const { progress, conversion, execute, reset, cancel } = useConversion()
@@ -24,7 +24,7 @@ const DiscardTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
       return
     }
 
-    await convertWithErrorHandler(() => execute(fileInput, { trackIdsToDiscard: selectedIds }))
+    await convertWithErrorHandler(() => execute({ trackIdsToDiscard: selectedIds }))
   }
 
   async function handleSave() {
@@ -73,9 +73,9 @@ const DiscardTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage description="Import video" acceptAudio={false}>
-      {(file, fileInput, fileData) => (
+      {(file, fileData) => (
         <ToolCentered>
-          <DiscardTrack file={file} fileInput={fileInput} fileData={fileData} />
+          <DiscardTrack file={file} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

@@ -14,7 +14,7 @@ import { SupportedOutputFormat } from '@/types/mediabunny'
 import { convertWithErrorHandler, getFilename, getOutputFormatOptions, saveOutput } from '@/utils'
 import { useState } from 'react'
 
-const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
+const ExtractTrack = ({ file, fileData }: ToolPageProps) => {
   const [selectedTrackId, setSelectedTrackId] = useState('')
   const [format, setFormat] = useState<SupportedOutputFormat | ''>('')
   const selectedTrack = fileData.tracksData.find((track) => track.id.toString() === selectedTrackId)
@@ -26,9 +26,7 @@ const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleExtract() {
     if (!selectedTrack || !format) return
 
-    await convertWithErrorHandler(() =>
-      execute(fileInput, { trackToExtract: selectedTrack, format })
-    )
+    await convertWithErrorHandler(() => execute({ trackToExtract: selectedTrack, format }))
   }
 
   async function handleSave() {
@@ -74,9 +72,9 @@ const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage description="Import video" acceptAudio={false}>
-      {(file, fileInput, fileData) => (
+      {(file, fileData) => (
         <ToolCentered>
-          <ExtractTrack file={file} fileInput={fileInput} fileData={fileData} />
+          <ExtractTrack file={file} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

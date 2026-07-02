@@ -12,12 +12,12 @@ import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 
-const RemoveMetadata = ({ file, fileInput, fileData }: ToolPageProps) => {
+const RemoveMetadata = ({ file, fileData }: ToolPageProps) => {
   const { conversion, execute, progress, reset, cancel } = useConversion()
   const metadataTags = fileData.metadataTags
 
   async function handleRemoveMetadata() {
-    await convertWithErrorHandler(() => execute(fileInput, { removeMetadata: true }))
+    await convertWithErrorHandler(() => execute({ removeMetadata: true }))
   }
 
   async function handleSave() {
@@ -77,9 +77,9 @@ const RemoveMetadata = ({ file, fileInput, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage description="Import audio or video">
-      {(file, fileInput, fileData) => (
+      {(file, fileData) => (
         <ToolCentered>
-          <RemoveMetadata file={file} fileInput={fileInput} fileData={fileData} />
+          <RemoveMetadata file={file} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

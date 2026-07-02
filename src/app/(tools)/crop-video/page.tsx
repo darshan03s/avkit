@@ -11,14 +11,14 @@ import { usePlayerStore } from '@/store/use-player-store'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 
-const CropVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
+const CropVideo = ({ file, fileData }: ToolPageProps) => {
   const { left, top, width, height } = usePlayerStore()
   const crop = { left, top, width, height }
 
   const { progress, conversion, execute, reset, cancel } = useConversion()
 
   async function handleCrop() {
-    await convertWithErrorHandler(() => execute(fileInput, { crop }))
+    await convertWithErrorHandler(() => execute({ crop }))
   }
 
   async function handleSave() {
@@ -46,9 +46,9 @@ const CropVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage description="Import video" acceptAudio={false}>
-      {(file, fileInput, fileData) => (
+      {(file, fileData) => (
         <ToolCentered>
-          <CropVideo file={file} fileInput={fileInput} fileData={fileData} />
+          <CropVideo file={file} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>

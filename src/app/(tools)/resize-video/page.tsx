@@ -14,7 +14,7 @@ import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
 import { useState } from 'react'
 
-const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
+const ResizeVideo = ({ file, fileData }: ToolPageProps) => {
   const [width, setWidth] = useState<string>(
     fileData.tracksData.find((track) => track.isVideo)?.displayWidth?.toString() ?? ''
   )
@@ -29,7 +29,7 @@ const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
     if (!width || !height || !fit) return
 
     await convertWithErrorHandler(() =>
-      execute(fileInput, { resize: { width: Number(width), height: Number(height), fit } })
+      execute({ resize: { width: Number(width), height: Number(height), fit } })
     )
   }
 
@@ -87,9 +87,9 @@ const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage description="Import video" acceptAudio={false}>
-      {(file, fileInput, fileData) => (
+      {(file, fileData) => (
         <ToolCentered>
-          <ResizeVideo file={file} fileInput={fileInput} fileData={fileData} />
+          <ResizeVideo file={file} fileData={fileData} />
         </ToolCentered>
       )}
     </ToolPage>
