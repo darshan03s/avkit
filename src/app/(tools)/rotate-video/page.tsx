@@ -9,7 +9,7 @@ import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
-import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
+import { convertWithErrorHandler } from '@/utils'
 import { Rotation } from 'mediabunny'
 import { useState } from 'react'
 
@@ -23,17 +23,12 @@ const RotateVideo = ({ file, fileData }: ToolPageProps) => {
   const rotationOptions = Object.keys(rotationOptionsMap)
   const [rotation, setRotation] = useState<Rotation | undefined>()
 
-  const { progress, conversion, execute, reset, cancel } = useConversion()
+  const { progress, execute, cancel, save } = useConversion()
 
   async function handleRotate() {
     if (rotation === undefined) return
 
     await convertWithErrorHandler(() => execute({ rotation }))
-  }
-
-  async function handleSave() {
-    saveOutput(conversion, getFilename(file.name), getExtension(file.name))
-    reset()
   }
 
   return (
@@ -48,9 +43,7 @@ const RotateVideo = ({ file, fileData }: ToolPageProps) => {
           options={rotationOptions}
         />
         {progress < 1 && <ToolAction onClick={handleRotate} disabled={rotation === undefined} />}
-        {progress > 1 && (
-          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
-        )}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={save} cancel={cancel} />}
       </ToolMain>
     </ToolContainer>
   )

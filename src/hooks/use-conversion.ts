@@ -1,6 +1,7 @@
 import { ConversionError } from '@/errors'
 import { useFile } from '@/store/use-file'
 import { SupportedOutputFormat, TrackData } from '@/types/mediabunny'
+import { getExtension, getFilename, saveOutput } from '@/utils'
 import {
   getOutputFormatForInputFormat,
   supportedOutputFormats,
@@ -50,7 +51,7 @@ type ExecuteOptions = {
 export function useConversion() {
   const [progress, setProgress] = useState(0)
   const [conversion, setConversion] = useState<Conversion | null>(null)
-  const { fileInput } = useFile()
+  const { fileInput, file } = useFile()
 
   const input = fileInput!
 
@@ -219,11 +220,22 @@ export function useConversion() {
     await conversion.cancel()
   }
 
+  function save(format?: SupportedOutputFormat) {
+    if (!file || !conversion) return
+    if (!format) {
+      saveOutput(conversion, getFilename(file.name), getExtension(file.name))
+    } else {
+      saveOutput(conversion, getFilename(file.name), format)
+    }
+    reset()
+  }
+
   return {
     progress,
     execute,
     reset,
     cancel,
-    conversion
+    conversion,
+    save
   }
 }

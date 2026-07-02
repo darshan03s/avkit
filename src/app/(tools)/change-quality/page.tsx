@@ -9,7 +9,7 @@ import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
-import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
+import { convertWithErrorHandler } from '@/utils'
 import {
   QUALITY_HIGH,
   QUALITY_LOW,
@@ -30,17 +30,12 @@ const ChangeQuality = ({ file, fileData }: ToolPageProps) => {
   const [quality, setQuality] = useState<keyof typeof qualityMap>()
   const qualityOptions = Object.keys(qualityMap)
 
-  const { progress, conversion, execute, reset, cancel } = useConversion()
+  const { progress, execute, cancel, save } = useConversion()
 
   async function handleCompress() {
     if (!quality) return
 
     await convertWithErrorHandler(() => execute({ quality: qualityMap[quality] }))
-  }
-
-  async function handleSave() {
-    saveOutput(conversion, getFilename(file.name), getExtension(file.name))
-    reset()
   }
 
   return (
@@ -55,9 +50,7 @@ const ChangeQuality = ({ file, fileData }: ToolPageProps) => {
           options={qualityOptions}
         />
         {progress < 1 && <ToolAction onClick={handleCompress} disabled={!quality} />}
-        {progress > 1 && (
-          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
-        )}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={save} cancel={cancel} />}
       </ToolMain>
     </ToolContainer>
   )

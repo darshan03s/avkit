@@ -26,7 +26,7 @@ const ToolCompletion = ({
         <ProgressBar progress={progress} description={loading!} />
       </div>
       <div className="flex justify-center items-center gap-2">
-        <Button disabled={progress < 100} onClick={handleSave}>
+        <Button disabled={progress < 100} onClick={() => handleSave()}>
           <IconFileDownload />
           Save
         </Button>

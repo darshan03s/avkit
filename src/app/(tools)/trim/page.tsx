@@ -10,14 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
-import {
-  convertToSeconds,
-  convertWithErrorHandler,
-  getExtension,
-  getFilename,
-  isValidDuration,
-  saveOutput
-} from '@/utils'
+import { convertToSeconds, convertWithErrorHandler, isValidDuration } from '@/utils'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -25,7 +18,7 @@ const Trim = ({ file, fileData }: ToolPageProps) => {
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
 
-  const { progress, conversion, execute, reset, cancel } = useConversion()
+  const { progress, execute, cancel, save } = useConversion()
 
   async function handleTrim() {
     if (!isValidDuration(startTime) && !isValidDuration(endTime)) return
@@ -51,11 +44,6 @@ const Trim = ({ file, fileData }: ToolPageProps) => {
     await convertWithErrorHandler(() => execute({ trim: { start, end } }))
   }
 
-  async function handleSave() {
-    saveOutput(conversion, getFilename(file.name), getExtension(file.name))
-    reset()
-  }
-
   return (
     <ToolContainer>
       <ToolMain file={file} fileData={fileData}>
@@ -76,9 +64,7 @@ const Trim = ({ file, fileData }: ToolPageProps) => {
           />
         </div>
         {progress < 1 && <ToolAction onClick={handleTrim} disabled={!startTime || !endTime} />}
-        {progress > 1 && (
-          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
-        )}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={save} cancel={cancel} />}
       </ToolMain>
     </ToolContainer>
   )

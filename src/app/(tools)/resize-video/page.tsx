@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
-import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
+import { convertWithErrorHandler } from '@/utils'
 import { useState } from 'react'
 
 const ResizeVideo = ({ file, fileData }: ToolPageProps) => {
@@ -23,7 +23,7 @@ const ResizeVideo = ({ file, fileData }: ToolPageProps) => {
   )
   const [fit, setFit] = useState<'fill' | 'contain' | 'cover'>()
 
-  const { progress, conversion, execute, reset, cancel } = useConversion()
+  const { progress, execute, cancel, save } = useConversion()
 
   async function handleResize() {
     if (!width || !height || !fit) return
@@ -31,11 +31,6 @@ const ResizeVideo = ({ file, fileData }: ToolPageProps) => {
     await convertWithErrorHandler(() =>
       execute({ resize: { width: Number(width), height: Number(height), fit } })
     )
-  }
-
-  async function handleSave() {
-    saveOutput(conversion, getFilename(file.name), getExtension(file.name))
-    reset()
   }
 
   return (
@@ -76,9 +71,7 @@ const ResizeVideo = ({ file, fileData }: ToolPageProps) => {
           options={['fill', 'contain', 'cover']}
         />
         {progress < 1 && <ToolAction onClick={handleResize} disabled={!width || !height || !fit} />}
-        {progress > 1 && (
-          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
-        )}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={save} cancel={cancel} />}
       </ToolMain>
     </ToolContainer>
   )

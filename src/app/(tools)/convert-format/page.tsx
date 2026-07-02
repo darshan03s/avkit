@@ -2,13 +2,7 @@
 
 import { useState } from 'react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
-import {
-  convertWithErrorHandler,
-  getFilename,
-  getFileType,
-  getOutputFormatOptions,
-  saveOutput
-} from '@/utils'
+import { convertWithErrorHandler, getFileType, getOutputFormatOptions } from '@/utils'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool/tool-page'
 import ToolCentered from '@/components/tool/tool-centered'
@@ -25,17 +19,12 @@ const Convert = ({ file, fileData }: ToolPageProps) => {
 
   const outputFormatOptions = getOutputFormatOptions(fileType)
 
-  const { progress, execute, reset, cancel, conversion } = useConversion()
+  const { progress, execute, cancel, save } = useConversion()
 
   async function handleConvert() {
     if (!format) return
 
     await convertWithErrorHandler(() => execute({ format }))
-  }
-
-  async function handleSave() {
-    saveOutput(conversion, getFilename(file.name), format!)
-    reset()
   }
 
   return (
@@ -51,7 +40,7 @@ const Convert = ({ file, fileData }: ToolPageProps) => {
         />
         {progress < 1 && <ToolAction onClick={handleConvert} disabled={!format} />}
         {progress > 1 && (
-          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+          <ToolCompletion progress={progress} handleSave={() => save(format)} cancel={cancel} />
         )}
       </ToolMain>
     </ToolContainer>

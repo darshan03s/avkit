@@ -5,10 +5,8 @@ import { SupportedOutputFormat } from '@/types/mediabunny'
 import {
   convertWithErrorHandler,
   getCodecOptions,
-  getFilename,
   getFileType,
-  getOutputFormatOptions,
-  saveOutput
+  getOutputFormatOptions
 } from '@/utils'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPage } from '@/components/tool/tool-page'
@@ -24,23 +22,18 @@ import ToolCompletion from '@/components/tool/tool-completion'
 
 const ChangeCodec = ({ file, fileData }: ToolPageProps) => {
   const [codec, setCodec] = useState<AudioCodec | VideoCodec | ''>('')
-  const [format, setFormat] = useState<SupportedOutputFormat | ''>('')
+  const [format, setFormat] = useState<SupportedOutputFormat | undefined>(undefined)
   const fileType = getFileType(file)
 
   const outputFormatOptions = getOutputFormatOptions(fileType)
   const codecOptions = getCodecOptions(fileType)
 
-  const { progress, conversion, execute, reset, cancel } = useConversion()
+  const { progress, execute, cancel, save } = useConversion()
 
   async function handleChangeCodec() {
     if (!format || !codec) return
 
     await convertWithErrorHandler(() => execute({ format, codec, type: fileType }))
-  }
-
-  async function handleSave() {
-    saveOutput(conversion, getFilename(file.name), format as SupportedOutputFormat)
-    reset()
   }
 
   return (
@@ -75,7 +68,7 @@ const ChangeCodec = ({ file, fileData }: ToolPageProps) => {
         />
         {progress < 1 && <ToolAction onClick={handleChangeCodec} disabled={!format || !codec} />}
         {progress > 1 && (
-          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+          <ToolCompletion progress={progress} handleSave={() => save(format)} cancel={cancel} />
         )}
       </ToolMain>
     </ToolContainer>

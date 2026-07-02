@@ -9,21 +9,16 @@ import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
 import { usePlayerStore } from '@/store/use-player-store'
 import { ToolPageProps } from '@/types'
-import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
+import { convertWithErrorHandler } from '@/utils'
 
 const CropVideo = ({ file, fileData }: ToolPageProps) => {
   const { left, top, width, height } = usePlayerStore()
   const crop = { left, top, width, height }
 
-  const { progress, conversion, execute, reset, cancel } = useConversion()
+  const { progress, execute, cancel, save } = useConversion()
 
   async function handleCrop() {
     await convertWithErrorHandler(() => execute({ crop }))
-  }
-
-  async function handleSave() {
-    saveOutput(conversion, getFilename(file.name), getExtension(file.name))
-    reset()
   }
 
   return (
@@ -35,9 +30,7 @@ const CropVideo = ({ file, fileData }: ToolPageProps) => {
           </p>
         )}
         {progress < 1 && <ToolAction onClick={handleCrop} disabled={!crop} />}
-        {progress > 1 && (
-          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
-        )}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={save} cancel={cancel} />}
       </ToolMain>
     </ToolContainer>
   )

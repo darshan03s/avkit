@@ -11,23 +11,18 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
-import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
+import { convertWithErrorHandler } from '@/utils'
 import { useState } from 'react'
 
 const ChangeFrameRate = ({ file, fileData }: ToolPageProps) => {
   const [frameRate, setFrameRate] = useState<string>('1')
 
-  const { progress, conversion, execute, reset, cancel } = useConversion()
+  const { progress, execute, cancel, save } = useConversion()
 
   async function handleChangeFrameRate() {
     if (!frameRate) return
 
     await convertWithErrorHandler(() => execute({ frameRate }))
-  }
-
-  async function handleSave() {
-    saveOutput(conversion, getFilename(file.name), getExtension(file.name))
-    reset()
   }
 
   return (
@@ -47,9 +42,7 @@ const ChangeFrameRate = ({ file, fileData }: ToolPageProps) => {
           />
         </div>
         {progress < 1 && <ToolAction onClick={handleChangeFrameRate} disabled={!frameRate} />}
-        {progress > 1 && (
-          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
-        )}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={save} cancel={cancel} />}
       </ToolMain>
     </ToolContainer>
   )

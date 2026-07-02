@@ -11,27 +11,22 @@ import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { SupportedOutputFormat } from '@/types/mediabunny'
-import { convertWithErrorHandler, getFilename, getOutputFormatOptions, saveOutput } from '@/utils'
+import { convertWithErrorHandler, getOutputFormatOptions } from '@/utils'
 import { useState } from 'react'
 
 const ExtractTrack = ({ file, fileData }: ToolPageProps) => {
   const [selectedTrackId, setSelectedTrackId] = useState('')
-  const [format, setFormat] = useState<SupportedOutputFormat | ''>('')
+  const [format, setFormat] = useState<SupportedOutputFormat | undefined>(undefined)
   const selectedTrack = fileData.tracksData.find((track) => track.id.toString() === selectedTrackId)
 
   const outputFormatOptions = getOutputFormatOptions(selectedTrack?.type as 'video' | 'audio')
 
-  const { progress, conversion, execute, reset, cancel } = useConversion()
+  const { progress, execute, cancel, save } = useConversion()
 
   async function handleExtract() {
     if (!selectedTrack || !format) return
 
     await convertWithErrorHandler(() => execute({ trackToExtract: selectedTrack, format }))
-  }
-
-  async function handleSave() {
-    saveOutput(conversion, getFilename(file.name), format as SupportedOutputFormat)
-    reset()
   }
 
   return (
@@ -62,7 +57,7 @@ const ExtractTrack = ({ file, fileData }: ToolPageProps) => {
           <ToolAction onClick={handleExtract} disabled={!selectedTrackId || !format} />
         )}
         {progress > 1 && (
-          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
+          <ToolCompletion progress={progress} handleSave={() => save(format)} cancel={cancel} />
         )}
       </ToolMain>
     </ToolContainer>

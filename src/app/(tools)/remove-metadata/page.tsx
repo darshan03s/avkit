@@ -10,19 +10,14 @@ import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
-import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
+import { convertWithErrorHandler } from '@/utils'
 
 const RemoveMetadata = ({ file, fileData }: ToolPageProps) => {
-  const { conversion, execute, progress, reset, cancel } = useConversion()
+  const { execute, progress, cancel, save } = useConversion()
   const metadataTags = fileData.metadataTags
 
   async function handleRemoveMetadata() {
     await convertWithErrorHandler(() => execute({ removeMetadata: true }))
-  }
-
-  async function handleSave() {
-    saveOutput(conversion, getFilename(file.name), getExtension(file.name))
-    reset()
   }
 
   return (
@@ -66,9 +61,7 @@ const RemoveMetadata = ({ file, fileData }: ToolPageProps) => {
           ) : null}
         </div>
         {progress < 1 && <ToolAction onClick={handleRemoveMetadata} disabled={!metadataTags} />}
-        {progress > 1 && (
-          <ToolCompletion progress={progress} handleSave={handleSave} cancel={cancel} />
-        )}
+        {progress > 1 && <ToolCompletion progress={progress} handleSave={save} cancel={cancel} />}
       </ToolMain>
     </ToolContainer>
   )
