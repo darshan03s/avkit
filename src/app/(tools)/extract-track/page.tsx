@@ -12,7 +12,6 @@ import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import { convertWithErrorHandler, getFilename, getOutputFormatOptions, saveOutput } from '@/utils'
-import { extractTrack } from '@/utils/mediabunny'
 import { useState } from 'react'
 
 const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
@@ -26,10 +25,9 @@ const ExtractTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
 
   async function handleExtract() {
     if (!selectedTrack || !format) return
+
     await convertWithErrorHandler(() =>
-      execute((onProgress) =>
-        extractTrack(fileInput, selectedTrack, onProgress, format as SupportedOutputFormat)
-      )
+      execute(fileInput, { trackToExtract: selectedTrack, format })
     )
   }
 

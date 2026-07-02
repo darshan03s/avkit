@@ -10,7 +10,6 @@ import { ToolPage } from '@/components/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
-import { compressVideo } from '@/utils/mediabunny'
 import {
   QUALITY_HIGH,
   QUALITY_LOW,
@@ -36,9 +35,7 @@ const ChangeQuality = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleCompress() {
     if (!quality) return
 
-    await convertWithErrorHandler(() =>
-      execute((onProgress) => compressVideo(fileInput, qualityMap[quality], onProgress))
-    )
+    await convertWithErrorHandler(() => execute(fileInput, { quality: qualityMap[quality] }))
   }
 
   async function handleSave() {

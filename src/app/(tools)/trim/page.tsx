@@ -18,7 +18,6 @@ import {
   isValidDuration,
   saveOutput
 } from '@/utils'
-import { trim } from '@/utils/mediabunny'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -49,14 +48,7 @@ const Trim = ({ file, fileInput, fileData }: ToolPageProps) => {
       return
     }
 
-    await convertWithErrorHandler(() =>
-      execute((onProgress) =>
-        trim(fileInput, onProgress, {
-          start,
-          end
-        })
-      )
-    )
+    await convertWithErrorHandler(() => execute(fileInput, { trim: { start, end } }))
   }
 
   async function handleSave() {

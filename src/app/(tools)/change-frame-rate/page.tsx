@@ -12,7 +12,6 @@ import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
-import { changeFrameRate } from '@/utils/mediabunny'
 import { useState } from 'react'
 
 const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
@@ -23,9 +22,7 @@ const ChangeFrameRate = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleChangeFrameRate() {
     if (!frameRate) return
 
-    await convertWithErrorHandler(() =>
-      execute((onProgress) => changeFrameRate(fileInput, frameRate, onProgress))
-    )
+    await convertWithErrorHandler(() => execute(fileInput, { frameRate }))
   }
 
   async function handleSave() {

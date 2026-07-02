@@ -11,16 +11,13 @@ import { ToolPage } from '@/components/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
-import { removeMetadata } from '@/utils/mediabunny'
 
 const RemoveMetadata = ({ file, fileInput, fileData }: ToolPageProps) => {
   const { conversion, execute, progress, reset, cancel } = useConversion()
   const metadataTags = fileData.metadataTags
 
   async function handleRemoveMetadata() {
-    await convertWithErrorHandler(() =>
-      execute((onProgress) => removeMetadata(fileInput, onProgress))
-    )
+    await convertWithErrorHandler(() => execute(fileInput, { removeMetadata: true }))
   }
 
   async function handleSave() {

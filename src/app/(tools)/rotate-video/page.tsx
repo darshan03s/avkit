@@ -10,10 +10,8 @@ import { ToolPage } from '@/components/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
-import { rotateVideo } from '@/utils/mediabunny'
+import { Rotation } from 'mediabunny'
 import { useState } from 'react'
-
-type Rotation = 0 | 90 | 180 | 270
 
 const RotateVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
   const rotationOptionsMap: Record<string, Rotation> = {
@@ -30,9 +28,7 @@ const RotateVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleRotate() {
     if (rotation === undefined) return
 
-    await convertWithErrorHandler(() =>
-      execute((onProgress) => rotateVideo(fileInput, rotation, onProgress))
-    )
+    await convertWithErrorHandler(() => execute(fileInput, { rotation }))
   }
 
   async function handleSave() {

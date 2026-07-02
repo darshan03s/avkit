@@ -10,7 +10,6 @@ import { ToolPage } from '@/components/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
-import { discardTrack } from '@/utils/mediabunny'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -24,9 +23,8 @@ const DiscardTrack = ({ file, fileInput, fileData }: ToolPageProps) => {
       toast.error('You cannot discard all tracks')
       return
     }
-    await convertWithErrorHandler(() =>
-      execute((onProgress) => discardTrack(fileInput, selectedIds, onProgress))
-    )
+
+    await convertWithErrorHandler(() => execute(fileInput, { trackIdsToDiscard: selectedIds }))
   }
 
   async function handleSave() {

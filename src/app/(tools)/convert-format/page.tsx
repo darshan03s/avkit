@@ -1,6 +1,5 @@
 'use client'
 
-import { convertFormat } from '@/utils/mediabunny'
 import { useState } from 'react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import {
@@ -31,9 +30,7 @@ const Convert = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleConvert() {
     if (!format) return
 
-    await convertWithErrorHandler(() =>
-      execute((onProgress) => convertFormat(fileInput, format, onProgress))
-    )
+    await convertWithErrorHandler(() => execute(fileInput, { format }))
   }
 
   async function handleSave() {

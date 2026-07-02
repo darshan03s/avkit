@@ -12,7 +12,6 @@ import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
 import { ToolPageProps } from '@/types'
 import { convertWithErrorHandler, getExtension, getFilename, saveOutput } from '@/utils'
-import { resizeVideo } from '@/utils/mediabunny'
 import { useState } from 'react'
 
 const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
@@ -30,9 +29,7 @@ const ResizeVideo = ({ file, fileInput, fileData }: ToolPageProps) => {
     if (!width || !height || !fit) return
 
     await convertWithErrorHandler(() =>
-      execute((onProgress) =>
-        resizeVideo(fileInput, { width: Number(width), height: Number(height) }, fit, onProgress)
-      )
+      execute(fileInput, { resize: { width: Number(width), height: Number(height), fit } })
     )
   }
 

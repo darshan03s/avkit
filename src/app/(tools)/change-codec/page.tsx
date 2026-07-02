@@ -1,6 +1,5 @@
 'use client'
 
-import { changeCodec } from '@/utils/mediabunny'
 import { useState } from 'react'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import {
@@ -36,11 +35,7 @@ const ChangeCodec = ({ file, fileInput, fileData }: ToolPageProps) => {
   async function handleChangeCodec() {
     if (!format || !codec) return
 
-    await convertWithErrorHandler(() =>
-      execute((onProgress) =>
-        changeCodec(fileInput, fileType, format as SupportedOutputFormat, codec, onProgress)
-      )
-    )
+    await convertWithErrorHandler(() => execute(fileInput, { format, codec }))
   }
 
   async function handleSave() {
