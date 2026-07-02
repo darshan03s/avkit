@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { Dispatch, SetStateAction, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { buttonVariants } from './ui/button'
 import { Upload } from 'lucide-react'
 
@@ -9,7 +9,7 @@ const FileInput = ({
   acceptAudio = true,
   acceptVideo = true
 }: {
-  setFile: Dispatch<SetStateAction<File | null>>
+  setFile: (file: File) => void
   description: string
   acceptAudio: boolean
   acceptVideo: boolean

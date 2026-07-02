@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import Main from '../main'
 import FileInput from '../file-input'
 import { Button } from '../ui/button'
@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation'
 import { ALL_FORMATS, BlobSource, Input } from 'mediabunny'
 import { getInputData } from '@/utils/mediabunny'
 import { InputMediaData } from '@/types/mediabunny'
+import { useFile } from '@/store/use-file'
 
 type ToolPageProps = {
   description: string
@@ -23,8 +24,11 @@ export function ToolPage({
   acceptAudio = true,
   acceptVideo = true
 }: ToolPageProps) {
-  const [file, setFile] = useState<File | null>(null)
-  const [fileData, setFileData] = useState<InputMediaData | null>(null)
+  const { file, fileData, reset, setFile, setFileInput, setFileData } = useFile()
+
+  useEffect(() => {
+    reset()
+  }, [reset])
 
   const pathname = usePathname()
   const heading = tools.find((t) => t.path === pathname)?.description
@@ -40,8 +44,9 @@ export function ToolPage({
 
   useEffect(() => {
     if (!fileInput) return
-    getInputData(fileInput).then(setFileData)
-  }, [fileInput])
+    setFileInput(fileInput)
+    getInputData(fileInput).then((fileData) => setFileData(fileData))
+  }, [fileInput, setFileInput, setFileData])
 
   return (
     <Main>
