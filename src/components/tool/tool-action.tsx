@@ -14,7 +14,7 @@ const ToolAction = ({ onClick, disabled }: { onClick: () => void; disabled: bool
       {note && (
         <span className="text-[10px] md:text-xs text-accent-foreground text-center">{note}</span>
       )}
-      <Button onClick={onClick} disabled={disabled}>
+      <Button onClick={onClick} disabled={disabled} className="font-mono">
         <Icon /> {name}
       </Button>
     </>

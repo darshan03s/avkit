@@ -22,7 +22,7 @@ const Option = ({ Icon, name, path, isActive }: OptionProps) => {
       href={path}
       className={cn(
         buttonVariants({ variant: 'ghost' }),
-        'gap-3 py-5',
+        'gap-3 py-5 font-mono',
         `${isActive && 'bg-accent text-accent-foreground'}`
       )}
     >

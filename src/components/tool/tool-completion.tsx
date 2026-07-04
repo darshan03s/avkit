@@ -26,12 +26,12 @@ const ToolCompletion = ({
         <ProgressBar progress={progress} description={loading!} />
       </div>
       <div className="flex justify-center items-center gap-2">
-        <Button disabled={progress < 100} onClick={() => handleSave()}>
+        <Button disabled={progress < 100} onClick={() => handleSave()} className="font-mono">
           <IconFileDownload />
           Save
         </Button>
         {progress < 100 && (
-          <Button variant="destructive" onClick={cancel}>
+          <Button variant="destructive" onClick={cancel} className="font-mono">
             <X /> Cancel
           </Button>
         )}

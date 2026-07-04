@@ -10,6 +10,7 @@ import { ALL_FORMATS, BlobSource, Input } from 'mediabunny'
 import { getInputData } from '@/utils/mediabunny'
 import { InputMediaData } from '@/types/mediabunny'
 import { useFile } from '@/store/use-file'
+import { RotateCcw } from 'lucide-react'
 
 type ToolPageProps = {
   description: string
@@ -53,7 +54,7 @@ export function ToolPage({
       {!file ? (
         <div className="h-[calc(100vh-var(--header-height))] flex items-center justify-center">
           <div className="space-y-4 w-full max-w-80 md:max-w-100 lg:max-w-125 mx-auto">
-            <h1 className="text-center font-sans font-bold md:text-xl text-lg">{heading}</h1>
+            <h1 className="text-center font-heading font-bold md:text-xl text-lg">{heading}</h1>
             <FileInput
               setFile={setFile}
               description={description}
@@ -65,8 +66,11 @@ export function ToolPage({
       ) : (
         <div className="flex flex-col min-h-[calc(100vh-var(--header-height))] h-full">
           <div className="flex justify-between items-center px-4 h-10">
-            <div className="font-semibold">{heading}</div>
-            <Button onClick={() => setFile(null)}>Clear</Button>
+            <div className="font-semibold font-heading">{heading}</div>
+            <Button className="text-xs px-4 font-mono" onClick={() => setFile(null)}>
+              <RotateCcw className="size-3" />
+              Clear
+            </Button>
           </div>
 
           {fileInput && fileData ? children(file, fileData) : null}

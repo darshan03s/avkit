@@ -2,21 +2,26 @@ import type { Metadata } from 'next'
 import Header from '@/components/header'
 import { siteMetadata } from '@/metadata'
 import { Analytics } from '@vercel/analytics/next'
-import { Plus_Jakarta_Sans, Lora, IBM_Plex_Mono } from 'next/font/google'
+import { Lora, IBM_Plex_Mono, Space_Grotesk, Outfit } from 'next/font/google'
 import './globals.css'
 import Providers from '@/components/providers'
 
-const fontSans = Plus_Jakarta_Sans({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  variable: '--font-sans'
+  variable: '--font-heading'
 })
 
-const fontSerif = Lora({
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit'
+})
+
+const lora = Lora({
   subsets: ['latin'],
   variable: '--font-serif'
 })
 
-const fontMono = IBM_Plex_Mono({
+const ibmPlexMono = IBM_Plex_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   weight: ['100', '200', '300', '400', '500', '600', '700']
@@ -32,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontSans.variable} ${fontMono.variable} ${fontSerif.variable} h-full antialiased`}
+      className={`${outfit.variable} ${ibmPlexMono.variable} ${lora.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Providers>

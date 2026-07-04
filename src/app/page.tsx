@@ -23,7 +23,7 @@ const Page = () => {
       />
       <div className="flex flex-col gap-8 md:gap-4 z-10">
         <div className="flex flex-col gap-2">
-          <h1 className="text-4xl md:text-7xl font-bold text-center">
+          <h1 className="text-4xl md:text-7xl font-bold text-center font-heading">
             <TextAnimate animation="blurInUp" by="character" once>
               Audio & Video tools
             </TextAnimate>
@@ -41,7 +41,10 @@ const Page = () => {
         <div className="flex justify-center">
           <Link
             href="/inspect"
-            className={cn(buttonVariants({ variant: 'default', size: 'lg' }), 'px-4 py-2')}
+            className={cn(
+              buttonVariants({ variant: 'default', size: 'lg' }),
+              'px-4 py-2 font-mono'
+            )}
           >
             <CornerDownRight />
             Get started
