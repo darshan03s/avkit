@@ -1,17 +1,9 @@
+@import './custom.css';
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
-
-button,
-a {
-  cursor: pointer;
-}
-
-:root {
-  --header-height: 3rem;
-}
 
 :root {
   --background: oklch(0.994 0 0);
