@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils'
-import FileName from '../file-name'
-import Player from '../player'
+import { MediaPlayer } from '../media-player'
 
 interface ToolMainProps {
   children: React.ReactNode
@@ -11,14 +10,8 @@ interface ToolMainProps {
 
 const ToolMain = ({ children, className, showPlayer = true, showCropper }: ToolMainProps) => {
   return (
-    <div
-      className={cn(
-        'space-y-4 pb-4 flex flex-col gap-2 max-w-md md:max-w-sm lg:max-w-lg mx-auto',
-        className
-      )}
-    >
-      {showPlayer && <Player showCropper={showCropper} />}
-      <FileName />
+    <div className={cn('flex flex-col gap-4 max-w-md md:max-w-sm lg:max-w-lg mx-auto', className)}>
+      {showPlayer && <MediaPlayer className="mx-auto" showFileName />}
       {children}
     </div>
   )

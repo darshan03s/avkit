@@ -16,19 +16,19 @@ importers:
         version: 1.1.6(react@19.2.4)
       '@mediabunny/aac-encoder':
         specifier: ^1.46.0
-        version: 1.46.0(mediabunny@1.46.0)
+        version: 1.46.0(mediabunny@1.50.7)
       '@mediabunny/ac3':
         specifier: ^1.46.0
-        version: 1.46.0(mediabunny@1.46.0)
+        version: 1.46.0(mediabunny@1.50.7)
       '@mediabunny/flac-encoder':
         specifier: ^1.46.0
-        version: 1.46.0(mediabunny@1.46.0)
+        version: 1.46.0(mediabunny@1.50.7)
       '@mediabunny/mp3-encoder':
         specifier: ^1.46.0
-        version: 1.46.0(mediabunny@1.46.0)
+        version: 1.46.0(mediabunny@1.50.7)
       '@mediabunny/server':
         specifier: ^1.46.0
-        version: 1.46.0(mediabunny@1.46.0)
+        version: 1.46.0(mediabunny@1.50.7)
       '@tabler/icons-react':
         specifier: ^3.44.0
         version: 3.44.0(react@19.2.4)
@@ -45,8 +45,8 @@ importers:
         specifier: ^1.14.0
         version: 1.14.0(react@19.2.4)
       mediabunny:
-        specifier: ^1.46.0
-        version: 1.46.0
+        specifier: ^1.50.7
+        version: 1.50.7
       motion:
         specifier: ^12.40.0
         version: 12.40.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -3240,8 +3240,8 @@ packages:
     resolution: {integrity: sha512-aisnrDP4GNe06UcKFnV5bfMNPBUw4jsLGaWwWfnH3v02GnBuXX2MCVn5RbrWo0j3pczUilYblq7fQ7Nw2t5XKw==}
     engines: {node: '>= 0.8'}
 
-  mediabunny@1.46.0:
-    resolution: {integrity: sha512-HIaMQ6PVMndrFb9sNCh9/uAsLFBfLzyAgbk3kN7ZqlRRq//9RPYqIOQtXYpkbWBZU8ZJkaAUNLDtwTcdKo7yQw==}
+  mediabunny@1.50.7:
+    resolution: {integrity: sha512-mv+FXkQNOobx4b43GJV1t0n8cx26d8nZpBMtCTaNKk6xzVpNPrwrbDq+dggm7Zpjvtx2ycgtYciFcySUsO5QGA==}
 
   merge-descriptors@2.0.0:
     resolution: {integrity: sha512-Snk314V5ayFLhp3fkUREub6WtjBfPdCPY1Ln8/8munuLuiYhsABgBVWsozAG+MWMbVEvcdcpbi9R7ww22l9Q3g==}
@@ -4761,25 +4761,25 @@ snapshots:
 
   '@leichtgewicht/ip-codec@2.0.5': {}
 
-  '@mediabunny/aac-encoder@1.46.0(mediabunny@1.46.0)':
+  '@mediabunny/aac-encoder@1.46.0(mediabunny@1.50.7)':
     dependencies:
-      mediabunny: 1.46.0
+      mediabunny: 1.50.7
 
-  '@mediabunny/ac3@1.46.0(mediabunny@1.46.0)':
+  '@mediabunny/ac3@1.46.0(mediabunny@1.50.7)':
     dependencies:
-      mediabunny: 1.46.0
+      mediabunny: 1.50.7
 
-  '@mediabunny/flac-encoder@1.46.0(mediabunny@1.46.0)':
+  '@mediabunny/flac-encoder@1.46.0(mediabunny@1.50.7)':
     dependencies:
-      mediabunny: 1.46.0
+      mediabunny: 1.50.7
 
-  '@mediabunny/mp3-encoder@1.46.0(mediabunny@1.46.0)':
+  '@mediabunny/mp3-encoder@1.46.0(mediabunny@1.50.7)':
     dependencies:
-      mediabunny: 1.46.0
+      mediabunny: 1.50.7
 
-  '@mediabunny/server@1.46.0(mediabunny@1.46.0)':
+  '@mediabunny/server@1.46.0(mediabunny@1.50.7)':
     dependencies:
-      mediabunny: 1.46.0
+      mediabunny: 1.50.7
       node-av: 5.2.4
     transitivePeerDependencies:
       - supports-color
@@ -7515,7 +7515,7 @@ snapshots:
 
   media-typer@1.1.0: {}
 
-  mediabunny@1.46.0:
+  mediabunny@1.50.7:
     dependencies:
       '@types/dom-mediacapture-transform': 0.1.11
       '@types/dom-webcodecs': 0.1.13
