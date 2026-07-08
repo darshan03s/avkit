@@ -62,7 +62,7 @@ const PlayerMain = ({ className }: { className?: string }) => {
   return (
     <Card
       className={cn(
-        'w-86 md:w-120 mx-auto max-w-full gap-0 p-0 relative overflow-hidden',
+        'w-full md:w-120 mx-auto max-w-full gap-0 p-0 relative overflow-hidden',
         className
       )}
     >
