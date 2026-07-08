@@ -8,10 +8,13 @@ import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
 import { usePlayerStore } from '@/store/use-player-store'
-import { ToolPageProps } from '@/types'
+import { useFile } from '@/store/use-file'
 import { convertWithErrorHandler } from '@/utils'
 
-const CropVideo = ({ file, fileData }: ToolPageProps) => {
+const CropVideo = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const { left, top, width, height } = usePlayerStore()
   const crop = { left, top, width, height }
 
@@ -39,11 +42,9 @@ const CropVideo = ({ file, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <ToolCentered>
-          <CropVideo file={file} fileData={fileData} />
-        </ToolCentered>
-      )}
+      <ToolCentered>
+        <CropVideo />
+      </ToolCentered>
     </ToolPage>
   )
 }

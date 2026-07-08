@@ -9,12 +9,15 @@ import ToolContainer from '@/components/tool/tool-container'
 import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
-import { ToolPageProps } from '@/types'
+import { useFile } from '@/store/use-file'
 import { SupportedOutputFormat } from '@/types/mediabunny'
 import { convertWithErrorHandler, getOutputFormatOptions } from '@/utils'
 import { useState } from 'react'
 
-const ExtractTrack = ({ file, fileData }: ToolPageProps) => {
+const ExtractTrack = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const [selectedTrackId, setSelectedTrackId] = useState('')
   const [format, setFormat] = useState<SupportedOutputFormat | undefined>(undefined)
   const selectedTrack = fileData.tracksData.find((track) => track.id.toString() === selectedTrackId)
@@ -67,11 +70,9 @@ const ExtractTrack = ({ file, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <ToolCentered>
-          <ExtractTrack file={file} fileData={fileData} />
-        </ToolCentered>
-      )}
+      <ToolCentered>
+        <ExtractTrack />
+      </ToolCentered>
     </ToolPage>
   )
 }

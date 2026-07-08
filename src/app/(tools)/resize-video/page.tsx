@@ -10,11 +10,14 @@ import { ToolPage } from '@/components/tool/tool-page'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
-import { ToolPageProps } from '@/types'
+import { useFile } from '@/store/use-file'
 import { convertWithErrorHandler } from '@/utils'
 import { useState } from 'react'
 
-const ResizeVideo = ({ file, fileData }: ToolPageProps) => {
+const ResizeVideo = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const [width, setWidth] = useState<string>(
     fileData.tracksData.find((track) => track.isVideo)?.displayWidth?.toString() ?? ''
   )
@@ -80,11 +83,9 @@ const ResizeVideo = ({ file, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <ToolCentered>
-          <ResizeVideo file={file} fileData={fileData} />
-        </ToolCentered>
-      )}
+      <ToolCentered>
+        <ResizeVideo />
+      </ToolCentered>
     </ToolPage>
   )
 }

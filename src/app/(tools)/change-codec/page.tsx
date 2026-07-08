@@ -15,12 +15,15 @@ import ToolContainer from '@/components/tool/tool-container'
 import ToolMain from '@/components/tool/tool-main'
 import { AudioCodec, VideoCodec } from 'mediabunny'
 import ShowTracks from '@/components/show-tracks'
-import { ToolPageProps } from '@/types'
 import SelectBox from '@/components/select-box'
 import ToolAction from '@/components/tool/tool-action'
 import ToolCompletion from '@/components/tool/tool-completion'
+import { useFile } from '@/store/use-file'
 
-const ChangeCodec = ({ file, fileData }: ToolPageProps) => {
+const ChangeCodec = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const [codec, setCodec] = useState<AudioCodec | VideoCodec | ''>('')
   const [format, setFormat] = useState<SupportedOutputFormat | undefined>(undefined)
   const fileType = getFileType(file)
@@ -38,7 +41,7 @@ const ChangeCodec = ({ file, fileData }: ToolPageProps) => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData}>
+      <ToolMain>
         {fileData.tracksData.length > 0 ? (
           <div className="space-y-2">
             <ShowTracks
@@ -78,11 +81,9 @@ const ChangeCodec = ({ file, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <ToolCentered>
-          <ChangeCodec file={file} fileData={fileData} />
-        </ToolCentered>
-      )}
+      <ToolCentered>
+        <ChangeCodec />
+      </ToolCentered>
     </ToolPage>
   )
 }

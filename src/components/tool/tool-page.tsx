@@ -8,12 +8,11 @@ import { tools } from '@/tools'
 import { usePathname } from 'next/navigation'
 import { ALL_FORMATS, BlobSource, Input } from 'mediabunny'
 import { getInputData } from '@/utils/mediabunny'
-import { InputMediaData } from '@/types/mediabunny'
 import { useFile } from '@/store/use-file'
 import { RotateCcw } from 'lucide-react'
 
 type ToolPageProps = {
-  children: (file: File, fileData: InputMediaData) => React.ReactNode
+  children: React.ReactNode
 }
 
 export function ToolPage({ children }: ToolPageProps) {
@@ -62,7 +61,7 @@ export function ToolPage({ children }: ToolPageProps) {
             </Button>
           </div>
 
-          {fileInput && fileData ? children(file, fileData) : null}
+          {fileInput && fileData ? children : null}
         </div>
       )}
     </Main>

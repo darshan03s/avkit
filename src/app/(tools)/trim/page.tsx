@@ -9,12 +9,15 @@ import { ToolPage } from '@/components/tool/tool-page'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
-import { ToolPageProps } from '@/types'
+import { useFile } from '@/store/use-file'
 import { convertToSeconds, convertWithErrorHandler, isValidDuration } from '@/utils'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-const Trim = ({ file, fileData }: ToolPageProps) => {
+const Trim = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const [startTime, setStartTime] = useState('')
   const [endTime, setEndTime] = useState('')
 
@@ -73,11 +76,9 @@ const Trim = ({ file, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <ToolCentered>
-          <Trim file={file} fileData={fileData} />
-        </ToolCentered>
-      )}
+      <ToolCentered>
+        <Trim />
+      </ToolCentered>
     </ToolPage>
   )
 }

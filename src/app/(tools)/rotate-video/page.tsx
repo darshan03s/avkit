@@ -8,12 +8,15 @@ import ToolContainer from '@/components/tool/tool-container'
 import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
-import { ToolPageProps } from '@/types'
+import { useFile } from '@/store/use-file'
 import { convertWithErrorHandler } from '@/utils'
 import { Rotation } from 'mediabunny'
 import { useState } from 'react'
 
-const RotateVideo = ({ file, fileData }: ToolPageProps) => {
+const RotateVideo = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const rotationOptionsMap: Record<string, Rotation> = {
     '0°': 0,
     '90°': 90,
@@ -52,11 +55,9 @@ const RotateVideo = ({ file, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <ToolCentered>
-          <RotateVideo file={file} fileData={fileData} />
-        </ToolCentered>
-      )}
+      <ToolCentered>
+        <RotateVideo />
+      </ToolCentered>
     </ToolPage>
   )
 }

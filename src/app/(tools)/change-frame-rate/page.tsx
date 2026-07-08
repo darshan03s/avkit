@@ -10,11 +10,14 @@ import { ToolPage } from '@/components/tool/tool-page'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
-import { ToolPageProps } from '@/types'
+import { useFile } from '@/store/use-file'
 import { convertWithErrorHandler } from '@/utils'
 import { useState } from 'react'
 
-const ChangeFrameRate = ({ file, fileData }: ToolPageProps) => {
+const ChangeFrameRate = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const [frameRate, setFrameRate] = useState<string>('1')
 
   const { progress, execute, cancel, save } = useConversion()
@@ -51,11 +54,9 @@ const ChangeFrameRate = ({ file, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <ToolCentered>
-          <ChangeFrameRate file={file} fileData={fileData} />
-        </ToolCentered>
-      )}
+      <ToolCentered>
+        <ChangeFrameRate />
+      </ToolCentered>
     </ToolPage>
   )
 }

@@ -1,25 +1,15 @@
 import { cn } from '@/lib/utils'
 import FileName from '../file-name'
-import { InputMediaData } from '@/types/mediabunny'
 import Player from '../player'
 
 interface ToolMainProps {
   children: React.ReactNode
   className?: string
-  file: File
   showPlayer?: boolean
-  fileData: InputMediaData
   showCropper?: boolean
 }
 
-const ToolMain = ({
-  children,
-  className,
-  file,
-  showPlayer = true,
-  fileData,
-  showCropper
-}: ToolMainProps) => {
+const ToolMain = ({ children, className, showPlayer = true, showCropper }: ToolMainProps) => {
   return (
     <div
       className={cn(
@@ -27,8 +17,8 @@ const ToolMain = ({
         className
       )}
     >
-      {showPlayer && <Player data={fileData} file={file} showCropper={showCropper} />}
-      <FileName name={file.name} />
+      {showPlayer && <Player showCropper={showCropper} />}
+      <FileName />
       {children}
     </div>
   )

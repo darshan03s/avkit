@@ -8,12 +8,15 @@ import ToolContainer from '@/components/tool/tool-container'
 import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
-import { ToolPageProps } from '@/types'
+import { useFile } from '@/store/use-file'
 import { convertWithErrorHandler } from '@/utils'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-const DiscardTrack = ({ file, fileData }: ToolPageProps) => {
+const DiscardTrack = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
 
   const { progress, execute, cancel, save } = useConversion()
@@ -66,11 +69,9 @@ const DiscardTrack = ({ file, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <ToolCentered>
-          <DiscardTrack file={file} fileData={fileData} />
-        </ToolCentered>
-      )}
+      <ToolCentered>
+        <DiscardTrack />
+      </ToolCentered>
     </ToolPage>
   )
 }

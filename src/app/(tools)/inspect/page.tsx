@@ -4,12 +4,15 @@ import ToolContainer from '@/components/tool/tool-container'
 import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
-import { ToolPageProps } from '@/types'
 import { formatBitrate, formatBytes, truncateTo2Decimals } from '@/utils'
 import DetailsDialog from '@/components/details-dialog'
 import Info from '@/components/info'
+import { useFile } from '@/store/use-file'
 
-const Inspect = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
+const Inspect = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   return (
     <ToolContainer>
       <ToolMain file={file} fileData={fileData} className="xl:max-w-2xl">
@@ -180,11 +183,9 @@ const Inspect = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <div className="flex-1">
-          <Inspect file={file} fileData={fileData} />
-        </div>
-      )}
+      <div className="flex-1">
+        <Inspect />
+      </div>
     </ToolPage>
   )
 }

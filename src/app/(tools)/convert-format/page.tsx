@@ -8,12 +8,15 @@ import { ToolPage } from '@/components/tool/tool-page'
 import ToolCentered from '@/components/tool/tool-centered'
 import ToolContainer from '@/components/tool/tool-container'
 import ToolMain from '@/components/tool/tool-main'
-import { ToolPageProps } from '@/types'
 import SelectBox from '@/components/select-box'
 import ToolAction from '@/components/tool/tool-action'
 import ToolCompletion from '@/components/tool/tool-completion'
+import { useFile } from '@/store/use-file'
 
-const Convert = ({ file, fileData }: ToolPageProps) => {
+const Convert = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const [format, setFormat] = useState<SupportedOutputFormat>()
   const fileType = getFileType(file)
 
@@ -50,11 +53,9 @@ const Convert = ({ file, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <ToolCentered>
-          <Convert file={file} fileData={fileData} />
-        </ToolCentered>
-      )}
+      <ToolCentered>
+        <Convert />
+      </ToolCentered>
     </ToolPage>
   )
 }

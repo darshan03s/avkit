@@ -8,7 +8,7 @@ import ToolContainer from '@/components/tool/tool-container'
 import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
-import { ToolPageProps } from '@/types'
+import { useFile } from '@/store/use-file'
 import { convertWithErrorHandler } from '@/utils'
 import {
   QUALITY_HIGH,
@@ -19,7 +19,10 @@ import {
 } from 'mediabunny'
 import { useState } from 'react'
 
-const ChangeQuality = ({ file, fileData }: ToolPageProps) => {
+const ChangeQuality = () => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const qualityMap = {
     'Very low': QUALITY_VERY_LOW,
     Low: QUALITY_LOW,
@@ -59,11 +62,9 @@ const ChangeQuality = ({ file, fileData }: ToolPageProps) => {
 const Page = () => {
   return (
     <ToolPage>
-      {(file, fileData) => (
-        <ToolCentered>
-          <ChangeQuality file={file} fileData={fileData} />
-        </ToolCentered>
-      )}
+      <ToolCentered>
+        <ChangeQuality />
+      </ToolCentered>
     </ToolPage>
   )
 }

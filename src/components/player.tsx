@@ -1,5 +1,5 @@
+import { useFile } from '@/store/use-file'
 import { usePlayerStore } from '@/store/use-player-store'
-import { InputMediaData } from '@/types/mediabunny'
 import { getFileType } from '@/utils'
 import Image from 'next/image'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
@@ -271,19 +271,14 @@ const AudioPlayer = ({
   )
 }
 
-const Player = ({
-  data,
-  file,
-  showCropper = false
-}: {
-  data: InputMediaData
-  file: File
-  showCropper?: boolean
-}) => {
+const Player = ({ showCropper = false }: { showCropper?: boolean }) => {
+  const file = useFile((s) => s.file!)
+  const fileData = useFile((s) => s.fileData!)
+
   const fileUrl = URL.createObjectURL(file)
   const fileType = getFileType(file)
 
-  const image = data.metadataTags.images?.[0]
+  const image = fileData.metadataTags.images?.[0]
 
   const posterUrl = image
     ? URL.createObjectURL(
