@@ -49,7 +49,7 @@ const Convert = ({ file, fileData }: ToolPageProps) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import audio or video">
+    <ToolPage>
       {(file, fileData) => (
         <ToolCentered>
           <Convert file={file} fileData={fileData} />

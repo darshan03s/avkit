@@ -50,7 +50,7 @@ const ChangeFrameRate = ({ file, fileData }: ToolPageProps) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import video" acceptAudio={false}>
+    <ToolPage>
       {(file, fileData) => (
         <ToolCentered>
           <ChangeFrameRate file={file} fileData={fileData} />

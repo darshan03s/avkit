@@ -4,15 +4,13 @@ import { buttonVariants } from './ui/button'
 import { Upload } from 'lucide-react'
 
 const FileInput = ({
+  inputDescription,
   setFile,
-  description,
-  acceptAudio = true,
-  acceptVideo = true
+  accept
 }: {
+  inputDescription: string
   setFile: (file: File) => void
-  description: string
-  acceptAudio: boolean
-  acceptVideo: boolean
+  accept: 'audio' | 'video' | 'both'
 }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -32,15 +30,15 @@ const FileInput = ({
   const videoFormats =
     '.mp4, .mov, .mkv, .webm, video/mp4, video/quicktime, video/x-matroska, video/webm'
 
-  const accept = useMemo(() => {
-    if (acceptAudio && acceptVideo) {
+  const inputAccept = useMemo(() => {
+    if (accept === 'both') {
       return `${videoFormats}, ${audioFormats}`
     }
-    if (acceptAudio) {
+    if (accept === 'audio') {
       return audioFormats
     }
     return videoFormats
-  }, [acceptAudio, acceptVideo])
+  }, [accept])
 
   return (
     <div>
@@ -54,7 +52,7 @@ const FileInput = ({
         <div className="w-full h-full border-2 border-dashed rounded-md">
           <div className="flex flex-col gap-4 items-center justify-center h-full">
             <Upload className="bg-primary text-primary-foreground size-12 p-3 rounded-full" />
-            <span className="text-accent-foreground text-xs md:text-sm">{description}</span>
+            <span className="text-accent-foreground text-xs md:text-sm">{inputDescription}</span>
           </div>
         </div>
       </div>
@@ -63,7 +61,7 @@ const FileInput = ({
         hidden
         ref={fileInputRef}
         onChange={(e) => handleFileChange(e.target.files)}
-        accept={accept}
+        accept={inputAccept}
       />
     </div>
   )

@@ -42,13 +42,13 @@ export function AppSidebar() {
         <Brand />
       </SidebarHeader>
       <SidebarContent className="p-2 space-y-2 bg-background">
-        {tools.map((tool) => (
+        {Object.entries(tools).map(([path, tool]) => (
           <Option
-            key={tool.name}
+            key={path}
             Icon={tool.icon}
             name={tool.name}
-            path={tool.path}
-            isActive={pathname === tool.path}
+            path={path}
+            isActive={pathname === path}
           />
         ))}
       </SidebarContent>

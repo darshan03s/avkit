@@ -65,7 +65,7 @@ const DiscardTrack = ({ file, fileData }: ToolPageProps) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import video" acceptAudio={false}>
+    <ToolPage>
       {(file, fileData) => (
         <ToolCentered>
           <DiscardTrack file={file} fileData={fileData} />

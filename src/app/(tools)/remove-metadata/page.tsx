@@ -69,7 +69,7 @@ const RemoveMetadata = ({ file, fileData }: ToolPageProps) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import audio or video">
+    <ToolPage>
       {(file, fileData) => (
         <ToolCentered>
           <RemoveMetadata file={file} fileData={fileData} />

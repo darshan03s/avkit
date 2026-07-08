@@ -58,7 +58,7 @@ const ChangeQuality = ({ file, fileData }: ToolPageProps) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import video" acceptAudio={false}>
+    <ToolPage>
       {(file, fileData) => (
         <ToolCentered>
           <ChangeQuality file={file} fileData={fileData} />

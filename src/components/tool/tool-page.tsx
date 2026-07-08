@@ -13,18 +13,10 @@ import { useFile } from '@/store/use-file'
 import { RotateCcw } from 'lucide-react'
 
 type ToolPageProps = {
-  description: string
   children: (file: File, fileData: InputMediaData) => React.ReactNode
-  acceptAudio?: boolean
-  acceptVideo?: boolean
 }
 
-export function ToolPage({
-  description,
-  children,
-  acceptAudio = true,
-  acceptVideo = true
-}: ToolPageProps) {
+export function ToolPage({ children }: ToolPageProps) {
   const { file, fileData, reset, setFile, setFileInput, setFileData } = useFile()
 
   useEffect(() => {
@@ -32,7 +24,9 @@ export function ToolPage({
   }, [reset])
 
   const pathname = usePathname()
-  const heading = tools.find((t) => t.path === pathname)?.description
+  const heading = tools[pathname]!.description
+  const inputDescription = tools[pathname]!.inputDescription
+  const accept = tools[pathname]!.accept
 
   const fileInput = useMemo(() => {
     if (!file) return null
@@ -55,12 +49,7 @@ export function ToolPage({
         <div className="h-[calc(100vh-var(--header-height))] flex items-center justify-center">
           <div className="space-y-4 w-full max-w-80 md:max-w-100 lg:max-w-125 mx-auto">
             <h1 className="text-center font-heading font-bold md:text-xl text-lg">{heading}</h1>
-            <FileInput
-              setFile={setFile}
-              description={description}
-              acceptAudio={acceptAudio}
-              acceptVideo={acceptVideo}
-            />
+            <FileInput setFile={setFile} accept={accept} inputDescription={inputDescription} />
           </div>
         </div>
       ) : (

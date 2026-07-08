@@ -3,97 +3,110 @@ import { Code, FileText, Hd, Info, LucideIcon, Repeat2, RotateCw, Scissors } fro
 
 type Tool = {
   name: string
-  path: string
   icon: LucideIcon
   description: string
+  inputDescription: string
   note?: string
   loading?: string
+  accept: 'audio' | 'video' | 'both'
 }
 
-export const tools: Tool[] = [
-  {
+export const tools: Record<string, Tool> = {
+  '/inspect': {
     name: 'Inspect',
-    path: '/inspect',
     icon: Info,
-    description: 'Inspect audio/video'
+    description: 'Inspect audio/video',
+    inputDescription: 'Import audio/video file',
+    accept: 'both'
   },
-  {
+  '/convert-format': {
     name: 'Convert format',
-    path: '/convert-format',
     icon: Repeat2,
     description: 'Convert audio/video format',
-    loading: 'Converting...'
+    inputDescription: 'Import audio/video file',
+    loading: 'Converting...',
+    accept: 'both'
   },
-  {
+  '/trim': {
     name: 'Trim',
-    path: '/trim',
     icon: Scissors,
     description: 'Trim audio/video',
-    loading: 'Trimming...'
+    inputDescription: 'Import audio/video file',
+    loading: 'Trimming...',
+    accept: 'both'
   },
-  {
+  '/extract-track': {
     name: 'Extract track',
-    path: '/extract-track',
     icon: IconDisc,
     description: 'Extract specific track from video',
-    loading: 'Extracting...'
+    inputDescription: 'Import video file',
+    loading: 'Extracting...',
+    accept: 'video'
   },
-  {
+  '/discard-track': {
     name: 'Discard track',
-    path: '/discard-track',
     icon: IconDiscOff,
     description: 'Discard tracks from video',
-    loading: 'Discarding...'
+    inputDescription: 'Import video file',
+    loading: 'Discarding...',
+    accept: 'video'
   },
-  {
+  '/change-codec': {
     name: 'Change codec',
-    path: '/change-codec',
     icon: Code,
     description: 'Change codec of audio/video',
+    inputDescription: 'Import audio/video file',
     note: 'This process is dependent on your browser support for the codec.',
-    loading: 'Changing codec...'
+    loading: 'Changing codec...',
+    accept: 'both'
   },
-  {
+  '/change-frame-rate': {
     name: 'Change frame rate',
-    path: '/change-frame-rate',
     icon: IconKeyframes,
     description: 'Change frame rate of video',
-    loading: 'Changing frame rate...'
+    inputDescription: 'Import video file',
+    loading: 'Changing frame rate...',
+    accept: 'video'
   },
-  {
+  '/crop-video': {
     name: 'Crop video',
-    path: '/crop-video',
     icon: IconCrop,
     description: 'Crop video',
-    loading: 'Cropping...'
+    inputDescription: 'Import video file',
+    loading: 'Cropping...',
+    accept: 'video'
   },
-  {
+  '/resize-video': {
     name: 'Resize video',
-    path: '/resize-video',
     icon: IconResize,
     description: 'Resize video',
-    loading: 'Resizing...'
+    inputDescription: 'Import video file',
+    loading: 'Resizing...',
+    accept: 'video'
   },
-  {
+  '/change-quality': {
     name: 'Change quality',
-    path: '/change-quality',
     icon: Hd,
     description: 'Change quality of video',
+    inputDescription: 'Import video file',
     loading: 'Changing quality...',
+    accept: 'video',
     note: 'This process will change the bitrate of the video.'
   },
-  {
+  '/rotate-video': {
     name: 'Rotate video',
-    path: '/rotate-video',
     icon: RotateCw,
     description: 'Rotate video',
-    loading: 'Rotating...'
+    inputDescription: 'Import video file',
+    loading: 'Rotating...',
+    accept: 'video'
   },
-  {
+  '/remove-metadata': {
     name: 'Remove metadata',
-    path: '/remove-metadata',
     icon: FileText,
     description: 'Remove metadata from audio/video',
-    loading: 'Removing metadata...'
+    inputDescription: 'Import audio/video file',
+    loading: 'Removing metadata...',
+    accept: 'both'
   }
-] as const
+}

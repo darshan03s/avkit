@@ -17,7 +17,7 @@ const ToolCompletion = ({
   cancel?: () => void
 }) => {
   const pathname = usePathname()
-  const tool = tools.find((t) => t.path === pathname)!
+  const tool = tools[pathname]!
   const { loading } = tool
 
   return (

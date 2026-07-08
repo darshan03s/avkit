@@ -51,7 +51,7 @@ const RotateVideo = ({ file, fileData }: ToolPageProps) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import video" acceptAudio={false}>
+    <ToolPage>
       {(file, fileData) => (
         <ToolCentered>
           <RotateVideo file={file} fileData={fileData} />

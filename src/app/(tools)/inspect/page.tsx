@@ -179,7 +179,7 @@ const Inspect = ({ file, fileData }: Omit<ToolPageProps, 'fileInput'>) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import audio or video">
+    <ToolPage>
       {(file, fileData) => (
         <div className="flex-1">
           <Inspect file={file} fileData={fileData} />

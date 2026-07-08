@@ -79,7 +79,7 @@ const ResizeVideo = ({ file, fileData }: ToolPageProps) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import video" acceptAudio={false}>
+    <ToolPage>
       {(file, fileData) => (
         <ToolCentered>
           <ResizeVideo file={file} fileData={fileData} />

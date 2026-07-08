@@ -77,7 +77,7 @@ const ChangeCodec = ({ file, fileData }: ToolPageProps) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import audio or video">
+    <ToolPage>
       {(file, fileData) => (
         <ToolCentered>
           <ChangeCodec file={file} fileData={fileData} />

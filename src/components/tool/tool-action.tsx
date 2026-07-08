@@ -6,7 +6,7 @@ import { tools } from '@/tools'
 
 const ToolAction = ({ onClick, disabled }: { onClick: () => void; disabled: boolean }) => {
   const pathname = usePathname()
-  const tool = tools.find((t) => t.path === pathname)!
+  const tool = tools[pathname]!
   const { icon: Icon, name, note } = tool
 
   return (

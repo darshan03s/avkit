@@ -72,7 +72,7 @@ const Trim = ({ file, fileData }: ToolPageProps) => {
 
 const Page = () => {
   return (
-    <ToolPage description="Import audio or video">
+    <ToolPage>
       {(file, fileData) => (
         <ToolCentered>
           <Trim file={file} fileData={fileData} />
