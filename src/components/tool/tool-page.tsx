@@ -55,7 +55,7 @@ export function ToolPage({ children }: ToolPageProps) {
         <div className="flex flex-col min-h-[calc(100vh-var(--header-height))] h-full">
           <div className="flex justify-between items-center px-4 h-10">
             <div className="font-semibold font-heading">{heading}</div>
-            <Button className="text-xs px-4 font-mono" onClick={() => setFile(null)}>
+            <Button className="text-xs px-4 font-mono" onClick={reset}>
               <RotateCcw className="size-3" />
               Clear
             </Button>
