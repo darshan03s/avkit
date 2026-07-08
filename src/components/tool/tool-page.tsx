@@ -18,11 +18,12 @@ type ToolPageProps = {
 export function ToolPage({ children }: ToolPageProps) {
   const { file, fileData, reset, setFile, setFileInput, setFileData } = useFile()
 
+  const pathname = usePathname()
+
   useEffect(() => {
     reset()
-  }, [reset])
+  }, [reset, pathname])
 
-  const pathname = usePathname()
   const heading = tools[pathname]!.description
   const inputDescription = tools[pathname]!.inputDescription
   const accept = tools[pathname]!.accept
