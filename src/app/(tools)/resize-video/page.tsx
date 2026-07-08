@@ -38,31 +38,33 @@ const ResizeVideo = () => {
   return (
     <ToolContainer>
       <ToolMain>
-        <div className="space-y-2">
-          <Label>Width</Label>
-          <Input
-            value={width}
-            placeholder="Width"
-            type="text"
-            onChange={(e) => {
-              if (isNaN(Number(e.target.value))) return
-              if (Number(e.target.value) < 0) return
-              setWidth(e.target.value)
-            }}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label>Height</Label>
-          <Input
-            value={height}
-            placeholder="Height"
-            type="text"
-            onChange={(e) => {
-              if (isNaN(Number(e.target.value))) return
-              if (Number(e.target.value) < 0) return
-              setHeight(e.target.value)
-            }}
-          />
+        <div className="grid grid-cols-2 gap-2">
+          <div className="space-y-2">
+            <Label>Width</Label>
+            <Input
+              value={width}
+              placeholder="Width"
+              type="text"
+              onChange={(e) => {
+                if (isNaN(Number(e.target.value))) return
+                if (Number(e.target.value) < 0) return
+                setWidth(e.target.value)
+              }}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Height</Label>
+            <Input
+              value={height}
+              placeholder="Height"
+              type="text"
+              onChange={(e) => {
+                if (isNaN(Number(e.target.value))) return
+                if (Number(e.target.value) < 0) return
+                setHeight(e.target.value)
+              }}
+            />
+          </div>
         </div>
         <SelectBox
           label="Fit"

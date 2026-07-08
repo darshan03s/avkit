@@ -53,22 +53,24 @@ const ChangeCodec = () => {
         ) : (
           <div className="text-center">No tracks to change codec</div>
         )}
-        <SelectBox
-          label="Format"
-          onValueChange={(v) => setFormat(v as SupportedOutputFormat)}
-          value={format}
-          placeholder="Select a format"
-          groupLabel="Formats"
-          options={outputFormatOptions}
-        />
-        <SelectBox
-          label="Codec"
-          onValueChange={(v) => setCodec(v as AudioCodec | VideoCodec)}
-          value={codec}
-          placeholder="Select a codec"
-          groupLabel="Codecs"
-          options={codecOptions}
-        />
+        <div className="grid grid-cols-2 gap-2">
+          <SelectBox
+            label="Format"
+            onValueChange={(v) => setFormat(v as SupportedOutputFormat)}
+            value={format}
+            placeholder="Select a format"
+            groupLabel="Formats"
+            options={outputFormatOptions}
+          />
+          <SelectBox
+            label="Codec"
+            onValueChange={(v) => setCodec(v as AudioCodec | VideoCodec)}
+            value={codec}
+            placeholder="Select a codec"
+            groupLabel="Codecs"
+            options={codecOptions}
+          />
+        </div>
         {progress < 1 && <ToolAction onClick={handleChangeCodec} disabled={!format || !codec} />}
         {progress > 1 && (
           <ToolCompletion progress={progress} handleSave={() => save(format)} cancel={cancel} />

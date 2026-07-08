@@ -49,21 +49,23 @@ const Trim = () => {
   return (
     <ToolContainer>
       <ToolMain>
-        <div className="space-y-2">
-          <Label>Start</Label>
-          <Input
-            className="placeholder:text-xs md:text-sm"
-            placeholder="HH:MM:SS"
-            onChange={(e) => setStartTime(e.target.value)}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label>End</Label>
-          <Input
-            className="placeholder:text-xs md:text-sm"
-            placeholder="HH:MM:SS"
-            onChange={(e) => setEndTime(e.target.value)}
-          />
+        <div className="grid grid-cols-2 gap-2">
+          <div className="space-y-2">
+            <Label>Start</Label>
+            <Input
+              className="placeholder:text-xs md:text-sm"
+              placeholder="HH:MM:SS"
+              onChange={(e) => setStartTime(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>End</Label>
+            <Input
+              className="placeholder:text-xs md:text-sm"
+              placeholder="HH:MM:SS"
+              onChange={(e) => setEndTime(e.target.value)}
+            />
+          </div>
         </div>
         {progress < 1 && <ToolAction onClick={handleTrim} disabled={!startTime || !endTime} />}
         {progress > 1 && <ToolCompletion progress={progress} handleSave={save} cancel={cancel} />}
