@@ -31,7 +31,7 @@ const Convert = () => {
 
   return (
     <ToolContainer>
-      <ToolMain showPlayer={false}>
+      <ToolMain>
         <SelectBox
           label="Format"
           value={format}
