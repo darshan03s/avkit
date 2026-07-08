@@ -26,7 +26,8 @@ const FileInput = ({
     }
   }
 
-  const audioFormats = '.wav, .ogg, .flac, .mp3, audio/wav, audio/ogg, audio/flac, audio/mpeg'
+  const audioFormats =
+    '.wav, .ogg, .flac, .mp3, .m4a, audio/wav, audio/ogg, audio/flac, audio/mpeg, audio/mp4a'
   const videoFormats =
     '.mp4, .mov, .mkv, .webm, video/mp4, video/quicktime, video/x-matroska, video/webm'
 
