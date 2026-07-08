@@ -1,6 +1,6 @@
 # avkit
 
-A browser-based audio and video utility toolkit — no uploads, no servers, no accounts. Everything runs locally in your browser using [mediabunny](https://mediabunny.dev).
+A browser-based audio and video utility toolkit. No uploads, No servers, No accounts. Everything runs locally in your browser using [mediabunny](https://mediabunny.dev).
 
 ## Tools
 
