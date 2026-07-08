@@ -13,7 +13,6 @@ import { useFile } from '@/store/use-file'
 import { convertWithErrorHandler } from '@/utils'
 
 const RemoveMetadata = () => {
-  const file = useFile((s) => s.file!)
   const fileData = useFile((s) => s.fileData!)
 
   const { execute, progress, cancel, save } = useConversion()
@@ -25,7 +24,7 @@ const RemoveMetadata = () => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData} className="xl:max-w-2xl">
+      <ToolMain className="xl:max-w-2xl">
         <div className="info grid grid-cols-2 lg:grid-cols-3 gap-2">
           {metadataTags ? (
             <>

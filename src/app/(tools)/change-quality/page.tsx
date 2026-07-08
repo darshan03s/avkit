@@ -8,7 +8,6 @@ import ToolContainer from '@/components/tool/tool-container'
 import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
-import { useFile } from '@/store/use-file'
 import { convertWithErrorHandler } from '@/utils'
 import {
   QUALITY_HIGH,
@@ -20,9 +19,6 @@ import {
 import { useState } from 'react'
 
 const ChangeQuality = () => {
-  const file = useFile((s) => s.file!)
-  const fileData = useFile((s) => s.fileData!)
-
   const qualityMap = {
     'Very low': QUALITY_VERY_LOW,
     Low: QUALITY_LOW,
@@ -43,7 +39,7 @@ const ChangeQuality = () => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData}>
+      <ToolMain>
         <SelectBox
           label="Quality"
           value={quality}

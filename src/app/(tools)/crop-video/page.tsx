@@ -7,15 +7,11 @@ import ToolContainer from '@/components/tool/tool-container'
 import ToolMain from '@/components/tool/tool-main'
 import { ToolPage } from '@/components/tool/tool-page'
 import { useConversion } from '@/hooks/use-conversion'
-import { usePlayerStore } from '@/store/use-player-store'
-import { useFile } from '@/store/use-file'
+import { useCropStore } from '@/store/use-crop-store'
 import { convertWithErrorHandler } from '@/utils'
 
 const CropVideo = () => {
-  const file = useFile((s) => s.file!)
-  const fileData = useFile((s) => s.fileData!)
-
-  const { left, top, width, height } = usePlayerStore()
+  const { left, top, width, height } = useCropStore()
   const crop = { left, top, width, height }
 
   const { progress, execute, cancel, save } = useConversion()
@@ -26,9 +22,9 @@ const CropVideo = () => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData} showCropper={true}>
+      <ToolMain showCropper={true}>
         {crop && (
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground text-center">
             {crop.width} × {crop.height} px &nbsp;·&nbsp; left {crop.left}px, top {crop.top}px
           </p>
         )}

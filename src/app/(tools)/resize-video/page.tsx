@@ -15,7 +15,6 @@ import { convertWithErrorHandler } from '@/utils'
 import { useState } from 'react'
 
 const ResizeVideo = () => {
-  const file = useFile((s) => s.file!)
   const fileData = useFile((s) => s.fileData!)
 
   const [width, setWidth] = useState<string>(
@@ -38,7 +37,7 @@ const ResizeVideo = () => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData}>
+      <ToolMain>
         <div className="space-y-2">
           <Label>Width</Label>
           <Input

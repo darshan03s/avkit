@@ -15,7 +15,7 @@ const Inspect = () => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData} className="xl:max-w-2xl">
+      <ToolMain className="xl:max-w-2xl">
         <div className="info grid grid-cols-2 lg:grid-cols-3 gap-2">
           <Info title="Size" description={formatBytes(fileData.size)} />
           <DetailsDialog

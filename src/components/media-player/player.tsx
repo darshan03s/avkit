@@ -30,16 +30,27 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useFile } from '@/store/use-file'
 import Image from 'next/image'
+import { DragHandle } from '@/types'
 
 type MediaPlayerProps = {
   showHTMLControls?: boolean
   showFileName?: boolean
+  showCropper?: boolean
   className?: string
 }
 
-export const MediaPlayer = ({ showHTMLControls, showFileName, className }: MediaPlayerProps) => {
+export const MediaPlayer = ({
+  showHTMLControls,
+  showFileName,
+  showCropper,
+  className
+}: MediaPlayerProps) => {
   return (
-    <PlayerProvider showHTMLControls={showHTMLControls} showFileName={showFileName}>
+    <PlayerProvider
+      showHTMLControls={showHTMLControls}
+      showFileName={showFileName}
+      showCropper={showCropper}
+    >
       <PlayerMain className={className} />
     </PlayerProvider>
   )
@@ -49,7 +60,12 @@ const PlayerMain = ({ className }: { className?: string }) => {
   const fileData = useFile((s) => s.fileData!)
 
   return (
-    <Card className={cn('w-86 md:w-120 max-w-full gap-0 p-0 relative overflow-hidden', className)}>
+    <Card
+      className={cn(
+        'w-86 md:w-120 mx-auto max-w-full gap-0 p-0 relative overflow-hidden',
+        className
+      )}
+    >
       {!fileData ? (
         <div className="absolute inset-0 bg-muted animate-pulse" />
       ) : (
@@ -89,11 +105,25 @@ const NoPosterPlaceholder = () => {
 }
 
 const Video = memo(function Video() {
-  const { videoRef, showHTMLControls, posterUrl, videoUrl, setIsPlaying, type, playPause } =
-    usePlayerStaticContext()
+  const {
+    videoRef,
+    showHTMLControls,
+    posterUrl,
+    videoUrl,
+    setIsPlaying,
+    type,
+    playPause,
+    containerRef,
+    initializeCropper,
+    showCropper
+  } = usePlayerStaticContext()
+
+  function onLoadedMetadata() {
+    if (showCropper) initializeCropper()
+  }
 
   return (
-    <CardContent className="p-0 relative aspect-video" onClick={playPause}>
+    <CardContent ref={containerRef} className="p-0 relative aspect-video" onClick={playPause}>
       {type === 'audio' && !posterUrl && <NoPosterPlaceholder />}
       <video
         data-video
@@ -105,10 +135,102 @@ const Video = memo(function Video() {
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onEnded={() => setIsPlaying(false)}
+        onLoadedMetadata={onLoadedMetadata}
       />
+      {showCropper && <Cropper />}
     </CardContent>
   )
 })
+
+const Cropper = () => {
+  const { crop, startDrag } = usePlayerStaticContext()
+  const HANDLES: { id: DragHandle; cursor: string; style: React.CSSProperties }[] = [
+    {
+      id: 'nw',
+      cursor: 'nw-resize',
+      style: { top: 0, left: 0, transform: 'translate(-50%,-50%)' }
+    },
+    {
+      id: 'n',
+      cursor: 'n-resize',
+      style: { top: 0, left: '50%', transform: 'translate(-50%,-50%)' }
+    },
+    {
+      id: 'ne',
+      cursor: 'ne-resize',
+      style: { top: 0, right: 0, transform: 'translate(50%,-50%)' }
+    },
+    {
+      id: 'e',
+      cursor: 'e-resize',
+      style: { top: '50%', right: 0, transform: 'translate(50%,-50%)' }
+    },
+    {
+      id: 'se',
+      cursor: 'se-resize',
+      style: { bottom: 0, right: 0, transform: 'translate(50%,50%)' }
+    },
+    {
+      id: 's',
+      cursor: 's-resize',
+      style: { bottom: 0, left: '50%', transform: 'translate(-50%,50%)' }
+    },
+    {
+      id: 'sw',
+      cursor: 'sw-resize',
+      style: { bottom: 0, left: 0, transform: 'translate(-50%,50%)' }
+    },
+    {
+      id: 'w',
+      cursor: 'w-resize',
+      style: { top: '50%', left: 0, transform: 'translate(-50%,-50%)' }
+    }
+  ]
+
+  return (
+    <>
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute border-2 border-white"
+          style={{ left: crop.x, top: crop.y, width: crop.w, height: crop.h }}
+        />
+
+        {[1, 2].map((n) => (
+          <div
+            key={`v${n}`}
+            className="absolute bg-white/30"
+            style={{ left: crop.x + (crop.w / 3) * n - 0.5, top: crop.y, width: 1, height: crop.h }}
+          />
+        ))}
+        {[1, 2].map((n) => (
+          <div
+            key={`h${n}`}
+            className="absolute bg-white/30"
+            style={{ left: crop.x, top: crop.y + (crop.h / 3) * n - 0.5, width: crop.w, height: 1 }}
+          />
+        ))}
+      </div>
+
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="absolute cursor-move touch-none"
+        style={{ left: crop.x, top: crop.y, width: crop.w, height: crop.h }}
+        onMouseDown={(e) => startDrag('move', e)}
+        onTouchStart={(e) => startDrag('move', e)}
+      >
+        {HANDLES.map(({ id, cursor, style }) => (
+          <div
+            key={id}
+            className="absolute w-4 h-4 bg-white rounded-sm shadow-md border border-black/30 touch-none"
+            style={{ ...style, cursor }}
+            onMouseDown={(e) => startDrag(id, e)}
+            onTouchStart={(e) => startDrag(id, e)}
+          />
+        ))}
+      </div>
+    </>
+  )
+}
 
 const PlayerFooter = memo(function PlayerFooter() {
   const { posterUrl, showFileName } = usePlayerStaticContext()

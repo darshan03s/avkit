@@ -34,7 +34,7 @@ const ExtractTrack = () => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData}>
+      <ToolMain>
         {fileData.tracksData.length > 0 ? (
           <div className="space-y-4">
             <ShowTracks

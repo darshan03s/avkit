@@ -15,7 +15,6 @@ import { useFile } from '@/store/use-file'
 
 const Convert = () => {
   const file = useFile((s) => s.file!)
-  const fileData = useFile((s) => s.fileData!)
 
   const [format, setFormat] = useState<SupportedOutputFormat>()
   const fileType = getFileType(file)
@@ -32,7 +31,7 @@ const Convert = () => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData} showPlayer={false}>
+      <ToolMain showPlayer={false}>
         <SelectBox
           label="Format"
           value={format}

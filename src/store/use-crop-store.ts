@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { VideoCropRect } from '@/types'
 
-type PlayerStore = {
+type CropStore = {
   left: number
   top: number
   width: number
@@ -13,7 +13,7 @@ type PlayerStore = {
   onCropChange: (crop: VideoCropRect) => void
 }
 
-export const usePlayerStore = create<PlayerStore>((set) => ({
+export const useCropStore = create<CropStore>((set) => ({
   left: 0,
   top: 0,
   width: 0,

@@ -15,7 +15,6 @@ import { convertWithErrorHandler } from '@/utils'
 import { useState } from 'react'
 
 const ChangeFrameRate = () => {
-  const file = useFile((s) => s.file!)
   const fileData = useFile((s) => s.fileData!)
 
   const [frameRate, setFrameRate] = useState<string>('1')
@@ -30,7 +29,7 @@ const ChangeFrameRate = () => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData}>
+      <ToolMain>
         <ShowTracks data={fileData} onlyVideo={true} />
         <div className="space-y-2">
           <Label>Frame rate (fps)</Label>

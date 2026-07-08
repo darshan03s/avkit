@@ -15,7 +15,6 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const Trim = () => {
-  const file = useFile((s) => s.file!)
   const fileData = useFile((s) => s.fileData!)
 
   const [startTime, setStartTime] = useState('')
@@ -49,7 +48,7 @@ const Trim = () => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData}>
+      <ToolMain>
         <div className="space-y-2">
           <Label>Start</Label>
           <Input

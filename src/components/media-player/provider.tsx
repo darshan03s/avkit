@@ -1,6 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { getFileType } from '@/utils'
 import { useFile } from '@/store/use-file'
+import { useCropStore } from '@/store/use-crop-store'
+import { DisplayCropRect, DragHandle } from '@/types'
 
 type PlaybackState = {
   progress: number
@@ -11,11 +13,13 @@ type PlaybackState = {
 }
 
 type PlayerStaticContextType = {
+  containerRef: React.RefObject<HTMLDivElement | null>
   videoRef: React.RefObject<HTMLVideoElement | null>
-  posterUrl: string | undefined
-  videoUrl: string | undefined
-  showHTMLControls: boolean | undefined
-  showFileName: boolean | undefined
+  posterUrl?: string
+  videoUrl?: string
+  showHTMLControls?: boolean
+  showFileName?: boolean
+  showCropper?: boolean
   setIsPlaying: (isPlaying: boolean) => void
   setIsMuted: (isMuted: boolean) => void
   sliderOnValueChange: (value: number[]) => void
@@ -26,6 +30,9 @@ type PlayerStaticContextType = {
   handleRewind: () => void
   handleFastForward: () => void
   type: 'video' | 'audio' | 'unknown'
+  crop: DisplayCropRect
+  initializeCropper: () => void
+  startDrag: (handle: DragHandle, e: React.MouseEvent | React.TouchEvent) => void
 }
 
 const PlayerStaticContext = createContext<PlayerStaticContextType | undefined>(undefined)
@@ -35,12 +42,15 @@ const PlayerPlaybackContext = createContext<PlaybackState | undefined>(undefined
 export const PlayerProvider = ({
   children,
   showHTMLControls,
-  showFileName
+  showFileName,
+  showCropper
 }: {
   children: React.ReactNode
   showHTMLControls: boolean | undefined
   showFileName: boolean | undefined
+  showCropper: boolean | undefined
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const file = useFile((s) => s.file!)
   const fileData = useFile((s) => s.fileData!)
@@ -53,6 +63,10 @@ export const PlayerProvider = ({
   })
   const [videoUrl, setVideoUrl] = useState<string>()
   const [posterUrl, setPosterUrl] = useState<string>()
+  const [crop, setCrop] = useState<DisplayCropRect>({ x: 60, y: 40, w: 300, h: 180 })
+  const [videoNaturalSize, setVideoNaturalSize] = useState({ w: 0, h: 0 })
+  const [containerSize, setContainerSize] = useState({ w: 0, h: 0 })
+  const { onCropChange } = useCropStore()
   const type = getFileType(file)
 
   useEffect(() => {
@@ -108,6 +122,18 @@ export const PlayerProvider = ({
       video.removeEventListener('timeupdate', handleTimeUpdate)
     }
   }, [fileData])
+
+  useEffect(() => {
+    if (!onCropChange || !videoNaturalSize.w || !containerSize.w) return
+    const scaleX = videoNaturalSize.w / containerSize.w
+    const scaleY = videoNaturalSize.h / containerSize.h
+    onCropChange({
+      left: Math.round(crop.x * scaleX),
+      top: Math.round(crop.y * scaleY),
+      width: Math.round(crop.w * scaleX),
+      height: Math.round(crop.h * scaleY)
+    })
+  }, [crop, videoNaturalSize, containerSize, onCropChange])
 
   const setIsPlaying = useCallback((isPlaying: boolean) => {
     setPlayback((prev) => ({ ...prev, isPlaying }))
@@ -174,13 +200,114 @@ export const PlayerProvider = ({
     link.remove()
   }, [file.name])
 
+  const initializeCropper = useCallback(() => {
+    const container = containerRef.current
+    const video = videoRef.current
+    if (!container || !video) return
+    const { width, height } = container.getBoundingClientRect()
+    setVideoNaturalSize({ w: video.videoWidth, h: video.videoHeight })
+    setContainerSize({ w: width, h: height })
+    const pad = 0.15
+    setCrop({
+      x: Math.round(width * pad),
+      y: Math.round(height * pad),
+      w: Math.round(width * (1 - pad * 2)),
+      h: Math.round(height * (1 - pad * 2))
+    })
+  }, [])
+
+  const startDrag = useCallback(
+    (handle: DragHandle, e: React.MouseEvent | React.TouchEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      const MIN_SIZE = 30
+      const container = containerRef.current
+      if (!container) return
+
+      const getPoint = (ev: MouseEvent | TouchEvent) => {
+        if ('touches' in ev) {
+          const t = ev.touches[0] ?? ev.changedTouches[0]
+          return { clientX: t.clientX, clientY: t.clientY }
+        }
+        return { clientX: ev.clientX, clientY: ev.clientY }
+      }
+
+      const origin =
+        'touches' in e
+          ? { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY }
+          : { clientX: e.clientX, clientY: e.clientY }
+
+      const startX = origin.clientX
+      const startY = origin.clientY
+      const { x, y, w, h } = crop
+      const { width: cw, height: ch } = container.getBoundingClientRect()
+
+      const onMove = (ev: MouseEvent | TouchEvent) => {
+        const { clientX, clientY } = getPoint(ev)
+        const dx = clientX - startX
+        const dy = clientY - startY
+
+        if (handle === 'move') {
+          setCrop({
+            x: Math.max(0, Math.min(x + dx, cw - w)),
+            y: Math.max(0, Math.min(y + dy, ch - h)),
+            w,
+            h
+          })
+          return
+        }
+
+        let left = x
+        let top = y
+        let right = x + w
+        let bottom = y + h
+
+        if (handle.includes('w')) left = x + dx
+        if (handle.includes('e')) right = x + w + dx
+        if (handle.includes('n')) top = y + dy
+        if (handle.includes('s')) bottom = y + h + dy
+
+        if (right - left < MIN_SIZE) {
+          if (handle.includes('w')) left = right - MIN_SIZE
+          else right = left + MIN_SIZE
+        }
+        if (bottom - top < MIN_SIZE) {
+          if (handle.includes('n')) top = bottom - MIN_SIZE
+          else bottom = top + MIN_SIZE
+        }
+
+        left = Math.max(0, left)
+        top = Math.max(0, top)
+        right = Math.min(cw, right)
+        bottom = Math.min(ch, bottom)
+
+        setCrop({ x: left, y: top, w: right - left, h: bottom - top })
+      }
+
+      const onUp = () => {
+        window.removeEventListener('mousemove', onMove)
+        window.removeEventListener('mouseup', onUp)
+        window.removeEventListener('touchmove', onMove)
+        window.removeEventListener('touchend', onUp)
+      }
+
+      window.addEventListener('mousemove', onMove)
+      window.addEventListener('mouseup', onUp)
+      window.addEventListener('touchmove', onMove, { passive: false })
+      window.addEventListener('touchend', onUp)
+    },
+    [crop]
+  )
+
   const staticValue = useMemo<PlayerStaticContextType>(() => {
     return {
       file,
       fileData,
+      containerRef,
       videoRef,
       showHTMLControls,
       showFileName,
+      showCropper,
       posterUrl,
       videoUrl,
       setIsPlaying,
@@ -192,13 +319,17 @@ export const PlayerProvider = ({
       handleCapture,
       handleRewind,
       handleFastForward,
-      type
+      type,
+      crop,
+      initializeCropper,
+      startDrag
     }
   }, [
     file,
     fileData,
     showHTMLControls,
     showFileName,
+    showCropper,
     posterUrl,
     videoUrl,
     setIsPlaying,
@@ -210,7 +341,10 @@ export const PlayerProvider = ({
     handleCapture,
     handleRewind,
     handleFastForward,
-    type
+    type,
+    crop,
+    initializeCropper,
+    startDrag
   ])
 
   return (

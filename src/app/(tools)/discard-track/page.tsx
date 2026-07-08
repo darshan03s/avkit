@@ -14,7 +14,6 @@ import { useState } from 'react'
 import { toast } from 'sonner'
 
 const DiscardTrack = () => {
-  const file = useFile((s) => s.file!)
   const fileData = useFile((s) => s.fileData!)
 
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
@@ -46,7 +45,7 @@ const DiscardTrack = () => {
 
   return (
     <ToolContainer>
-      <ToolMain file={file} fileData={fileData}>
+      <ToolMain>
         {fileData.tracksData.length > 0 ? (
           <ShowTracks
             data={fileData}
