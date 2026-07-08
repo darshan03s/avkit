@@ -2,8 +2,8 @@
 
 import { AppWindow, Download } from 'lucide-react'
 import { motion } from 'motion/react'
-import NoUpload from './icons/no-upload'
-import NoAccount from './icons/no-account'
+import { NoUpload } from './icons/no-upload'
+import { NoAccount } from './icons/no-account'
 
 const containerVariants = {
   hidden: {},
@@ -26,7 +26,7 @@ const itemVariants = {
   }
 }
 
-const Features = () => {
+export const Features = () => {
   const features = [
     {
       icon: AppWindow,
@@ -67,5 +67,3 @@ const Features = () => {
     </motion.div>
   )
 }
-
-export default Features

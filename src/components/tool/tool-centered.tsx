@@ -5,7 +5,6 @@ type ToolCenteredProps = {
   className?: string
 }
 
-const ToolCentered = ({ children, className }: ToolCenteredProps) => {
+export const ToolCentered = ({ children, className }: ToolCenteredProps) => {
   return <div className={cn('flex-1 flex items-center justify-center', className)}>{children}</div>
 }
-export default ToolCentered

@@ -3,7 +3,7 @@ import { useMemo, useRef } from 'react'
 import { buttonVariants } from './ui/button'
 import { Upload } from 'lucide-react'
 
-const FileInput = ({
+export const FileInput = ({
   inputDescription,
   setFile,
   accept
@@ -67,5 +67,3 @@ const FileInput = ({
     </div>
   )
 }
-
-export default FileInput

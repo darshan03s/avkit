@@ -1,11 +1,11 @@
 'use client'
 
 import { ModeToggle } from './mode-toggle'
-import Brand from './brand'
+import { Brand } from './brand'
 import { SidebarTrigger, useSidebar } from './ui/sidebar'
-import GithubRepo from './github-repo'
+import { GithubRepo } from './github-repo'
 
-const Header = () => {
+export const Header = () => {
   const { open } = useSidebar()
 
   return (
@@ -25,5 +25,3 @@ const Header = () => {
     </header>
   )
 }
-
-export default Header

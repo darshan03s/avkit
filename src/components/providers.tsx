@@ -20,7 +20,7 @@ import { TooltipProvider } from './ui/tooltip'
 import { SidebarProvider } from './ui/sidebar'
 import { Toaster } from './ui/sonner'
 
-const Providers = ({ children }: { children: React.ReactNode }) => {
+export const Providers = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useIsMobile()
   const pathname = usePathname()
 
@@ -47,4 +47,3 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
     </ThemeProvider>
   )
 }
-export default Providers

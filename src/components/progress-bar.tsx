@@ -1,7 +1,13 @@
 import { Field, FieldLabel } from './ui/field'
 import { Progress } from './ui/progress'
 
-const ProgressBar = ({ progress, description }: { progress: number; description: string }) => {
+export const ProgressBar = ({
+  progress,
+  description
+}: {
+  progress: number
+  description: string
+}) => {
   return (
     <Field className="w-full">
       <FieldLabel htmlFor="progress-upload">
@@ -12,4 +18,3 @@ const ProgressBar = ({ progress, description }: { progress: number; description:
     </Field>
   )
 }
-export default ProgressBar

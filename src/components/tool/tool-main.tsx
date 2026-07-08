@@ -8,7 +8,12 @@ interface ToolMainProps {
   showCropper?: boolean
 }
 
-const ToolMain = ({ children, className, showPlayer = true, showCropper }: ToolMainProps) => {
+export const ToolMain = ({
+  children,
+  className,
+  showPlayer = true,
+  showCropper
+}: ToolMainProps) => {
   return (
     <div className={cn('flex flex-col gap-4 max-w-md md:max-w-sm lg:max-w-lg mx-auto', className)}>
       {showPlayer && <MediaPlayer showFileName showCropper={showCropper} />}
@@ -16,4 +21,3 @@ const ToolMain = ({ children, className, showPlayer = true, showCropper }: ToolM
     </div>
   )
 }
-export default ToolMain

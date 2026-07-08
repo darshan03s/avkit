@@ -1,12 +1,10 @@
 'use client'
 
-import SelectBox from '@/components/select-box'
-import ToolAction from '@/components/tool/tool-action'
-import ToolCentered from '@/components/tool/tool-centered'
-import ToolCompletion from '@/components/tool/tool-completion'
-import ToolContainer from '@/components/tool/tool-container'
-import ToolMain from '@/components/tool/tool-main'
-import { ToolPage } from '@/components/tool/tool-page'
+import { SelectBox } from '@/components/select-box'
+import { ToolAction } from '@/components/tool/tool-action'
+import { ToolCompletion } from '@/components/tool/tool-completion'
+import { ToolContainer } from '@/components/tool/tool-container'
+import { ToolMain } from '@/components/tool/tool-main'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useConversion } from '@/hooks/use-conversion'
@@ -81,14 +79,4 @@ const ResizeVideo = () => {
   )
 }
 
-const Page = () => {
-  return (
-    <ToolPage>
-      <ToolCentered>
-        <ResizeVideo />
-      </ToolCentered>
-    </ToolPage>
-  )
-}
-
-export default Page
+export default ResizeVideo

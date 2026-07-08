@@ -10,7 +10,7 @@ import {
 } from './ui/dialog'
 import { Button } from './ui/button'
 
-const DetailsDialog = ({
+export const DetailsDialog = ({
   children,
   title,
   description,
@@ -39,5 +39,3 @@ const DetailsDialog = ({
     </Dialog>
   )
 }
-
-export default DetailsDialog

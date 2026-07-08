@@ -4,7 +4,7 @@ import { Badge } from './ui/badge'
 import { formatBitrate, truncateTo2Decimals } from '@/utils'
 import { cn } from '@/lib/utils'
 
-const ShowTracks = ({
+export const ShowTracks = ({
   data,
   onlyAudio = false,
   onlyVideo = false,
@@ -66,4 +66,3 @@ const ShowTracks = ({
     </div>
   )
 }
-export default ShowTracks

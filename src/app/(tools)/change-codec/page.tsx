@@ -9,15 +9,13 @@ import {
   getOutputFormatOptions
 } from '@/utils'
 import { useConversion } from '@/hooks/use-conversion'
-import { ToolPage } from '@/components/tool/tool-page'
-import ToolCentered from '@/components/tool/tool-centered'
-import ToolContainer from '@/components/tool/tool-container'
-import ToolMain from '@/components/tool/tool-main'
+import { ToolContainer } from '@/components/tool/tool-container'
+import { ToolMain } from '@/components/tool/tool-main'
 import { AudioCodec, VideoCodec } from 'mediabunny'
-import ShowTracks from '@/components/show-tracks'
-import SelectBox from '@/components/select-box'
-import ToolAction from '@/components/tool/tool-action'
-import ToolCompletion from '@/components/tool/tool-completion'
+import { ShowTracks } from '@/components/show-tracks'
+import { SelectBox } from '@/components/select-box'
+import { ToolAction } from '@/components/tool/tool-action'
+import { ToolCompletion } from '@/components/tool/tool-completion'
 import { useFile } from '@/store/use-file'
 
 const ChangeCodec = () => {
@@ -80,14 +78,4 @@ const ChangeCodec = () => {
   )
 }
 
-const Page = () => {
-  return (
-    <ToolPage>
-      <ToolCentered>
-        <ChangeCodec />
-      </ToolCentered>
-    </ToolPage>
-  )
-}
-
-export default Page
+export default ChangeCodec

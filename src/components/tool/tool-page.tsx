@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useMemo } from 'react'
-import Main from '../main'
-import FileInput from '../file-input'
+import { Main } from '../main'
+import { FileInput } from '../file-input'
 import { Button } from '../ui/button'
 import { tools } from '@/tools'
 import { usePathname } from 'next/navigation'

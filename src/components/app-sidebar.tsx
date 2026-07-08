@@ -1,7 +1,7 @@
 'use client'
 
 import { Sidebar, SidebarContent, SidebarHeader, SidebarTrigger } from '@/components/ui/sidebar'
-import Brand from './brand'
+import { Brand } from './brand'
 import { LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'

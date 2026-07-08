@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import Header from '@/components/header'
+import { Header } from '@/components/header'
 import { siteMetadata } from '@/metadata'
 import { Analytics } from '@vercel/analytics/next'
 import { Lora, IBM_Plex_Mono, Space_Grotesk, Outfit } from 'next/font/google'
 import './globals.css'
-import Providers from '@/components/providers'
+import { Providers } from '@/components/providers'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],

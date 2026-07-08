@@ -1,12 +1,10 @@
 'use client'
 
-import ShowTracks from '@/components/show-tracks'
-import ToolAction from '@/components/tool/tool-action'
-import ToolCentered from '@/components/tool/tool-centered'
-import ToolCompletion from '@/components/tool/tool-completion'
-import ToolContainer from '@/components/tool/tool-container'
-import ToolMain from '@/components/tool/tool-main'
-import { ToolPage } from '@/components/tool/tool-page'
+import { ShowTracks } from '@/components/show-tracks'
+import { ToolAction } from '@/components/tool/tool-action'
+import { ToolCompletion } from '@/components/tool/tool-completion'
+import { ToolContainer } from '@/components/tool/tool-container'
+import { ToolMain } from '@/components/tool/tool-main'
 import { useConversion } from '@/hooks/use-conversion'
 import { useFile } from '@/store/use-file'
 import { convertWithErrorHandler } from '@/utils'
@@ -65,14 +63,4 @@ const DiscardTrack = () => {
   )
 }
 
-const Page = () => {
-  return (
-    <ToolPage>
-      <ToolCentered>
-        <DiscardTrack />
-      </ToolCentered>
-    </ToolPage>
-  )
-}
-
-export default Page
+export default DiscardTrack

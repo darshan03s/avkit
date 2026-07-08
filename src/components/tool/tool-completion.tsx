@@ -1,13 +1,13 @@
 'use client'
 
 import { Button } from '../ui/button'
-import ProgressBar from '../progress-bar'
+import { ProgressBar } from '../progress-bar'
 import { usePathname } from 'next/navigation'
 import { tools } from '@/tools'
 import { X } from 'lucide-react'
 import { IconFileDownload } from '@tabler/icons-react'
 
-const ToolCompletion = ({
+export const ToolCompletion = ({
   progress,
   handleSave,
   cancel
@@ -39,4 +39,3 @@ const ToolCompletion = ({
     </>
   )
 }
-export default ToolCompletion

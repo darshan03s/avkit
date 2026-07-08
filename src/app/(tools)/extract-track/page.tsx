@@ -1,13 +1,11 @@
 'use client'
 
-import SelectBox from '@/components/select-box'
-import ShowTracks from '@/components/show-tracks'
-import ToolAction from '@/components/tool/tool-action'
-import ToolCentered from '@/components/tool/tool-centered'
-import ToolCompletion from '@/components/tool/tool-completion'
-import ToolContainer from '@/components/tool/tool-container'
-import ToolMain from '@/components/tool/tool-main'
-import { ToolPage } from '@/components/tool/tool-page'
+import { SelectBox } from '@/components/select-box'
+import { ShowTracks } from '@/components/show-tracks'
+import { ToolAction } from '@/components/tool/tool-action'
+import { ToolCompletion } from '@/components/tool/tool-completion'
+import { ToolContainer } from '@/components/tool/tool-container'
+import { ToolMain } from '@/components/tool/tool-main'
 import { useConversion } from '@/hooks/use-conversion'
 import { useFile } from '@/store/use-file'
 import { SupportedOutputFormat } from '@/types/mediabunny'
@@ -15,7 +13,6 @@ import { convertWithErrorHandler, getOutputFormatOptions } from '@/utils'
 import { useState } from 'react'
 
 const ExtractTrack = () => {
-  const file = useFile((s) => s.file!)
   const fileData = useFile((s) => s.fileData!)
 
   const [selectedTrackId, setSelectedTrackId] = useState('')
@@ -67,13 +64,4 @@ const ExtractTrack = () => {
   )
 }
 
-const Page = () => {
-  return (
-    <ToolPage>
-      <ToolCentered>
-        <ExtractTrack />
-      </ToolCentered>
-    </ToolPage>
-  )
-}
-export default Page
+export default ExtractTrack

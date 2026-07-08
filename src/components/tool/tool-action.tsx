@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import { Button } from '../ui/button'
 import { tools } from '@/tools'
 
-const ToolAction = ({ onClick, disabled }: { onClick: () => void; disabled: boolean }) => {
+export const ToolAction = ({ onClick, disabled }: { onClick: () => void; disabled: boolean }) => {
   const pathname = usePathname()
   const tool = tools[pathname]!
   const { icon: Icon, name, note } = tool
@@ -20,5 +20,3 @@ const ToolAction = ({ onClick, disabled }: { onClick: () => void; disabled: bool
     </>
   )
 }
-
-export default ToolAction

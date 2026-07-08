@@ -1,12 +1,11 @@
 'use client'
 
-import ToolContainer from '@/components/tool/tool-container'
-import ToolMain from '@/components/tool/tool-main'
-import { ToolPage } from '@/components/tool/tool-page'
+import { ToolContainer } from '@/components/tool/tool-container'
+import { ToolMain } from '@/components/tool/tool-main'
 import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
 import { formatBitrate, formatBytes, truncateTo2Decimals } from '@/utils'
-import DetailsDialog from '@/components/details-dialog'
-import Info from '@/components/info'
+import { DetailsDialog } from '@/components/details-dialog'
+import { Info } from '@/components/info'
 import { useFile } from '@/store/use-file'
 
 const Inspect = () => {
@@ -180,14 +179,4 @@ const Inspect = () => {
   )
 }
 
-const Page = () => {
-  return (
-    <ToolPage>
-      <div className="flex-1">
-        <Inspect />
-      </div>
-    </ToolPage>
-  )
-}
-
-export default Page
+export default Inspect

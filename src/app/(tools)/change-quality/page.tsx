@@ -1,12 +1,10 @@
 'use client'
 
-import SelectBox from '@/components/select-box'
-import ToolAction from '@/components/tool/tool-action'
-import ToolCentered from '@/components/tool/tool-centered'
-import ToolCompletion from '@/components/tool/tool-completion'
-import ToolContainer from '@/components/tool/tool-container'
-import ToolMain from '@/components/tool/tool-main'
-import { ToolPage } from '@/components/tool/tool-page'
+import { SelectBox } from '@/components/select-box'
+import { ToolAction } from '@/components/tool/tool-action'
+import { ToolCompletion } from '@/components/tool/tool-completion'
+import { ToolContainer } from '@/components/tool/tool-container'
+import { ToolMain } from '@/components/tool/tool-main'
 import { useConversion } from '@/hooks/use-conversion'
 import { convertWithErrorHandler } from '@/utils'
 import {
@@ -55,14 +53,4 @@ const ChangeQuality = () => {
   )
 }
 
-const Page = () => {
-  return (
-    <ToolPage>
-      <ToolCentered>
-        <ChangeQuality />
-      </ToolCentered>
-    </ToolPage>
-  )
-}
-
-export default Page
+export default ChangeQuality

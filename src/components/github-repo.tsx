@@ -3,7 +3,7 @@ import { IconBrandGithub } from '@tabler/icons-react'
 import Link from 'next/link'
 import { buttonVariants } from './ui/button'
 
-const GithubRepo = () => {
+export const GithubRepo = () => {
   return (
     <Link
       href="https://github.com/darshan03s/avkit"
@@ -14,4 +14,3 @@ const GithubRepo = () => {
     </Link>
   )
 }
-export default GithubRepo

@@ -9,7 +9,7 @@ import {
   SelectValue
 } from './ui/select'
 
-const SelectBox = ({
+export const SelectBox = ({
   onValueChange,
   value,
   placeholder,
@@ -50,5 +50,3 @@ const SelectBox = ({
     </div>
   )
 }
-
-export default SelectBox

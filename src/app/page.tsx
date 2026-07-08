@@ -1,5 +1,5 @@
-import Features from '@/components/features'
-import Main from '@/components/main'
+import { Features } from '@/components/features'
+import { Main } from '@/components/main'
 import { buttonVariants } from '@/components/ui/button'
 import { TextAnimate } from '@/components/ui/text-animate'
 import { cn } from '@/lib/utils'

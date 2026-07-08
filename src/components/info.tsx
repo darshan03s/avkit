@@ -1,6 +1,6 @@
 import { Item, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item'
 
-const Info = ({
+export const Info = ({
   title,
   description
 }: {
@@ -16,5 +16,3 @@ const Info = ({
     </Item>
   )
 }
-
-export default Info
